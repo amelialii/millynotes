@@ -1,0 +1,97 @@
+name: Auto-link new notes
+
+# When a push adds new notes to the vault, Claude adds [[wikilinks]] to and from them
+# (rules: milly-skills/notes/note-linking.md) and opens a PR for review.
+# Merging the PR is a normal push, so ci.yml redeploys the site and graph.json.
+# The PR only modifies existing files, so merging it doesn't re-trigger this workflow.
+
+on:
+  push:
+    branches: [main]
+    paths: ['milynotes vault/**.md']
+  workflow_dispatch:
+    inputs:
+      notes:
+        description: 'Notes to link, one path per line (e.g. milynotes vault/CSE 333/week 5-6/Foo.md)'
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: auto-link
+  cancel-in-progress: false
+
+jobs:
+  link:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Find new notes
+        id: new
+        env:
+          BEFORE: ${{ github.event.before }}
+          MANUAL: ${{ github.event.inputs.notes }}
+        run: |
+          git config core.quotepath off
+          if [ -n "$MANUAL" ]; then
+            printf '%s\n' "$MANUAL" > new_notes.txt
+          elif [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            : > new_notes.txt
+          else
+            git diff --name-only --diff-filter=A "$BEFORE" "$GITHUB_SHA" -- 'milynotes vault/' \
+              | grep -E '\.md$' > new_notes.txt || true
+          fi
+          # Skip empty files (placeholders)
+          : > filtered.txt
+          while IFS= read -r f; do [ -s "$f" ] && echo "$f" >> filtered.txt; done < new_notes.txt
+          echo "Notes to link:"; cat filtered.txt
+          {
+            echo "count=$(grep -c . filtered.txt || true)"
+            echo 'list<<EOF'; cat filtered.txt; echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+          rm new_notes.txt filtered.txt
+
+      - name: Get linking rules from milly-skills
+        if: steps.new.outputs.count != '0'
+        run: |
+          git clone --depth 1 https://github.com/amelialii/milly-skills /tmp/milly-skills
+          mkdir -p .claude/skills/note-linking
+          cp /tmp/milly-skills/notes/note-linking.md .claude/skills/note-linking/SKILL.md
+
+      - name: Add links with Claude
+        if: steps.new.outputs.count != '0'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            /note-linking
+            New notes (paths relative to the repo root):
+            ${{ steps.new.outputs.list }}
+          claude_args: |
+            --allowedTools "Read,Edit,Grep,Glob"
+            --max-turns 60
+
+      - name: Open PR
+        if: steps.new.outputs.count != '0'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: auto-link/${{ github.run_id }}
+          commit-message: 'Auto-link new notes'
+          title: 'Auto-link: ${{ steps.new.outputs.count }} new note(s)'
+          body: |
+            Links added by Claude using [note-linking](https://github.com/amelialii/milly-skills/blob/main/notes/note-linking.md).
+
+            New notes:
+            ```
+            ${{ steps.new.outputs.list }}
+            ```
+            Review the diff (every change should only wrap existing words in `[[...]]`), then merge to redeploy.
+          add-paths: 'milynotes vault/**'
+          delete-branch: true
