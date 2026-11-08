@@ -80,7 +80,7 @@ order: 0
 - Error messages go to \`stderr\`
 - Error messages are correct for the error that happened
 - Every allocation is checked (use \`Verify333\` where the starter does)
-- No memory leaks or memory errors under valgrind \`--leak-check=full\`
+- No [[Structs, Heap#Memory Leaks|memory leaks]] or memory errors under valgrind \`--leak-check=full\`
 - System resources are cleaned up on every execution path
 - Library call errors are handled: retry on \`EAGAIN\` / \`EINTR\`, return an error status for non-recoverable errors
 - Code deals with hard-to-handle/edge cases and bogus user input gracefully
@@ -92,7 +92,7 @@ order: 0
 - Provided code you’re told not to change stays exactly as given
 - \`cpplint.py --clint\` has no complaints
 - Compiles without errors or warnings on CSE Linux
-- Compiles with the original, provided Makefile
+- Compiles with the original, provided [[Makefiles, C++ Preview#Makefile Basics|Makefile]]
 
 **Git**
 
@@ -131,7 +131,7 @@ To get command-line arguments in main, use:
 
 
 - argc contains the number of strings on the command line (the executable name counts as one, plus one for each argument)
-- argv is an array containing pointers to the arguments as strings, “null-terminated” with a NULL pointer (in modern C standards)
+- argv is an array containing [[Pointers|pointers]] to the arguments as strings, “null-terminated” with a [[Structs, Heap#NULL|NULL]] pointer (in modern C standards)
 
 
 
@@ -257,7 +257,7 @@ There are two fundamental parameter-passing schemes in programming languages
 	- C, Java, C++ (most things)
 - Call-by-reference
 	- Parameter is an alias for the supplied argument; manipulating the parameter manipulates the calling argument
-	- C++ references
+	- C++ [[C++ References, Const, Classes#References|references]]
 
 
 #### Arrays as Parameters
@@ -269,7 +269,7 @@ Arrays do not know their own size
 	int SumAll(int a[], int size)
 
 
-a \`T[]\` array parameter is “promoted” to a pointer of type \`T*\`, and the pointer is passed by value
+a \`T[]\` array parameter is “promoted” to a [[Pointers|pointer]] of type \`T*\`, and the pointer is passed by value
 - So it acts like a call-by-reference array – caller’s array can be changed if callee modifies the array parameter elements
 - But it’s really a call-by-value pointer – the callee’s pointer parameter can be changed without affecting the caller’s array
 
@@ -303,8 +303,8 @@ order: 5
 
 each mode in a linear, singly-linked list contains:
 - Some element as its payload
-- A pointer to the next node in the linked list
-	- The last node’s pointer is NULL (or some other special value)
+- A [[Pointers|pointer]] to the next node in the linked list
+	- The last node’s pointer is [[Structs, Heap#NULL|NULL]] (or some other special value)
 
 ![[file-20261009134055922.png|536]]
 
@@ -330,7 +330,7 @@ typedef struct node_st {
 
 A module is a self-contained piece of an overall program
 - Has externally visible functions that customers can invoke
-- Has externally visible typedefs, and perhaps global variables, that customers can use
+- Has externally visible [[Structs, Heap#Typedef|typedefs]], and perhaps global variables, that customers can use
 - May have internal functions, typedefs, or global variables that customers should not look at
 
 The module’s interface is its set of public functions, typedefs, and global variables
@@ -468,7 +468,7 @@ A struct is a C datatype that contains a set of fields
 
 
 Use “.” to refer to a field in a struct
-Use “->” to refer to a field from a struct pointer
+Use “->” to refer to a field from a struct [[Pointers|pointer]]
 - Dereferences pointer first, then accesses field
 
 
@@ -494,7 +494,7 @@ Structs are [[Memory, Data, Parameters#Reference vs. Value|passed by value]], li
 
 Situations where static and automatic allocation aren’t sufficient:
 - We need memory that persists across multiple function calls but not for the whole lifetime of the program
-- We need more memory than can fit on the Stack
+- We need more memory than can fit on the [[Memory, Data, Parameters#Review: The Stack|Stack]]
 - We need memory whose size is not known in advance
 
 #### Dynamic Allocation
@@ -683,7 +683,7 @@ A constructor (ctor) initializes a newly-instantiated object
 - A constructor must be invoked when creating a new instance of an object
 
 C++ will automatically create a synthesized default constructor if you have no user-defined constructors
-- Synthesized default ctor will fail if you have non-initialized const or reference data members
+- Synthesized default ctor will fail if you have non-initialized [[C++ References, Const, Classes#const in C++|const]] or [[C++ References, Const, Classes#References|reference]] data members
 
 
 #### Synthesized Default Constructor Example
@@ -900,7 +900,7 @@ x, z: 11, y: 10
 
 #### Pass-By-Reference
 
-C++ allows you to use real pass-by-reference
+C++ allows you to use real [[Memory, Data, Parameters#Reference vs. Value|pass-by-reference]]
 - Client passes in an argument with normal syntax
 	- Function uses reference parameters with normal syntax
 	- Modifying a reference parameter modifies the caller’s argument
@@ -920,7 +920,7 @@ void BrokenPrintSquare ( const int & i ) {
 
 #### const and Pointers
 
-Pointers can change data in two different contexts:
+[[Pointers|Pointers]] can change data in two different contexts:
 1) You can change the value of the pointer (i.e., address stored)
 2) You can change the thing the pointer points to (via dereference)
 
@@ -946,7 +946,7 @@ Google C++ Style Guide suggests:
 - Input parameters:
 	- Values for primitive types like \`int\` or small structs/objects 
 	- \`const\` references for complex struct/object instances
-- Output parameters:
+- [[Pointers#Output Parameters|Output parameters]]:
 	- Use \`const\` pointers (unchangeable pointers referencing changeable data)
 
 
@@ -1060,7 +1060,7 @@ int main(int argc, char* argv[]) {
   cout << "dist : " << p1.Distance(p2) << endl;
   return EXIT_SUCCESS;
 }
-\`\`\``,sr='---\norder: 9\n---\n\n```\n#include <cstdlib>   // for EXIT_SUCCESS\n#include <iostream>  // for cout, endl\n\nint main(int argc, char* argv[]) {\n  std::cout << "Hello, World!" << std::endl;\n  return EXIT_SUCCESS;\n}\n```\n\n\n\n- `cstdlib` is the C standard library’s `stdlib.h`\n	- Nearly all C standard library functions are available\n- `iostream` is part of the C++ standard library\n	- declares stream object instances in the “std” namespace\n- `std::cout` is the “cout” object instance declared by iostream, living within the “std” namespace\n	- C++’s name for stdout\n- C++ distinguishes between objects and primitive types\n- “<<” is an operator defined by the C++ language\n- `ostream` has many different methods to handle <<\n- The `ostream` class’ member functions that handle << return a reference to themselves\n- Next, another member function on `std::cout` is invoked to handle << with RHS `std::endl`\n\n\n#### Namespace\n\n`using` keyword brings a namespace (or part of one) into scope\n- Can now refer to `std::<thing>` as `<thing>`\n\n\n#### types\n\n- primitive types include C\'s: `char`, `short`, `int`, `long`, `float`, `double`\n - C++ adds `bool`\n\n\n#### operators overloading\n\n- `<<` is bitshift for integers\n- C++ allows classes and functions to overload operators\n- `ostream` overloads `<<`: different member functions run when an `ostream` is on the left-hand side of `<<`\n- which one runs depends on the type of the right-hand side\n- `<<` function returns a reference to the stream itself\n\n\n#### `std::endl`\n\n- a pointer to a manipulator function\n- writes `\'\\n\'` to the stream, then flushes the buffer\n\n\n#### `std::string`\n\n- `string hello("Hello, World!");`\n	- creates a `string` object on the stack\n- overloads `<<`: a function, not a member method, invoked when LHS is `ostream` and RHS is `std::string\n- overloads `+`: creates and returns a new string concatenating LHS and RHS\n- overloads `=`: copies the RHS and replaces the string\'s contents\n\n\n#### stream manipulators\n\n- `setw(x)`: sets the width of the next field only\n- `hex`, `dec`, `oct`: set the base for integers\n\n\n#### reading inputs with `cin`\n\n```\nint num;\ncout << "Type a number: ";\ncin >> num;\ncout << "You typed: " << num << endl;\n```\n',cr=`---
+\`\`\``,sr='---\norder: 9\n---\n\n```\n#include <cstdlib>   // for EXIT_SUCCESS\n#include <iostream>  // for cout, endl\n\nint main(int argc, char* argv[]) {\n  std::cout << "Hello, World!" << std::endl;\n  return EXIT_SUCCESS;\n}\n```\n\n\n\n- `cstdlib` is the C standard library’s `stdlib.h`\n	- Nearly all C standard library functions are available\n- `iostream` is part of the C++ standard library\n	- declares stream object instances in the “std” namespace\n- `std::cout` is the “cout” object instance declared by iostream, living within the “std” namespace\n	- C++’s name for stdout\n- C++ distinguishes between objects and primitive types\n- “<<” is an operator defined by the C++ language\n- `ostream` has many different methods to handle <<\n- The `ostream` class’ member functions that handle << return a [[C++ References, Const, Classes#References|reference]] to themselves\n- Next, another member function on `std::cout` is invoked to handle << with RHS `std::endl`\n\n\n#### Namespace\n\n`using` keyword brings a namespace (or part of one) into scope\n- Can now refer to `std::<thing>` as `<thing>`\n\n\n#### types\n\n- primitive types include C\'s: `char`, `short`, `int`, `long`, `float`, `double`\n - C++ adds `bool`\n\n\n#### operators overloading\n\n- `<<` is bitshift for integers\n- C++ allows classes and functions to overload operators\n- `ostream` overloads `<<`: different member functions run when an `ostream` is on the left-hand side of `<<`\n- which one runs depends on the type of the right-hand side\n- `<<` function returns a reference to the stream itself\n\n\n#### `std::endl`\n\n- a pointer to a manipulator function\n- writes `\'\\n\'` to the stream, then flushes the buffer\n\n\n#### `std::string`\n\n- `string hello("Hello, World!");`\n	- creates a `string` object on the stack\n- overloads `<<`: a function, not a member method, invoked when LHS is `ostream` and RHS is `std::string\n- overloads `+`: creates and returns a new string concatenating LHS and RHS\n- overloads `=`: copies the RHS and replaces the string\'s contents\n\n\n#### stream manipulators\n\n- `setw(x)`: sets the width of the next field only\n- `hex`, `dec`, `oct`: set the base for integers\n\n\n#### reading inputs with `cin`\n\n```\nint num;\ncout << "Type a number: ";\ncin >> num;\ncout << "You typed: " << num << endl;\n```\n',cr=`---
 order: 6
 ---
 
@@ -1273,10 +1273,10 @@ clean:
 
 - **C++ = C plus extra features.** Everything you know from C still works.
 - **Classes and objects:** like Java’s. Private/public, methods, inheritance.
-- **Namespaces:** so two things can share a name without clashing, like \`LL::Iterator\` vs \`HT::Iterator\`.
-- **Templates:** like Java generics. \`vector<int>\` instead of messy \`void*\` tricks.
+- **[[C++ intro#Namespace|Namespaces]]:** so two things can share a name without clashing, like \`LL::Iterator\` vs \`HT::Iterator\`.
+- **[[C++ Templates|Templates]]:** like Java generics. \`vector<int>\` instead of messy \`void*\` tricks.
 - **A standard library:** ready-made \`string\`, \`vector\`, \`map\`, sort, and more. Less writing everything yourself.
-- **Still no garbage collector**, so can still [[Structs, Heap#Memory Leaks|leak memory]] and segfault. Smart pointers help.`,ur=`---
+- **Still no garbage collector**, so can still [[Structs, Heap#Memory Leaks|leak memory]] and segfault. [[C++ Smart Pointers|Smart pointers]] help.`,ur=`---
 order: 12
 ---
 
@@ -1285,8 +1285,8 @@ order: 12
 #### Rule of Three
 
 If you define any of the
-	(1) destructor
-	(2) copy constructor, or
+	(1) [[C++ Classes, Constructors, and Copies#Destructors|destructor]]
+	(2) [[C++ Classes, Constructors, and Copies#Copy Constructors|copy constructor]], or
 	(3) assignment (operator= ),
 then you should normally define all three
 
@@ -1358,7 +1358,7 @@ namespace nsp_name {
 
 #### nullptr
 
-- C and C++ have long used NULL as a pointer value that references nothing
+- C and C++ have long used [[Structs, Heap#NULL|NULL]] as a pointer value that references nothing
 - C++11 introduced a new literal for this: \`nullptr\`
 
 \`NULL\` is secretly the integer 0, which causes overload confusion. \`nullptr\` is a real pointer literal
@@ -1408,7 +1408,7 @@ order: 15
 
 a generic doubly-linked list
 - elements are not stored in contiguous memory locations
-	- no random access: \`lst[5]\` doesnt work. have to walk with iterator
+	- no random access: \`lst[5]\` doesnt work. have to walk with [[C++ Standard Template Library#STL iterator|iterator]]
 		\`\`\`
 		auto it = lst.begin();
 		++it;      // move one node at a time
@@ -1455,13 +1455,13 @@ if (it != m.end()) it->second;  // check before using
 
 ## Smart Pointers
 
-A smart pointer is an object that stores a pointer to a heap-allocated object
+A [[C++ Smart Pointers|smart pointer]] is an object that stores a pointer to a heap-allocated object
 - looks and behaves like a regular C++ pointer
 	\`\`\`
 	*sp;     // calls operator*, which returns *ptr_
 	sp->x;   // calls operator->, which returns ptr_
 	\`\`\`
-- destructor deletes the object
+- [[C++ Classes, Constructors, and Copies#Destructors|destructor]] deletes the object
 	\`\`\`
 	  {
 	    ToyPtr<Point> p(new Point);
@@ -1484,7 +1484,7 @@ order: 16
 
 Should automatically handle dynamically-allocated memory to decrease programming overhead of managing memory
 
-Should work similarly to using a normal/“raw” pointer
+Should work similarly to using a normal/“raw” [[Pointers|pointer]]
 
 
 #### Reference Counting
@@ -1493,7 +1493,7 @@ Should work similarly to using a normal/“raw” pointer
 - Counts the number of references to a piece of heap-allocated data and only deallocates it when the reference count reaches 0
 - Managed abstractly through sharing a resource counter
 	- Constructors will create the counter
-	- Copy constructor and operator= will increment the counter
+	- [[C++ Classes, Constructors, and Copies#Copy Constructors|Copy constructor]] and operator= will increment the counter
 
 \`\`\`
 shared_ptr<int> x(new int(5));  // 1
@@ -1504,7 +1504,7 @@ shared_ptr<int> y(x);           // 2
 
 #### \`shared_ptr\`s and STL Containers
 
-Use \`shared_ptr\`s inside STL Containers
+Use \`shared_ptr\`s inside [[C++ Standard Template Library|STL]] Containers
 - avoid extra object copies
 - safe to do since copy/assign maintain a shared reference count
 
@@ -1549,9 +1549,9 @@ unique_ptr<int> b = std::move(a); // a → nullptr, b owns it
 
 ## Smart Pointer Limitations
 
-- Can’t tell if pointer is to the heap or not 
+- Can’t tell if pointer is to the [[Structs, Heap#Heap-allocated Memory|heap]] or not 
 - Circumventing ownership rules
-- Still possible to leak memory
+- Still possible to [[Structs, Heap#Memory Leaks|leak memory]]
 
 
 #### non-heap pointers
@@ -1618,7 +1618,7 @@ Several different classes of container
 	- index by key
 	- set, map, multiset, multimap, bitset, etc.
 
-STL containers store by value, not by reference
+STL containers store by value, not by [[C++ References, Const, Classes#References|reference]]
 - When you insert an object, the container makes a copy
 - If the container needs to rearrange objects, it makes copies
 
@@ -1661,7 +1661,7 @@ The auto keyword can be used to infer types
 A set of functions to be used on ranges of elements
 - General form: \`algorithm(begin, end, ...)\`
 Algorithms operate directly on range elements rather than the containers they live in
-- Make use of elements’ copy ctor, = , == , != , <`,mr=`---
+- Make use of elements’ [[C++ Classes, Constructors, and Copies#Copy Constructors|copy ctor]], = , == , != , <`,mr=`---
 order: 13
 ---
 
@@ -1801,7 +1801,7 @@ understands and plans your query
 	- Actually executes the physical plan
 		- scan table
 		- filter rows
-		- join tables
+		- [[JOINs|join]] tables
 		- output results
 
 
@@ -2095,9 +2095,9 @@ Query Evaluation Steps
 
 #### Key Constraints
 
-- Super Key: “set of attributes that [[Functional dependencies|functionally determines]] all attributes”
+- [[Keys#Super key|Super Key]]: “set of attributes that [[Functional dependencies|functionally determines]] all attributes”
 - Key: Minimal super-key; a.k.a. “candidate key”
-- Primary key: One minimal key can be selected as primary key
+- [[Keys#Primary Key|Primary key]]: One minimal key can be selected as primary key
 - [[Keys#Foreign key|Foreign key]]
 	- Field that refers to tuples in another relation
 	- This field refers to the primary key of other relation
@@ -2111,7 +2111,7 @@ Query Evaluation Steps
 - Relational operators
 	- Take one or two relation instances as argument
 	- Return one relation instance as result
-	- Easy to compose into relational algebra expressions
+	- Easy to compose into [[Relational Algebra|relational algebra]] expressions
 
 		only two relations may be input to a join operator
 		to join 3+ relations we need multiple join operators
@@ -2148,7 +2148,7 @@ Data model
 [[Relational Model Review|Relational data model]]
 - Data is stored in tables (aka relations)
 - Data is queried via relational queries
-- Queries are set-at-a-time relational algebra
+- Queries are set-at-a-time [[Relational Algebra|relational algebra]]
 
 
 
@@ -2441,7 +2441,7 @@ step 1: for each $\\{R_i\\}$ do:
 - $cost(\\{R_i\\})$ = cost of access method for $R_i$
 
 For each individual table by itself, there's no join to figure out. The "plan" is just: how do I read this table from disk?
-For table $R$, the answer might be "do a table scan" or "use an index." Pick the cheapest access method. That's the plan. Its cost is whatever that access method costs. Its size $T(R)$ is just the size of $R$.
+For table $R$, the answer might be "do a table scan" or "use an [[Indexing|index]]." Pick the cheapest access method. That's the plan. Its cost is whatever that access method costs. Its size $T(R)$ is just the size of $R$.
 
 
 step 2: for each $Q \\subseteq \\{R_1, \\dots, R_n\\}$ of size $k$ do:
@@ -2533,7 +2533,7 @@ order: 5
 - Table scan
 - Index-based selection
 
-**2. Combining data (joins)**
+**2. Combining data ([[JOINs|joins]])**
 - Nested loop
 - Hash join
 - Merge join
@@ -2549,7 +2549,7 @@ order: 5
 
 each operator:
 	- Pre-allocates heap space for input/output tuples
-		- Option 1, BP-tuples: pointers to data in buffer pool
+		- Option 1, BP-tuples: pointers to data in [[Storage#Buffer Manager|buffer pool]]
 		- Option 2, M-tuples: new tuples on the heap
 	- Allocates memory for its internal state
 		- on heap
@@ -2706,7 +2706,7 @@ Given:
 Goal: find tuples where a = v
 
 
-clustered index cost: $\\frac{B(R)}{V(R, a)}$
+[[Indexing#Primary/Clustered Index|clustered index]] cost: $\\frac{B(R)}{V(R, a)}$
 unclustered index: $\\frac{T(R)}{V(R, a)}$
 
 `,Sr=`---
@@ -2821,7 +2821,7 @@ order: 8
 
 ## Transaction
 
-Definition: a transaction is a sequence of updates to the database with the property that either all complete, or none completes (all-or-nothing).
+Definition: a [[Transactions|transaction]] is a sequence of updates to the database with the property that either all complete, or none completes (all-or-nothing).
 
 
 ### ROLLBACK
@@ -2844,7 +2844,7 @@ Durability: If a transaction commits, its changes will survive failures
 
 ### Concurrent Execution Problems
 
-- Write-read conflict: dirty read, inconsistent read
+- Write-read conflict: [[Optimistic Concurrency Control#Dirty Read|dirty read]], inconsistent read
 	- A transaction reads a value written by another transaction that has not yet committed
 - Read-write conflict: unrepeatable read
 	- A transaction reads the value of the same object twice
@@ -3040,7 +3040,7 @@ Isolation Level Design Spectrum
 - [[Concurrency Control#Strict 2PL|Strict 2PL]]
 
 No READ Locks
-- Read-only transactions are never delayed
+- Read-only [[Concurrency Control#Transaction|transactions]] are never delayed
 
 Possible problems: [[Concurrency Control#Concurrent Execution Problems|dirty and inconsistent read]]
 
@@ -3062,7 +3062,7 @@ Unrepeatable reads: When reading same element twice, may get two different value
 "Long Duration" READ Locks
 - Strict 2PL
 
-not serializable yet
+not [[Concurrency Control#Serializability|serializable]] yet
 
 ### Serializable
 
@@ -3081,7 +3081,7 @@ Predicate locking
 
 [[Concurrency Control#Locking|Pessimistic CC (locking)]]
 - Prevents unserializable schedules
-- Never abort for serializability (but may abort for deadlocks) 
+- Never abort for serializability (but may abort for [[Concurrency Control#2PL Deadlocks|deadlocks]]) 
 - Best for workloads with high levels of contention
 
 Optimistic CC (timestamp, multi-version, validation)
@@ -3377,7 +3377,7 @@ ShuffleProducer and ShuffleConsumer
 
 Producer:
 - Pulls data from child operator and sends to n consumers
-- Producer acts as driver for operators below it in query plan
+- Producer acts as driver for operators below it in [[DBMS architecture#Physical Query Plan|query plan]]
 
 Consumer: 
 - Buffers input data from n producers and makes it available to operator through getNext() interface
@@ -3420,7 +3420,7 @@ order: 10
 ## Transaction Management
 
 Two parts:
-- [[Concurrency Control|Concurrency control]]: ACID
+- [[Concurrency Control|Concurrency control]]: [[Concurrency Control#ACID Properties|ACID]]
 - Recovery from crashes: ACID
 
 
@@ -3432,7 +3432,7 @@ Two parts:
 | System failures: e.g. power | DATABASE RECOVERY              |
 
 
-Each transaction has internal state
+Each [[Concurrency Control#Transaction|transaction]] has internal state
 When system crashes, internal state is lost
 - Don’t know which parts executed and which didn’t
 - Need ability to undo and redo
@@ -3760,7 +3760,7 @@ order: 15
 ## Synchronous Replication
 
 also called eager replication
-all updates are applied to all replicas (or to a majority) as part of a single transaction (need [[Two-Phase Commit|2PC]]
+all updates are applied to all replicas (or to a majority) as part of a single [[Concurrency Control#Transaction|transaction]] (need [[Two-Phase Commit|2PC]]
 transactions must acquire global lock
 main goal: as if there was only one copy
 - maintain consistency
@@ -3839,7 +3839,7 @@ High runtime overhead
 - Two-phase commit
 - Runs at pace of slowest replica in quorum
 - So overall system is now slower
-- Higher deadlock rate (transactions take longer)
+- Higher [[Concurrency Control#2PL Deadlocks|deadlock]] rate (transactions take longer)
 
 
 
@@ -3951,7 +3951,7 @@ Then, can use RDDs in actions
 order: 14
 ---
 
-OLTP: Transactions per second
+OLTP: [[Concurrency Control#Transaction|Transactions]] per second
 	“Online Transaction Processing
 
 
@@ -3991,7 +3991,7 @@ What to do if there is no response
 	- Coordinator: collecting state can timeout committing state is blocking
 
 
-A subordinate fails. During recovery:
+A subordinate fails. During [[Transactions Recovery|recovery]]:
 - If the last entry in the log is then the transaction is committed: [[Transactions Recovery#REDO|REDO]]
 - If the last entry in the log is then the transaction is aborted: [[Transactions Recovery#UNDO Logging|UNDO]]
 - If no COMMIT/ABORT/PREPARE is found, then presume ABORT
@@ -8096,7 +8096,7 @@ CREATE TABLE Product (
 	UNIQUE (name, category))
 \`\`\`
 
-There is at most one **PRIMARY KEY**;  
+There is at most one **[[Keys#Primary Key|PRIMARY KEY]]**;  
 there can be many **UNIQUE**
 
 | Feature            | PRIMARY KEY                 | UNIQUE                                         |
@@ -8474,7 +8474,7 @@ WHERE price > 1
 GROUP BY product  
 HAVING sum(quantity) > 30
 \`\`\`
-**HAVING clause contains conditions on aggregates**
+**HAVING clause contains conditions on [[Simple Aggregation|aggregates]]**
 Where clause before grouping, having clause after [[GROUP BY|grouping]]
 
 #### WHERE vs HAVING  
@@ -8873,7 +8873,7 @@ WHERE p.productID = marchfirst.productid
   AND CONVERT(date, marchthird.date) = '3/3/2025'
 \`\`\`
 
-same with CTE
+same with [[WITH|CTE]]
 \`\`\`
 WITH marchfirst AS (
     SELECT *
@@ -8957,7 +8957,7 @@ order: 20
 
 
 
-What should the DB engine do if execution SQL statement collides with a FOREIGN KEY constraint?
+What should the DB engine do if execution SQL statement collides with a [[Keys#Foreign key|FOREIGN KEY]] constraint?
 	For example:  \`DELETE FROM Company WHERE name = ‘lmao’;\`
 		and the Products Table contains Foreign Key entries for  \`cname = ‘Imao’\`
 
@@ -9066,7 +9066,7 @@ ON C.cid = P.cid
 GROUP BY C.cid, C.cname
 \`\`\`
 
-> Without LEFT JOIN, companies with no products are excluded
+> Without [[JOINs#Outer JOIN|LEFT JOIN]], companies with no products are excluded
 
 
 ### Subqueries in FROM
@@ -9282,7 +9282,7 @@ AS '3 Day Average' FROM 'Running Average Example';
 \`\`\`
 
 
-Window functions also works on partitioned data. It first sorts the data then applies the aggregate function on these groups.
+Window functions also works on partitioned data. It first sorts the data then applies the [[Simple Aggregation|aggregate]] function on these groups.
 
 \`\`\`
 SELECT 'Day', 'Weekend', 'Daily Revenue',
@@ -9479,7 +9479,7 @@ Normal forms are levels or stages of normalization.
 \`StudentName\` depends **only on StudentID**, not the full key → **partial dependency**
 
 #### 2NF (Second Normal Form)
-- Must be in **1NF**
+- Must be in **[[First normal form|1NF]]**
 - **No partial dependency**: No non-key attribute should depend on **part of a composite key**
 
 |EmployeeID|DeptID|DeptName|
@@ -9505,7 +9505,7 @@ Normal forms are levels or stages of normalization.
 
 #### BCNF (Boyce-Codd Normal Form)
 - Must be in **3NF**
-- For **every functional dependency** \`X → Y\`, \`X\` must be a **superkey**
+- For **every functional dependency** \`X → Y\`, \`X\` must be a **[[Keys#Super key|superkey]]**
 
 | Student | Language | Hobby  |
 | ------- | -------- | ------ |
@@ -9522,7 +9522,7 @@ Normal forms are levels or stages of normalization.
 
 
 One person may have multiple phones, but lives in only one city  
-Primary key is thus (SSN, PhoneNumber)
+[[Keys#Primary Key|Primary key]] is thus (SSN, PhoneNumber)
 What's wrong?
 
 | Name | SSN         | PhoneNumber  | City      |
@@ -9606,8 +9606,8 @@ order: 28
 
 - $\\pi / \\Pi$: SELECT, projection
 - $\\sigma$ (sigma): WHERE, selection
-- $\\gamma$ (gamma): grouping & aggregation
-- $\\bowtie$: JOIN
+- $\\gamma$ (gamma): grouping & [[Simple Aggregation|aggregation]]
+- $\\bowtie$: [[JOINs|JOIN]]
 - ⟕: LEFT OUTER JOIN
 - ⟖: RIGHT OUTER JOIN
 - ⟗: FULL OUTER JOIN
@@ -9656,7 +9656,7 @@ Unrepeatable Read
 - happens when data is read prior to a change
 	-  Read-Write (RW) conflict
 
-Phantom Read
+[[Concurrency Control#Phantom Problem|Phantom Read]]
 - happens when data is read prior to an addition/deletion
 	• Read-Write (RW) conflict
 
@@ -9677,7 +9677,7 @@ lost update
 	- behaves as if it were the only transaction running
 	- The most important feature of ACID
 - Durable
-	- Crash recovery: committed changes survive crashes
+	- Crash [[Transactions Recovery|recovery]]: committed changes survive crashes
 		- What if the database fails in the middle of our atomic transaction?
 
 
@@ -9693,7 +9693,7 @@ Schedules are a sequence of interleaved actions from all transactions
 
 A **serial schedule** is a schedule where each transaction is executed in some order, one after the other
 
-A **serializable schedule** is a schedule where transactions are executed with possible interleaving, but it appears to the outside as if they were executed in serial order
+A **[[Concurrency Control#Serializability|serializable]] schedule** is a schedule where transactions are executed with possible interleaving, but it appears to the outside as if they were executed in serial order
 
 
 ## Conflict Serializability
@@ -9702,7 +9702,7 @@ We define operation “conflicts” and check for their interactions in a schedu
 
 Most application concurrency problems are describable by conflicts
 - Lost Update $\\rightarrow$ Write-Write (WW) conflict
-- Dirty Read $\\rightarrow$ Write-Read (WR) conflict
+- [[Optimistic Concurrency Control#Dirty Read|Dirty Read]] $\\rightarrow$ Write-Read (WR) conflict
 - Unrepeatable Read $\\rightarrow$ Read-Write (RW) conflict
 - Phantom Read
 
@@ -9715,7 +9715,7 @@ Types of Conflicts
 	- RW conflicts $\\rightarrow$ $R_1(X)$, $W_2(X)$
 
 
-A schedule is **conflict serializable** if it can be transformed into a serial schedule by a series of swappings of adjacent non-conflicting actions
+A schedule is **[[Concurrency Control#Conflict Serializability|conflict serializable]]** if it can be transformed into a serial schedule by a series of swappings of adjacent non-conflicting actions
 
 ![[file-20261102111700596.png|598]]
 
@@ -9754,7 +9754,7 @@ binary locks
 rule: in every txn, all lock requests come before all unlock requests
 - growing phase (only lock) $\\rightarrow$ shrinking phase (only unlock)
 
-2PL guarantees conflict serializability
+[[Concurrency Control#Two Phase Locking (2PL)|2PL]] guarantees conflict serializability
 each txn acts as if it ran all at once at the moment it starts unlocking
 
 #### Deadlocks
@@ -9768,13 +9768,13 @@ T3 (C,D): L(C) ... L(D) blocked   (T4 has D)
 T4 (D,A): L(D) ... L(A) blocked   (T1 has A)
 \`\`\`
 
-the DBMS builds a waits-for graph, and a cycle means deadlock
+the DBMS builds a waits-for graph, and a cycle means [[Concurrency Control#2PL Deadlocks|deadlock]]
 
 
 ## Strict 2PL & Recoverability
 
 
-- Every isolation level uses strict 2PL X locks for writes
+- Every [[Optimistic Concurrency Control#Isolation Levels|isolation level]] uses strict 2PL X locks for writes
 - The only thing that changes between levels is how long read locks are held
 - Less read locking → faster, but more anomalies possible
 - Set it with:
