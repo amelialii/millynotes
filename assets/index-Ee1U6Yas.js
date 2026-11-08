@@ -4442,2006 +4442,7 @@ def generateParenthesis(self, n: int) -> List[str]:
     return res
 \`\`\`
 
-### Graphs`,Lr=`---
-order: 1
----
-
-There are multiple ways to join tables, with the two below being among the most common:
-
-\`\`\`
-SELECT DISTINCT cname  
-FROM Product, Company  
-WHERE manufacturer = cname
-\`\`\`
-
-\`\`\`
-SELECT DISTINCT cname  
-FROM Product
-JOIN Company
-ON manufacturer = cname
-\`\`\`
-
-
-#### A simple JOIN example
-
-
-\`Product\` 
-
-| pname     | category | manufacturer |
-|-----------|----------|--------------|
-| Gizmo     | gadget   | GizmoWorks   |
-| Camera    | Photo    | Hitachi      |
-| OneClick  | Photo    | Hitachi      |
-
-\`Company\`
-
-| cname      | country |
-|------------|---------|
-| GizmoWorks | USA     |
-| Canon      | Japan   |
-| Hitachi    | Japan   |
-
-\`\`\`
-SELECT DISTINCT cname  
-FROM Product p, Company c
-WHERE p.manufacturer = c.cname;
-\`\`\`
-
-| cname      |
-|------------|
-| GizmoWorks |
-| Hitachi    |
-
-
-#### (Inner) JOIN
-
-\`FROM Product, Company\`
-*"From <u><i>all possible combinations</i></u> of product of company"*
-
-\`WHERE\`
-*"... choose only those results where the manufacturer of the product is the same as the company name"*
-
-\`SELECT DISTINCT cname\`
-*"... then display only the unique company names."*
-
-| id  | name |
-| --- | ---- |
-| 1   | Joe  |
-| 2   | Jack |
-| 3   | Jill |
-
-| employeeID | productID |
-| ---------- | --------- |
-| 1          | 344       |
-| 1          | 355       |
-| 2          | 544       |
-
-\`\`\`
-SELECT *
-FROM Employee E, Sales S
-WHERE E.id = S.employeeID
-\`\`\`
-
-| id  | name | employeeID | productID |
-| --- | ---- | ---------- | --------- |
-| 1   | Joe  | 1          | 344       |
-| 1   | Joe  | 1          | 355       |
-| 2   | Jack | 2          | 544       |
-
-alternative syntax:
-\`\`\`
-SELECT *
-FROM Employee E
-	INNER JOIN
-	Sales S
-	ON E.id = S.employeeID
-\`\`\`
-
-Retrieve employees and their sales:
-\`\`\`
-SELECT *
-FROM Employee E
-	LEFT OUTER JOIN
-	Sales S
-	ON E.id = S.employeeID
-\`\`\`
-
-| id  | name | employeeID | productID |
-| --- | ---- | ---------- | --------- |
-| 1   | Joe  | 1          | 344       |
-| 1   | Joe  | 1          | 355       |
-| 2   | Jack | 2          | 544       |
-| 3   | Jill | null       | null      |
-
-
-#### Outer JOIN
-
-\`Employee\`
-
-| id  | name |
-| --- | ---- |
-| 1   | Joe  |
-| 2   | Jack |
-| 3   | Jill |
-
-\`Sales\`
-
-| employeeID | productID |
-|------------|-----------|
-| 1          | 344       |
-| 1          | 355       |
-| 2          | 544       |
-
-\`\`\`
--- Retrieve employees and their sales
-
-SELECT *
-FROM Employee E
-LEFT OUTER JOIN Sales S
-ON E.id = S.employeeID;
-\`\`\`
-
-
-| id | name | employeeID | productID |
-|----|------|------------|-----------|
-| 1  | Joe  | 1          | 344       |
-| 1  | Joe  | 1          | 355       |
-| 2  | Jack | 2          | 544       |
-| 3  | Jill | NULL       | NULL      |
-
-\`FROM Employee E LEFT OUTER JOIN Sales S\`  
-_Start with all rows from the \`Employee\` table, and include matching rows from \`Sales\` — if there is no match, still include the employee with [[NULL]]s for sales data._
-`,Rr=`---
-order: 0
----
-A relation R has a set of attributes A, B, C, ...
-	*– e.g., cname, country, no_employees, for_profit*
-An attribute A has a domain SA
-	*– The domain is the set of allowed values.
-	– Ex: no_employees: Domain is the set of all integers
-	– Ex: cname: Domain is the set of all text shorter than 20 chars*
-A Relation R is subset of S1 x S2 x ... x Sn
-	*– Where Si is the domain of attribute i
-	– n is number of attributes of the relation
-	– Example:
-		Think of all possible tuples Integer X Varchar X Varchar
-		A tuple (234, Bill, Howe) is one of these.
-		A relation is a set of these tuples*
-		INFO 330 – Au 2024 4
-
-
-
-Each attribute has a type
-Types are enforced
-
-
-
-\`INT\` / \`INTEGER\` *-2,147,483,648 to 2,147,483,647*
-
-\`SMALLINT\` *32,768 to 32,767*
-
-\`BIGINT\` *-9,223,372,036,854,775,808 to 9,223,372,036,854,775,807*  
-
-\`DECIMAL(p,s)\` *exact numeric, precision p, scale s*
-
-\`FLOAT(p)\` *approximate numeric, precision p (precision in binary digits)*
-
-\`DATE\` *(YYYY-MM-DD)*
-
-\`TIME\` *(HH:MM:SS)*
-
-\`CHAR(n)\` *fixed-length string*
-
-\`NCHAR(n)\` *fixed-length Unicode string*
-
-\`VARCHAR(n)\` *variable-length string*
-
-\`NVARCHAR(n)\` *variable-length Unicode string*
-
-\`BIT(BOOLEAN)\` *TRUE/FALSE/NULL*
-
-`,zr=`---
-order: 6
----
-
-**Company Table**
-
-| cname   | country | no_employees | for_profit |
-|---------|---------|--------------|------------|
-| Canon   | Japan   | 50000        | Y          |
-| Hitachi | Japan   | 30000        | Y          |
-
-\`\`\`
-CREATE TABLE Company (
-  cname VARCHAR(30),
-  country VARCHAR(20),
-  no_employees INT,
-  for_profit BOOLEAN
-);
-\`\`\`
-
-or:
-
-\`\`\`
-CREATE TABLE Company (
-  cname VARCHAR(30) PRIMARY KEY,
-  country VARCHAR(20),
-  no_employees INT,
-  for_profit BOOLEAN
-);
-\`\`\`
-
-
----
-
-Product(<u>name</u>, category)
-
-\`\`\`
-CREATE TABLE Product (
-  name CHAR(30) PRIMARY KEY,
-  category VARCHAR(20)
-);
-\`\`\`
-
-or:
-
-\`\`\`
-CREATE TABLE Product (  
-	name CHAR(30),  
-	category VARCHAR(20),  
-	PRIMARY KEY (name))  
-\`\`\`
-
-
-
-### Keys with multiple attributes
-
-Product(<u>name</u>, <u>category</u>, price)
-
-\`\`\`
-CREATE TABLE Product (  
-	name CHAR(30),  
-	category VARCHAR(20),  
-	price INT,  
-	PRIMARY KEY (name, category)  
-)
-\`\`\`
-
-| **Name** | **Category** | **Price** |
-| -------- | ------------ | --------- |
-| Gizmo    | Gadget       | 10        |
-| Camera   | Photo        | 20        |
-| Gizmo    | Photo        | 30        |
-| Gizmo    | Gadget       | 40        |
-
-
-### Other keys
-
-\`\`\`
-CREATE TABLE Product (  
-	productID CHAR(10),  
-	name CHAR(30),  
-	category VARCHAR(20),  
-	price INT,  
-	PRIMARY KEY (productID),  
-	UNIQUE (name, category))
-\`\`\`
-
-There is at most one **PRIMARY KEY**;  
-there can be many **UNIQUE**
-
-| Feature            | PRIMARY KEY                 | UNIQUE                                         |
-| ------------------ | --------------------------- | ---------------------------------------------- |
-| Ensures uniqueness | ✅ Yes                       | ✅ Yes                                          |
-| Allows NULL values | ❌ No (NULL not allowed)     | ✅ Yes (unless you say otherwise)               |
-| Number per table   | ❗Only one allowed           | ✅ You can have multiple UNIQUE constraints     |
-| Main identity      | ✅ Used to identify each row | ❌ Just used to enforce rules, not row identity |
-
-
-### Foreign key constraints
-
-\`\`\`
-CREATE TABLE Purchase (  
-	prodName CHAR(30) REFERENCES Product(name),  
-	date DATETIME)
-\`\`\`
-
-prodName is a [[Keys#Foreign key|foreign key]] to Product(name)  
-name must be a key in Product
-
-Example:
-\`\`\`
-CREATE TABLE Purchase (  
-	prodName CHAR(30),  
-	category VARCHAR(20),  
-	date DATETIME,  
-	FOREIGN KEY (prodName, category)  
-	REFERENCES Product(name, category)
-\`\`\`
-- (name, category) must be a KEY in Product
-
-`,Br=`---
-order: 3
----
-
-All relations must be flat: we say that the relation is in *first normal form*  
-- Every cell holds a single value  
-- Table is two-dimensional – just rows and columns  
-- No nested structures (arrays, objects, sub-tables)
-
-### ❌ Not in 1NF:
-
-| StudentID | Name  | Courses           |
-|-----------|-------|-------------------|
-| 1         | Alice | Math, Physics     |
-| 2         | Bob   | English, History  |
-
-### ✅ 1NF (Flat Table):
-
-| StudentID | Name  | Course   |
-|-----------|-------|----------|
-| 1         | Alice | Math     |
-| 1         | Alice | Physics  |
-| 2         | Bob   | English  |
-| 2         | Bob   | History  |
-`,Vr=`---
-order: 7
----
-
-\`\`\`
-INSERT Product(name, category)  
-VALUES (‘gizmo’, ‘toy'),  
-	(‘digicam’, ‘camera’)  
-\`\`\`
-
-You can specify which columns you’re providing.  
-
-You can insert multiple records with one  statement. Often much faster than a separate statement for each record.
-
----
-
-\`\`\`
-UPDATE Product
-SET category = ‘toy’
-WHERE name = ‘digicam’
-\`\`\`
-You can make multiple changes with one statement  
-ALL records that match this condition will be updated.
-
----
-
-\`\`\`
-DELETE FROM Product  
-WHERE category = ‘toy’
-\`\`\`
-
-ALL records that match this condition will be updated.
-`,Hr=`---
-order: 2
----
-
-key = one (or more) attributes that uniquely identify a record
-
-
-### Primary Key
-
-The one key the db designer picks to be the main way of identifying rows
-
-| student_id | first_name | last_name | major       |
-| ---------- | ---------- | --------- | ----------- |
-| 1          | Alice      | Smith     | Informatics |
-| 2          | Bob        | Lee       | CS          |
-| 3          | Carol      | Johnson   | Informatics |
-\`\`\`
--- two ways for assigning PK
-
-CREATE TABLE students (
-    student_id INT PRIMARY KEY,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    major VARCHAR(50)
-);
-
-CREATE TABLE students (
-    student_id INT,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    major VARCHAR(50),
-    PRIMARY KEY (student_id)
-);
-\`\`\`
-
-
-
-
-### Multi-attribute keys
-
-| fName | lName    | Income | Department |
-| ----- | -------- | ------ | ---------- |
-| Alice | Smith    | 20000  | Testing    |
-| Alice | Thompson | 50000  | Testing    |
-| Bob   | Thompson | 30000  | SW         |
-| Carol | Smith    | 50000  | Testing    |
-
-
-
-### Surrogate keys
-
-| id    | fName | lName    | Income | Department |
-| ----- | ----- | -------- | ------ | ---------- |
-| 11111 | Alice | Smith    | 20000  | Testing    |
-| 22222 | Alice | Thompson | 50000  | Testing    |
-| 33333 | Bob   | Thompson | 30000  | SW         |
-| 44444 | Carol | Smith    | 50000  | Testing    |
-\`\`\`
-CREATE TABLE employees (
-    employee_id INT IDENTITY(1,1) PRIMARY KEY,
-    first_name VARCHAR(100),
-    last_name VARCHAR(100),
-    department VARCHAR(100)
-);
-
-INSERT INTO employees (first_name, last_name, department)
-VALUES ('Amelia', 'Smith', 'Informatics');
-
-SELECT * FROM employees;
-
--- dont need to insert primary key
-\`\`\`
-
-
-
-### Super key
-
-key might be an entire tuple
-all attributes together *always* form a key
-
-| Make   | Model | Year |
-| ------ | ----- | ---- |
-| Honda  | Pilot | 2014 |
-| Honda  | CRV   | 2014 |
-| Toyota | Camry | 2012 |
-| Honda  | Pilot | 2017 |
-
-
-### Multiple keys
-a relation can have more than 1 key
-the DB designer will designate one as the primary key
-
-| SSN         | fName | lName    | Income | Department |
-| ----------- | ----- | -------- | ------ | ---------- |
-| 111-22-3333 | Alice | Smith    | 20000  | Testing    |
-| 222-33-4444 | Alice | Thompson | 50000  | Testing    |
-| 333-44-5555 | Bob   | Thompson | 30000  | SW         |
-| 444-55-6666 | Carol | Smith    | 50000  | Testing    |
-
-
-
-### Foreign key
-
-| title                  | author             | isbn       | publisher     | printing |
-| ---------------------- | ------------------ | ---------- | ------------- | -------- |
-| The New Jim Crow       | Michelle Alexander | 123-45-678 | The New Press | 1        |
-| Guns, Germs, and Steel | Jared Diamond      | 444-55-666 | Norton        | 2        |
-
-| isbn       | customer | date     |
-| ---------- | -------- | -------- |
-| 123-45-678 | 1234     | 9/2/2021 |
-| 444-55-666 | 4456     | 9/5/2021 |
-
-| customer | lname | fname |
-|----------|-------|-------|
-| 1234     | Shah  | S     |
-| 4456     | Lee   | J     
-
-- The \`isbn\` in the **Sales** table refers to the \`isbn\` in the **Books** table. This tells us which book was sold.
-- The \`customer\` in the **Sales** table refers to the \`customer\` in the **Customers** table. This tells us who bought the book.
-
-A **foreign key** is a field (or group of fields) in one table that refers to the **primary key** in another table.
-- It’s how we create relationships between tables in a database.`,Ur=`---
-order: 5
----
-
-Relational databases allow a special value NULL  
-Interpretation depends on the application:  NULL could mean “Not applicable” or “unknown” or “hidden” or “not collected” or many other things
-
-NULL or True = True
-- This expression will always be true
-
-Is NULL equal to NULL?
-- no. bc NULL can be ✨anything✨
-
-special syntax to test for NULL:
-- “x IS NULL” evaluates to True if x is NULL`,Wr=`---
-order: 4
----
-
-**Physical data independence**
-The logical definition of the data remains unchanged, even when we make changes to the actual implementation
-
-##### Imagine a database like a filing cabinet:
-
-- **You** (the user) just ask, “Hey, give me Alice’s file.”
-    
-- **You don’t care** where in the cabinet the file is kept, how it’s arranged, or how it’s labeled inside — you just want the info.
-
-
-#### SQL Example:
-
-You have this table:
-
-\`Customers (ID, Name, Email)\`
-
-And you run:
-
-\`SELECT Name FROM Customers WHERE ID = 5;\`
-
-Now imagine the database admin:
-- Moves that table to a faster disk
-- Adds an [[Indexing|index]] on \`ID\` to make the query faster
-- Stores some rows in a different file for performance
-
-#### Query **still works the same**:
-
-- You **don’t have to change** it
-- You **still get the same result**
-- You **don’t even know** anything changed inside`,Gr=`---
-order: 9
----
-
-One answer for each product
-\`\`\`
-SELECT product, count(*)  
-FROM Purchase  
-GROUP BY product
-\`\`\`
-
-One answer for each month
-\`\`\`
-SELECT month, count(*)  
-FROM Purchase  
-GROUP BY month
-\`\`\`
-
-
-Using multiple aggregates:
-\`\`\`
-SELECT product, sum(quantity) AS SumQuantity, max(price) AS MaxPrice  
-FROM Purchase
-GROUP BY product
-\`\`\`
-
-
-
-**All attributes must be involved in GROUP BY or an [[Simple Aggregation|aggregate]]**
-✅
-\`\`\`
-SELECT product, max(quantity)  
-FROM Purchase 
-GROUP BY product
-\`\`\`
-
-❌
-\`\`\`
-SELECT product, quantity  
-FROM Purchase  
-GROUP BY product
-\`\`\`
-
-
-### GROUP BY + DISTINCT
-
-\`\`\`
-SELECT month  
-FROM Purchase  
-GROUP BY month
-\`\`\`
-
-=
-
-\`\`\`
-SELECT DISTINCT month  
-FROM Purchase
-\`\`\`
-
-
-
-### GROUP BY + WHERE
-
-| Product | Price | Quantity |
-| ------- | ----- | -------- |
-| Bagel   | 3     | 20       |
-|         | 1.50  | 20       |
-| Banana  | 0.5   | 50       |
-|         | 2     | 10       |
-|         | 4     | 10       
-
-\`\`\`
-SELECT product, Sum(quantity) AS TotalSales  
-FROM Purchase  
-WHERE price > 1  
-GROUP BY product
-\`\`\`
-
-| Product | TotalSales |
-| ------- | ---------- |
-| Bagel   | 40         |
-| Banana  | 20         |
-
-
-### Grouping and Aggregation  
-
-1. Compute the FROM and WHERE clauses.  
-2. Group by the attributes in the GROUPBY  
-3. Compute the SELECT clause: grouped attributes and aggregates.  
-
-> <b><i>FWGS</i></b>
-
-\`\`\`
-SELECT product, sum(price * quantity) as rev  
-FROM Purchase  
-GROUP BY product  
-ORDER BY rev DESC
-\`\`\`
-
-
-### GROUP BY + JOIN
-
-\`\`\`
-SELECT x.manufacturer, y.month, COUNT(*)
-FROM Product x, Purchase y
-WHERE x.product_id = y.product_id
-	and y.price > 100
-GROUP BY x.manufacturer, y.month
-\`\`\``,Kr=`---
-order: 8
----
-
-Purchase(pid, product, price, quantity, month)  
-\`\`\`
-SELECT product, sum(price*quantity)  
-FROM Purchase  
-WHERE price > 1  
-GROUP BY product  
-HAVING sum(quantity) > 30
-\`\`\`
-**HAVING clause contains conditions on aggregates**
-Where clause before grouping, having clause after [[GROUP BY|grouping]]
-
-#### WHERE vs HAVING  
-WHERE is applied to individual rows  
-- The rows may or may not contribute to the aggregate  
-- No aggregates allowed here
-- Occasionally, some groups become empty and are removed  
-HAVING is applied to the entire group  
-- Entire group is returned, or removed  
-- May use aggregate functions on the group  
-
-
-\`\`\`
-SELECT COUNT(*) AS total_users
-FROM users
-HAVING COUNT(*) > 100;
-\`\`\`
-Also works.
-GROUP BY not strictly required
-
-
-**Example**
-
-Compute the total income per month  
-Show only months with less than 10 items sold  
-Order by quantity sold and display as “TotalSold” 
-
-Purchase(pid, product, price, quantity, month)
-\`\`\`
-SUM month, SUM(price * quantity),  
-sum(quantity) as TotalSold  
-FROM Purchase  
-GROUP BY month  
-HAVING sum(quantity) < 10
-ORDER BY sum(quantity)  
-\`\`\``,qr=`---
-order: 10
----
-
-Total quantities for all sales over $1, by product.
-\`\`\`
-SELECT sum(quantity)  
-FROM Purchase  
-WHERE price > 1
-\`\`\`
-
-
-Five basic aggregate operations:
-\`\`\`
-SELECT count(*) FROM Purchase  
-SELECT sum(quantity) FROM Purchase  
-SELECT avg(price) FROM Purchase  
-SELECT max(quantity) FROM Purchase  
-SELECT min(quantity) FROM Purchase
-\`\`\`
-
-
-Multiple simple aggregations in one statement   
-\`\`\`
-SELECT count(*), sum(quantity), avg(price)  
-FROM Purchase
-\`\`\`
-
-
-Compute the average price with sum and count  
-\`\`\`
-SELECT sum(quantity) / count(*) AS average_quant  
-FROM Purchase
-\`\`\`
-
-
-SQL as a calculator
-\`\`\`
-SELECT 1+2+3+4+5 AS expr
-SELECT 25 / 100
-SELECT 25 / 100.0
-SELECT 25 / CAST(100 AS Float)
-\`\`\`
-
-
-\`\`\`
-SELECT sum(quantity) / count(*)  
-FROM Purchase  
-\`\`\`
-\`int / int = int\`
-
-\`\`\`
-SELECT (1.0*sum(quantity)) / count(*)  
-FROM Purchase  
-\`\`\`
-\`(float * int) / int = float\`
-
-\`\`\`
-SELECT CAST(sum(quantity) AS float) / count(*)  
-FROM Purchase  
-\`\`\`
-\`(float * int) / int = float\`
-
-
-### Aggregation and NULL
-
-[[NULL]] values are not used in aggregates
-
-\`\`\`
-CREATE TABLE Purchase (
-    id INT,
-    item_name VARCHAR(50),
-    quantity INT,
-    price DECIMAL(10, 2),
-    purchase_month VARCHAR(20)
-);
-
-INSERT INTO Purchase VALUES (12, 'gadget', NULL, NULL, 'april');
-INSERT INTO Purchase VALUES (12, 'gadget', 5, NULL, 'april');
-\`\`\`
-
-| id  | item_name | quantity | price | purchase_month |
-|-----|-----------|----------|-------|----------------|
-| 12  | gadget    | NULL     | NULL  | april          |
-| 12  | gadget    | 5        | NULL  | april          |
-
-
-\`\`\`
-SELECT count(quantity) FROM Purchase
-
-SELECT count(*)  
-FROM Purchase  
-WHERE quantity IS NOT null;
-\`\`\``,Jr=`---
-order: 11
----
-
-[[Nested Queries#Subqueries in FROM|Nested queries in the FROM clause]]:
-\`\`\`
-SELECT X.pname  
-FROM (SELECT *  
-	FROM Product AS Y  
-	WHERE price > 20) as X
-WHERE X.price < 500
-\`\`\`
-
-
-Use WITH to assign a name to a result so it can be reused:
-\`\`\`
-WITH expensiveprods as (
-	SELECT *
-	FROM Product AS Y
-	WHERE price > 20
-)
-SELECT X.pname
-FROM expensiveprods as X
-WHERE X.price < 500
-\`\`\`
-
-Multiple results can be named  
-\`\`\`
-WITH seattlecompanies as (
-	SELECT *
-	FROM Company
-	WHERE city = ‘Seattle’
-),
-expensiveprods as (
-	SELECT *
-	FROM Product AS Y
-	WHERE price > 20
-)
-SELECT s.cname, e.pname
-FROM expensiveprods e, seattlecompanies s
-WHERE e.cid = s.cid
-\`\`\`
-
-Results can refer to previous results:
-\`\`\`
-WITH seattlecompanies as (  
-	SELECT *  
-	FROM Company  
-	WHERE city = ‘Seattle’  
-),  
-seattleprods as (  
-	SELECT p.*  
-	FROM Product p, seattlecompanies s  
-	WHERE p.cid = s.cid  
-),  
-cheapseattleprods as (  
-	SELECT *  
-	FROM seattleprods p  
-	WHERE price < 100  
-),  
-SELECT * FROM cheapseattleprods
-\`\`\`
-
-Example: Find companies that sell both cheap and expensive products  
-\`\`\`
-WITH cheap as (  
-	SELECT cid  
-	FROM Product p, Company c  
-	WHERE p.cid = c.cid  
-	AND p.price < 10  
-)  
-expensive as (  
-	SELECT cid  
-	FROM Product p, Company c  
-	WHERE p.cid = c.cid  
-	AND p.price > 100  
-)  
-SELECT cname FROM Company c, cheap, expensive  
-WHERE c.cid = cheap.cid  
-AND c.cid = expensive.cid
-\`\`\``,Yr=`---
-order: 12
----
-
-refers to a record (or tuple) that provides evidence or support for an [[Simple Aggregation|aggregate]] query result
-
-
-\`\`\`
-SELECT x.city, MAX(y.price)
-FROM Company x, Product y
-WHERE x.cid = y.cid
-GROUP BY x.city;
-\`\`\`
-
-Getting the result per city, but don't know which product actually has that maximum price.
-
-\`\`\`
-WITH CityMax AS (
-  SELECT x.city, MAX(y.price) AS maxprice
-  FROM Company x, Product y
-  WHERE x.cid = y.cid
-  GROUP BY x.city
-)
-SELECT DISTINCT u.city, v.pname, v.price
-FROM Company u, Product v, CityMax w
-WHERE u.cid = v.cid AND u.city = w.city AND v.price = w.maxprice;
-\`\`\`
-
-
-| cid | cname     | city    |
-| --- | --------- | ------- |
-| 1   | Apple     | Seattle |
-| 2   | Microsoft | Seattle |
-| 3   | Samsung   | Seoul   |
-
-| pname     | price | cid |
-| --------- | ----- | --- |
-| iPhone    | 999   | 1   |
-| MacBook   | 1999  | 1   |
-| Surface   | 1499  | 2   |
-| Galaxy    | 1199  | 3   |
-| GalaxyTab | 1999  | 3   |
-
-|city|pname|price|
-|---|---|---|
-|Seattle|MacBook|1999|
-|Seoul|GalaxyTab|1999`,Xr=`---
-order: 14
----
-
-### Database Design Process
-
-**Conceptual Database Design**
-	Organizing information into a data model.
-	Identifies entities, relationships, constraints, and operations.
-	Aims to capture requirements independently of specific systems/tools.
-
-**Data Model Components**
-	Structures (e.g., entities like Employee, Product),
-	Constraints (e.g., each employee must have a supervisor),
-	Operations (e.g., make a purchase).
-
-**Design Levels**
-	Conceptual Schema (entities and relationships)
-	[[From ERD to relational schema|Relational Schema]] (tables and constraints)
-	[[Physical data dependence|Physical Schema]] (storage details)
-
-
-### Conceptual Design Process
-
-**Entity Identification**
-	Begin by identifying entities—the real-world things that data is about.
-	Example: For a race-tracking app, possible entities include:
-		Racers, Races, Bicycles/Equipment, Sponsors, Race Results
-
-**Relationships Among Entities**
-	Recognize how entities are related:
-		Parent-Child
-		Has-A, Is-A
-		Part-Of, Depends-On
-	Concepts like Inheritance, Aggregation, Association, etc.
-
-**[[Entity Relationship Diagram|Entity-Relationship (E/R) Diagrams]]**
-	Entity Set = a class/type of object
-	Entity = an instance
-	Includes attributes, relationships, and keys for each entity set.
-
-**Relations and Multiplicity**
-	A relation is a mathematical subset of the Cartesian product of two sets.
-	[[Relationship|Relationships]] may be:
-		One-to-one
-		One-to-many
-		Many-to-many
-
-**Attributes on Relationships**
-	Relationships can have their own attributes (e.g., date of purchase in a "Buys" relationship).
-
-`,Zr=`---
-order: 15
----
-
-![[ERD_intro.png|580]]
-
-
-- An **entity** corresponds to an instance of an object
-	- corresponds to a row in an RDBMS table
-- An attribute corresponds to a field  
-- An entity set is a collection of entities of the same type
-- Underline indicates the attribute is part of the [[Keys#Primary Key|Primary Key]]`,Qr=`---
-order: 16
----
-
-If A and B are sets, then a [[Relations and datatypes|relation]] R is a subset of A * B
-
-![[relationship.png|641]]
-
-
-- One-to-one
-- One-to-many; Many-to-one
-- Many-to-many
-
-![[relationship1.png|490]]
-
-![[arrows.png|471]]
-
-
-### Multiplicity & Cardinality
-
-- In UML, multiplicity specifies lower and upper bound constraints on the cardinality of a relationship
-
-| Multiplicity | Cardinality | Description                                  |
-| ------------ | ----------- | -------------------------------------------- |
-| 0..0         | 0           | Collection must be empty                     |
-| 0..1         |             | Either zero or one instance                  |
-| 1..1         | 1           | Exactly one instance                         |
-| 0..*         | *           | Zero or more instances                       |
-| 1..*         |             | One or more instance                         |
-| 5..5         | 5           | Exactly 5 instances                          |
-| m..n         |             | At least *m*, but no more than *n* instances |
-
-<br>
-
-### Multi-way Relationships
-
-
-![[relation.png|579]]
-
-
-
-**A** and **B** are two sets (collections of things).
-    
-Example:  
-A = {Person1, Person2}  
-B = {Product1, Product2}
-        
-**A × B** (called the "Cartesian product") is **all possible combinations** of one item from A and one item from B.  
-    A × B = { (Person1, Product1), (Person1, Product2), (Person2, Product1), (Person2, Product2) }
-    
-**Relation R** is **some subset** of A × B — meaning R just **picks certain pairs** out of A × B that actually make sense for the relationship you're modeling.
-
-
-![[relation1.png|582]]`,$r=`---
-order: 13
----
-
-Which categories of products were purchased on both 3/1/2025 and 3/3/2025?
-
-\`\`\`
-SELECT *
-FROM Productwithkeys p
-JOIN purchasewithkeys marchfirst
-  ON p.productID = marchfirst.productid
-  AND CONVERT(date, marchfirst.date) = '3/1/2025'
-JOIN purchasewithkeys marchthird
-  ON p.productID = marchthird.productid
-  AND CONVERT(date, marchthird.date) = '3/3/2025'
-\`\`\`
-
-same with WHERE syntax
-\`\`\`
-SELECT *
-FROM Productwithkeys p,
-     purchasewithkeys marchfirst,
-     purchasewithkeys marchthird
-WHERE p.productID = marchfirst.productid
-  AND p.productID = marchthird.productid
-  AND CONVERT(date, marchfirst.date) = '3/1/2025'
-  AND CONVERT(date, marchthird.date) = '3/3/2025'
-\`\`\`
-
-same with CTE
-\`\`\`
-WITH marchfirst AS (
-    SELECT *
-    FROM purchasewithkeys marchfirst
-    WHERE CONVERT(date, date) = '3/1/2025'
-), marchthird AS (
-    SELECT *
-    FROM purchasewithkeys marchthird
-    WHERE CONVERT(date, date) = '3/3/2025'
-)
-SELECT *
-FROM Productwithkeys p, marchfirst mf, marchthird mt
-WHERE p.productID = mf.productid
-  AND p.productID = mt.productid
-\`\`\``,ei=`---
-order: 17
----
-
-![[weakentity.png|550]]
-
-
-- A **weak entity** can't be uniquely identified by its own attributes alone.
-- It **depends** on a **strong entity** (another table/entity) for its **[[Keys#Primary Key|primary key]]**.
-- From the example:
-	**University(name)** → Strong entity (can be identified just by \`name\`).
-	**Team(sport, number, universityName)** → Weak entity (needs \`universityName\` to uniquely identify a Team).
-        
-Without the university's name, you might have multiple teams with the same sport and number — but _which_ university they belong to would be unclear.
-
-
-Why do we care about Weak Entities?
-1. **Avoid Duplicating Keys**:
-    - Instead of copying the whole key into every weak entity, you reference it simply.
-2. **Reflect Logical Structure**:
-    - It models real-world dependency — e.g., a Team exists only **because** a University exists.
-3. **Automatic Deletion**:
-    - If the **strong entity** (like a University) is deleted, the **dependent weak entities** (like its Teams) should automatically be deleted too.
-
-
-### Weak Relationship
-
-A relationship is weak (identifying) only if it connects a weak entity to its owner (strong entity) and is used to define its primary key.`,ti=`---
-order: 19
----
-
-\`\`\`
-CREATE TABLE User (  
-	uid int primary key,  
-	firstName text,  
-	lastName text NOT NULL,  
-	age int CHECK (age > 12 and age < 120),  
-	email text,  
-	phone text,  
-	CHECK (email is not NULL or phone is not NULL)  
-)
-\`\`\`
-
-
-Similar to FK, but not supported
-\`\`\`
-CREATE TABLE Purchase (
-    prodName CHAR(30)
-        CHECK (prodName IN (
-            SELECT Product.name
-            FROM Product
-        )),
-    date DATETIME NOT NULL
-);
-\`\`\`
-
-`,ni=`---
-order: 20
----
-
-
-![[fk.png|574]]
-
-
-
-![[fk1.png|593]]
-
-
-
-What should the DB engine do if execution SQL statement collides with a FOREIGN KEY constraint?
-	For example:  \`DELETE FROM Company WHERE name = ‘lmao’;\`
-		and the Products Table contains Foreign Key entries for  \`cname = ‘Imao’\`
-
-ON DELETE / ON UPDATE Options  
-- NO ACTION  
-	Default behavior; Raises an error and the Delete/Update is rolled back
-- CASCADE
-	Automatically fixes the referencing Table; on UPDATE, corresponding rows are changed
-- SET NULL
-	Automatically fixes the referencing Table; FOREIGN KEY column must be NULLABLE
-- SET DEFAULT  
-	Automatically fixes the referencing Table; FOREIGN KEY column must have DEFAULT value defined
-
-
-\`\`\`
-CREATE TABLE Company (
-	name VARCHAR(100) PRIMARY KEY);
-	CREATE TABLE Product (
-	name VARCHAR(100) PRIMARY KEY,
-	cname VARCHAR(100) REFERENCES Company (name)
-	ON UPDATE CASCADE
-	ON DELETE SET NULL);
-\`\`\`
-
-
-#### Weak Entity Set -> Foreign Key + Cascade Delete  
-\`\`\`
-CREATE TABLE Team (  
-	univname CHAR(30) REFERENCES University(name)  
-	ON DELETE CASCADE ON UPDATE CASCADE,  
-	number int,
-	sport CHAR(30))
-\`\`\`
-`,ri=`---
-order: 18
----
-
-### Database design process
-
-![[dbdesignprocess.png|519]]
-
-
-[[Conceptual Database Design|Conceptual Model]] -> Relational Model
-	+ schema
-	+ constraints
-
-
-![[nnrelationshiptorelation.png|563]]
-
-
-![[n1relationshiptorelation.png|526]]
-
-`,ii=`---
-order: 21
----
-
-
-A subquery is a SQL query nested inside a larger query
-Such inner-outer queries are called nested queries
-A subquery may occur in:
-- A SELECT clause
-- A FROM clause
-- A WHERE clause
-
-In a SELECT clause, must return **a single value** (1 row, 1 column)
-In a FROM clause, returns a **relation** (many rows, many relations), aliased using a tuple variable
-In a WHERE clause, **may** return a **single value** to be compared with another value
-In a WHERE clause, **may** return a **relation** to be used with WHERE EXISTS
-
-
-### Subqueries in SELECT (single value)
-
-For each product return the city where it is manufactured
-\`\`\`
-SELECT X.pname, (SELECT Y.city  
-	FROM Company Y  
-	WHERE Y.cid = X.cid) as City  
-FROM Product X
-\`\`\`
-
-> "Correlated subquery": a subquery that depends on a value from the outer query
-> "Using this product's \`cid\`, find the \`city\` in the \`Company\` table."
-
-
-Same thing as:
-\`\`\`
-SELECT X.pname, Y.city  
-FROM Product X, Company Y  
-WHERE X.cid = Y.cid
-\`\`\`
-
-
-Compute the number of products made by each company
-\`\`\`
-SELECT C.cid, C.cname, (SELECT count(*)
-	FROM Product P  
-	WHERE P.cid = C.cid)  
-FROM Company C
-\`\`\`
-
-Same thing as:
-\`\`\`
-SELECT C.cid, C.cname, count(pname)  
-FROM Company C LEFT JOIN Product P  
-ON C.cid = P.cid  
-GROUP BY C.cid, C.cname
-\`\`\`
-
-> Without LEFT JOIN, companies with no products are excluded
-
-
-### Subqueries in FROM
-
-Find all products whose prices is > 20 and < 500
-
-\`\`\`
-SELECT X.pname  
-FROM (SELECT *  
-	FROM Product AS Y  
-	WHERE price > 20) as X  
-WHERE X.price < 500
-\`\`\`
-
-> Every SQL returns a relation, so you can use it in the FROM clause like any other relation
-
-Sometimes we need to compute an intermediate table only to use it later in a SELECT-FROM-WHERE  
-- Option 1: use a subquery in the FROM clause
-- Option 2: use the [[WITH]] clause  
-
-\`\`\`
-WITH myTable AS (
-	SELECT *
-	FROM Product AS Y
-	WHERE price > 20)
-SELECT X.pname
-FROM myTable as X
-WHERE X.price < 500
-\`\`\`
-
-
-### Subqueries in WHERE
-
-Find all companies that make **some** products with price < 200
-
-Using EXISTS:
-\`\`\`
-SELECT C.cid, C.cname  
-FROM Company C  
-WHERE EXISTS (SELECT *  
-	FROM Product P  
-	WHERE C.cid = P.cid and P.price < 200)
-\`\`\`
-EXISTS returns TRUE if the subquery returns any row
-
-Using IN:
-\`\`\`
-SELECT C.cid, C.cname  
-FROM Company C  
-WHERE C.cid IN (SELECT P.cid  
-	FROM Product P  
-	WHERE P.price < 200)
-\`\`\`
-
-Using ANY:
-\`\`\`
-SELECT C.cid, C.cname  
-FROM Company C  
-WHERE 200 > ANY (SELECT price  
-	FROM Product P  
-	WHERE P.cid = C.cid)
-\`\`\`
-
-> Not supported in some DBMS (avoid)
-
-
-Unnest it:
-\`\`\`
-SELECT DISTINCT C.cid, C.cname  
-FROM Company C, Product P  
-WHERE C.cid = P.cid and P.price < 200
-\`\`\`
-
-
-Find all companies s.t. all their products have price < 200 = Find all companies that make only products with price < 200
-
-
-Find all companies s.t. all their products have price < 200  
-1. Find the other companies that make some product ≥ 200
-
-\`\`\`
-SELECT C.cid, C.cname
-FROM Company C
-WHERE C.cid NOT IN (
-	SELECT P.cid
-	FROM Product P
-	WHERE P.price >= 200
-)
-\`\`\`
-
-2. Find all companies s.t. all their products have price < 200
-
-Another way using EXISTS
-
-\`\`\`
-SELECT C.cid, C.cname
-FROM Company C
-WHERE NOT EXISTS (SELECT *
-	FROM Product P
-	WHERE P.cid = C.cid and P.price >= 200)
-\`\`\`
-
-Using ALL:
-\`\`\`
-SELECT C.cid, C.cname  
-FROM Company C  
-WHERE 200 >= ALL (SELECT price  
-	FROM Product P  
-	WHERE P.cid = C.cid)
-\`\`\`
-
-> Not supported in some DBMS (avoid)`,ai=`---
-order: 23
----
-
-In SQL, ranking functions help us assign ranks to rows based on partitioning and order expressions.
-A [[Window Functions|window]] is just a set of rows that meet certain conditions
-
-Generic syntax:
-\`\`\`
-SELECT 
-  RANK() / DENSE_RANK() / ROW_NUMBER() OVER ( -- Compulsory expression
-    PARTITION BY partitioning_expression -- Optional expression
-    ORDER BY order_expression) -- Compulsory expression
-FROM table_name;
-\`\`\`
-
-
-1. **ROW_NUMBER()**: This function assigns a unique sequential number to each row within a window. It's like numbering the rows in order.
-2. **RANK()**: The\xA0\`RANK()\`\xA0function handles tied values by assigning the same rank to them. However, it may skip subsequent ranks, leaving gaps in the sequence.
-3. **DENSE_RANK()**: Similar to\xA0\`RANK()\`,\xA0\`DENSE_RANK()\`\xA0also handles tied values by assigning the same rank. However, it does not skip ranks, resulting in no gaps in the sequence.
-
-#### Window Function Ranking with ORDER BY
-
-Write a query to display the list of artists sorted in descending order of their concert revenue.
-\`\`\`
-SELECT 
- artist_name, 
- concert_revenue, 
- ROW_NUMBER() OVER (ORDER BY concert_revenue) AS row_num,
- RANK() OVER (ORDER BY concert_revenue) AS rank_num,
- DENSE_RANK() OVER (ORDER BY concert_revenue) AS dense_rank_num
-FROM concerts;
-\`\`\`
-
-|artist_name|concert_revenue|row_num|rank_num|dense_rank_num|
-|---|---|---|---|---|
-|BTS|800000|1|1|1|
-|Beyonce|750000|2|2|2|
-|Ariana Grande|720000|3|3|3|
-|Bruno Mars|700000|4|4|4|
-|Taylor Swift|700000|5|4|4|
-|Justin Bieber|680000|6|6|5|
-|Pink Floyd|670000|7|7|6|
-|Red Hot Chili Peppers|660000|8|8|7|
-|U2|650000|9|9|8|
-|Ed Sheeran|650000|10|9|8|
-
-#### Window Function Ranking with PARTITION BY and ORDER BY
-
-\`\`\`
-SELECT 
-  artist_name, 
-  country,
-  year_of_formation,
-  ROW_NUMBER() OVER (PARTITION BY country ORDER BY year_of_formation) AS row_num,
- RANK() OVER (PARTITION BY country ORDER BY year_of_formation) AS rank_num,
- DENSE_RANK() OVER (PARTITION BY country ORDER BY year_of_formation) AS dense_rank_num
-FROM concerts;
-\`\`\`
-
-|artist_name|country|concert_revenue|row_num|rank_num|dense_rank_num|
-|---|---|---|---|---|---|
-|Rihanna|Barbados|550000|1|1|1|
-|Justin Bieber|Canada|680000|1|1|1|
-|The Weeknd|Canada|620000|2|2|2|
-|BTS|South Korea|800000|1|1|1|
-|Super Junior|South Korea|490000|2|2|2|
-|EXO|South Korea|480000|3|3|3|
-|Got7|South Korea|470000|4|4|4|
-|SHINee|South Korea|470000|5|4|4|
-|Ed Sheeran|United Kingdom|650000|1|1|1|
-|Adele|United Kingdom|600000|2|2|2|
-|One Direction|United Kingdom|580000|3|3|3|
-|...|...|...|...|...|...|
-`,oi=`---
-order: 22
----
-
-Window functions create a new column based on calculations performed on a subset or "window" of the data. The window starts at the first row on a particular column and increases in size unless you constrain the size of the window.
-
-**syntax**
-\`\`\`
-SELECT '(Optional: The data you want to select)',
-[aggregate function]'(The column to perform the aggregate function on)'
-OVER(Optional: PARTITION BY and/or ORDER BY)
-AS '(Descriptive name)' FROM '(corresponding table)';
-\`\`\`
-
-
-\`\`\`
-SELECT 'Day', 'Mile Driving',
-SUM('Miles Driving') OVER(ORDER BY 'Day') AS 'Running Total'
-FROM 'Running total mileage visual';
-\`\`\`
-
-
-Constrain the window to be 3 rows tall:
-\`\`\`
-SELECT 'Day', 'Daily Revenue',
-AVG('Daily Revenue') OVER(ORDER BY 'Day' ROWS 2 PRECEDING)
-AS '3 Day Average' FROM 'Running Average Example';
-\`\`\`
-
-
-Window functions also works on partitioned data. It first sorts the data then applies the aggregate function on these groups.
-
-\`\`\`
-SELECT 'Day', 'Weekend', 'Daily Revenue',
-SUM('Daily Revenue') OVER(PARTITION BY 'Weekend') AS 'Total'
-FROM 'Partitioned Total Example';
-\`\`\`
-
-
-### Organizing with Window Functions
-
-#### Rows
-\`\`\`
-SELECT '(The data you want to select)',
-[aggregate function]'(The column to perform the aggregate function on)'
-OVER(ROWS [# of rows you want to aggregate - 1] PRECEDING/FOLLOWING)
-AS '(descriptive name)'
-FROM '(appropriate table)';
-\`\`\`
-
-
-\`\`\`
-SELECT *,
-AVG('Daily Revenue')
-OVER(ROWS 2 PRECEDING)
-AS '3 Day Average'
-FROM 'Running Average Example'
-\`\`\`
-
-\`\`\`
-SELECT *,
-AVG('Daily Revenue')
-OVER(ROWS 2 FOLLOWING)
-AS '3 Day Average'
-FROM 'Running Average Example'
-\`\`\`
-
-
-#### PARTITION BY
-
-\`\`\`
-SELECT '(The data you want to select)',
-[aggregate function]'(The column to perform the aggregate function on)'
-OVER(PARTITION BY [category to group by]) AS '(descriptive name)'
-FROM '(appropriate table)';
-\`\`\`
-
-\`\`\`
-SELECT Track.Name, Track.Milliseconds
-AVG(Track.Milliseconds) OVER(PARTITION BY Track.GenreId)
-AS 'AverageSongLength'
-FROM 'Track' ORDER BY Track.Name ASC LIMIT 20;
-\`\`\`
-
-
-### Summary
-
-- A window function does not cause rows to become [[GROUP BY|grouped]] into a single output row, it creates a whole output column.
-- A window function can be broken into groups and organized easily with keywords like: PARTITION BY and ORDER BY.
-	- PARTITION BY- Divides the aggregate function results between different groupings of data.
-	- ORDER BY- Organize the data being worked on by the aggregate functions and create running calculations`,si=`---
-order: 26
----
-
-(recall [[Normalization#BCNF (Boyce-Codd Normal Form)|BCNF]]: For **every [[Functional dependencies|functional dependency]]** \`X → Y\`, \`X\` must be a **[[Keys#Super key|superkey]]**)
-
-### Step 1
-
-Check which functional dependencies of R are not in BCNF, if they're all in BCNF we do not need to decompose R.
-
-AB -> CD
-D -> E
-A -> C
-B -> D
-
-{AB}<sup>+</sup> = {A,B,C,D,E} -> CK: AB
-
-AB -> CD
-D -> E (violates BCNF)
-A -> C
-B -> D
-
-
-### Step 2
-
-Create two sub-relations:
-1. {X}<sup>+</sup>
-2. R - {X}<sup>+</sup> + X
-
-AB -> CD
-D -> E ->  {D}<sup>+</sup> = {D, E} -> R<sub>1</sub>(DE), R<sub>2</sub>(ABCD)
-A -> C
-B -> D
-
-
-### Step 3
-
-For each sub-relation we check if all of its functional dependencies are now in BCNF
-- if they are we keep the sub-relation as it is
-- if not, do Step 2 again for the sub-relation's dependency that does not satisfy BCNF
-
-R<sub>1</sub>(DE)
-CK = D
-D -> E (BCNF)
-
-R<sub>2</sub>(ABCD)
-CK = AB
-AB -> CD (BCNF)
-A -> C (not in BCNF)
-B -> D
-
-R<sub>3</sub>(AC)
-CK = A
-A -> C (BCNF)
-
-R<sub>4</sub>(ABD)
-CK = AB
-AB -> D (BCNF)
-B -> D (not in BCNF)
-
-R<sub>5</sub>(BD)
-CK = B
-B -> D (BCNF)
-
-R<sub>6</sub>(AB)
-CK = AB
-AB -> AB (BCNF)
-
-
-### Step 4
-
-Final decomposition is composed of sub-relations that all their functional dependencies hold BCNF
-
-
-R<sub>1</sub>(DE)
-D -> E
-
-R<sub>3</sub>(AC)
-A -> C
-
-R<sub>5</sub>(BD)
-B -> D
-
-R<sub>6</sub>(AB)
-AB -> AB`,ci=`---
-order: 24
----
-
-A **functional dependency** is a constraint that describes a relationship between attributes (columns) in a relation (table).
-
- >If two tuples agree on attribute X, they must also agree on the attributes Y
-   \`X -> Y\`
-
-X functionally determines Y.
-
-
-If you have a table \`Students\` with attributes:
-\`StudentID, Name, Major)\`
-
-and each student has a unique \`StudentID\`, then:
-\`StudentID -> Name, Major\`
-
-Means knowing the StudentID uniquely determines the Name and Major.
-
-If we can be sure that *every instance* of R (relational schema) will be one in which a given FD is true, then we say that R satisfies the FD
-
-### Additional Rules
-
-If X → Y and X → Z, then X → YZ
-
-If X → YZ, then X → Y and X → Z
-
-If X → Y and WY → Z, then WX → Z
-`,li=`---
-order: 25
----
-
-**Normalization** is a **process** in database design used to:
-- Eliminate redundancy
-- Prevent update anomalies
-- Ensure data integrity
-
-Normal forms are levels or stages of normalization.
-
-#### 1NF (First Normal Form)
-- All values in each column must be **atomic** (i.e., indivisible).
-- No repeating groups or arrays.
-
-| StudentID | CourseID | StudentName |
-| --------- | -------- | ----------- |
-| 1         | C101     | Alice       |
-| 1         | C102     | Alice       |
-| 2         | C101     | Bob         |
-
-\`StudentName\` depends **only on StudentID**, not the full key → **partial dependency**
-
-#### 2NF (Second Normal Form)
-- Must be in **1NF**
-- **No partial dependency**: No non-key attribute should depend on **part of a composite key**
-
-|EmployeeID|DeptID|DeptName|
-|---|---|---|
-|1|10|Sales|
-|2|20|HR|
-|3|10|Sales|
-
-\`DeptID → DeptName\` (transitive: \`EmployeeID → DeptID → DeptName\`)
-
-#### 3NF (Third Normal Form)
-- Must be in **2NF**
-- No **transitive dependency**: Non-key attributes shouldn’t depend on **other non-key attributes**
-	- transitive dependency: A non-key attribute depends on another non-key attribute, which in turn depends on the key.
-
-|Course|Instructor|Room|
-|---|---|---|
-|Math101|Smith|R1|
-|CS102|Jones|R2|
-|Math101|Smith|R1|
-
-**Instructor** is not a key, but it's determining \`Room\` → violates BCNF
-
-#### BCNF (Boyce-Codd Normal Form)
-- Must be in **3NF**
-- For **every functional dependency** \`X → Y\`, \`X\` must be a **superkey**
-
-| Student | Language | Hobby  |
-| ------- | -------- | ------ |
-| Alice   | French   | Music  |
-| Alice   | French   | Sports |
-| Alice   | Spanish  | Music  |
-| Alice   | Spanish  | Sports |
-
-#### Relational Schema Design  (or Logical Design)  
-
-• Start with some relational schema  
-• Find out its [[Functional dependencies|functional dependencies]] (FDs)  
-• Use FDs to normalize the relational schema  
-
-
-One person may have multiple phones, but lives in only one city  
-Primary key is thus (SSN, PhoneNumber)
-What's wrong?
-
-| Name | SSN         | PhoneNumber  | City      |
-| ---- | ----------- | ------------ | --------- |
-| Fred | 123-45-6789 | 206-555-1234 | Seattle   |
-| Fred | 123-45-6789 | 206-555-6543 | Seattle   |
-| Joe  | 987-65-4321 | 908-555-2121 | Westfield |
-| Joe  | 987-65-4321 | 908-555-1234 | Westfield |
-
-The only key is: \`{SSN, PhoneNumber}\`
-Hence \`SSN -> Name, City\` is a “bad” dependency  
-- Why? Partial dependency
-	- partial dependency: when a non-key attribute depends on part of a composite key, not the full key
-
-In other words:  
-SSN<sup>+</sup> = SSN, Name, City and is neither SSN nor All Attributes  
-- Is not enough to uniquely identify tuples
-- But it's also not trivial (more than just itself)
-
-
-> \`SSN⁺\` : the **closure** of the attribute \`SSN\`, meaning the set of attributes functionally determined by SSN.
-> \`SSN⁺ = {SSN, Name, City}\`
-
-#### Example BCNF Decomposition
-
-| Name | SSN         | City      |
-|------|-------------|-----------|
-| Fred | 123-45-6789 | Seattle   |
-| Joe  | 987-65-4321 | Westfield |
-
-| SSN         | PhoneNumber   |
-|-------------|---------------|
-| 123-45-6789 | 206-555-1234  |
-| 123-45-6789 | 206-555-6543  |
-| 987-65-4321 | 908-555-2121  |
-| 987-65-4321 | 908-555-1234  |
-`,ui=`---
-order: 27
----
-
-### Views
-
-\`\`\`
-CREATE VIEW oldCats as 
-    SELECT *
-    FROM Cats
-    WHERE age > 4
-\`\`\`
-
-- Views are virtual tables based on SELECT queries.
-- Do not store data themselves — just a saved query.
-- Auto-update if base table data changes.
-- Can be queried like regular tables.
-
-### Temp tables
-
-\`\`\`
-CREATE TABLE #temp_customers (
-    id INT,
-    age INT
-)
-
-SELECT * FROM #temp_customers
-
-DROP TABLE IF EXISTS #temp_customers
-\`\`\`
-
-
-- lives only during current session.
-- Good for storing intermediate results in scripts
-`,di=`---
-order: 28
----
-
-- SQL = a declarative language where we say what data we want to retrieve
-- RA = an algebra where we say how we want to retrieve the data
-- RDMS translates SQL to RA then optimizes for performance
-
-
-## RA Operators
-
-- $\\pi / \\Pi$: SELECT, projection
-- $\\sigma$ (sigma): WHERE, selection
-- $\\gamma$ (gamma): grouping & aggregation
-- $\\bowtie$: JOIN
-- ⟕: LEFT OUTER JOIN
-- ⟖: RIGHT OUTER JOIN
-- ⟗: FULL OUTER JOIN
-- $\\times$: cartesian product, \`FROM T, S\` with no WHERE
-- $\\cup$: UNION
-- $\\cap$: intersection; INTERSECT
-- $-$: difference; EXCEPT
- - $\\tau$ (tau): sort
-- $\\delta$ (delta): duplicate elimination; SELECT DISTINCT
-- $\\rho$ (rho): rename
-
-#### Unary operator
-
-Projection removes unspecified columns
-
-![[file-20261021104552477.png|478]]
-
-
-Selection filters tuples from the input
-
-![[file-20261021104617526.png|493]]
-
-
-#### Binary operator
-
-Joins inputs relations on the specified condition
-
-![[file-20261021104647531.png|577]]
-
-
-## English to SQL to RA Example
-
-![[file-20261021105014177.png|578]]
-
-`,fi=`---
-order: 29
----
-
-## Concurrency Anomalies
-
-Dirty/Inconsistent Read
-- reading another transaction's uncommitted write
-	• Write-Read (WR) conflict
-
-Unrepeatable Read
-- happens when data is read prior to a change
-	-  Read-Write (RW) conflict
-
-Phantom Read
-- happens when data is read prior to an addition/deletion
-	• Read-Write (RW) conflict
-
-lost update
-- when a write "disappears"
-	- A Write-write (WW) conflict
-
-
-## Transactions & ACID
-
-#### ACID
-
-- Atomic
-	- A transaction is atomic if everything works or nothing happens
-- Consistent
-	- Transaction start in a valid state and end in a valid state
-- Isolated
-	- behaves as if it were the only transaction running
-	- The most important feature of ACID
-- Durable
-	- Crash recovery: committed changes survive crashes
-		- What if the database fails in the middle of our atomic transaction?
-
-
-## Schedules & Serializability
-
-Transactions are sequence of element reads and/or writes
-• $R_i(A) \\space \\rightarrow$ read element A
-• $W_i(A) \\space \\rightarrow$ update element A
-
-Schedules are a sequence of interleaved actions from all transactions
-
-#### Serial Schedules
-
-A **serial schedule** is a schedule where each transaction is executed in some order, one after the other
-
-A **serializable schedule** is a schedule where transactions are executed with possible interleaving, but it appears to the outside as if they were executed in serial order
-
-
-## Conflict Serializability
-
-We define operation “conflicts” and check for their interactions in a schedule
-
-Most application concurrency problems are describable by conflicts
-- Lost Update $\\rightarrow$ Write-Write (WW) conflict
-- Dirty Read $\\rightarrow$ Write-Read (WR) conflict
-- Unrepeatable Read $\\rightarrow$ Read-Write (RW) conflict
-- Phantom Read
-
-Types of Conflicts
-- Intra-transaction conflicts
-	- Operations within a transaction cannot be swapped
-- Inter-transaction conflicts
-	- WW conflicts $\\rightarrow$ $W_1(X)$, $W_2(X)$
-	- WR conflicts $\\rightarrow$ $W_1(X)$, $R_2(X)$
-	- RW conflicts $\\rightarrow$ $R_1(X)$, $W_2(X)$
-
-
-A schedule is **conflict serializable** if it can be transformed into a serial schedule by a series of swappings of adjacent non-conflicting actions
-
-![[file-20261102111700596.png|598]]
-
-
-
-## Precedence Graphs
-
-Rules:
-- one node per transaction
-- draw an edge $T_i \\rightarrow T_j$ whenever an action of $T_i$ conflicts with a later action of $T_j$
-- no cycle $\\rightarrow$ conflict-serializable. cycle $\\rightarrow$ not conflict-serializable
-
-Faster way:
-instead of comparing every pair, list each element's actions in order. Then look for cross-transaction pairs where at least one is a write
-
-
-## Locks &  2PL
-
-scheduler
-- optimistic: execute first, check later
-	- cheap overhead, expensive aborts $\\rightarrow$ good for low retention
-- pessimistic (locking): prevent conflicts up front
-	- expensive overhead, cheap aborts $\\rightarrow$ good for high retention
-	- use in class
-
-binary locks
-- $L_i(X) \\rightarrow$ txn i locks X (required before R or W on X)
-- $U_i(X) \\rightarrow$ txn i unlocks X
-- if another txn holds the lock $\\rightarrow$ wait (“blocking”)
-- lock granularity depends on the DBMS
-    - SQLite $\\rightarrow$ whole database only
-    - MySQL, SQL Server, Oracle $\\rightarrow$ row or table
-
-#### 2-Phase Locking
-
-rule: in every txn, all lock requests come before all unlock requests
-- growing phase (only lock) $\\rightarrow$ shrinking phase (only unlock)
-
-2PL guarantees conflict serializability
-each txn acts as if it ran all at once at the moment it starts unlocking
-
-#### Deadlocks
-
-a side effect of 2PL: txns hold locks while waiting for more
-
-\`\`\`
-T1 (A,B): L(A) ... L(B) blocked   (T2 has B)
-T2 (B,C): L(B) ... L(C) blocked   (T3 has C)
-T3 (C,D): L(C) ... L(D) blocked   (T4 has D)
-T4 (D,A): L(D) ... L(A) blocked   (T1 has A)
-\`\`\`
-
-the DBMS builds a waits-for graph, and a cycle means deadlock
-
-
-## Strict 2PL & Recoverability
-
-
-- Every isolation level uses strict 2PL X locks for writes
-- The only thing that changes between levels is how long read locks are held
-- Less read locking → faster, but more anomalies possible
-- Set it with:
-\`\`\`sql
-SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
-\`\`\`
-- Default level depends on the DBMS
-
-#### Summary (fast → correct)
-| Level            | Read locks                                | Dirty read | Unrepeatable read | Phantom   |
-| ---------------- | ----------------------------------------- | ---------- | ----------------- | --------- |
-| READ UNCOMMITTED | none                                      | possible   | possible          | possible  |
-| READ COMMITTED   | short: lock → read → unlock right away    | prevented  | possible          | possible  |
-| REPEATABLE READ  | held until commit (strict 2PL)            | prevented  | prevented         | possible  |
-| SERIALIZABLE     | held until commit + table/predicate locks | prevented  | prevented         | prevented |
-
-#### READ UNCOMMITTED
-
-- Reads: no locks
-- Problem: dirty reads, since you can read a write that hasn't committed
-- Fastest level
-- Use case: static data, or reads where accuracy isn't critical
-
-#### READ COMMITTED
-
-- Reads: short S locks (acquire, read, release immediately)
-- Fixes dirty reads: S must wait for X, and X is held until commit, so you only see committed data
-- Problem: unrepeatable reads, since S is released before the txn ends
-- Use case: e-commerce ("only 2 left in stock" was true when you read it, but may change)
-
-#### REPEATABLE READ
-
-- Reads: S locks held until commit (strict 2PL)
-- Fixes unrepeatable reads: no one can write what you've read until you're done
-- This is full strict 2PL → conflict serializable
-- Problem: phantoms are still possible`,pi=`
+### Graphs`,Lr=`
 \`\`\`
 // node.js framework for web server
 import express from 'express';
@@ -6456,7 +4457,7 @@ import cookieParser from 'cookie-parser';
 app.use(cookieParser());
 \`\`\`
 
-`,mi=`
+`,Rr=`
 create npm project with \`npm init\`
 
 then \`enter\` / \`return\` through all stuff
@@ -6485,7 +4486,7 @@ for random errors
 \`\`\`
 npm uninstall express
 npm install express@4.20.0
-\`\`\``,hi="\n```\nresponse = await fetch(url)\nresponseText = await response.text()\n```",gi=`---
+\`\`\``,zr="\n```\nresponse = await fetch(url)\nresponseText = await response.text()\n```",Br=`---
 order: 0
 ---
 
@@ -6513,7 +4514,7 @@ app.listen(3000, () => {
 })
 
 \`\`\`
-`,_i=`---
+`,Vr=`---
 order: 3
 ---
 
@@ -6636,7 +4637,7 @@ img {
     max-height: 300px;
     max-width: auto;
 }
-\`\`\``,vi=`---
+\`\`\``,Hr=`---
 order: 1
 ---
 
@@ -6720,7 +4721,7 @@ button {
     color: white;
     border-color: skyblue;
 }
-\`\`\``,yi=`---
+\`\`\``,Ur=`---
 order: 2
 ---
 
@@ -6814,7 +4815,7 @@ button {
     color: white;
     border-color: skyblue;
 }
-\`\`\``,bi=`---
+\`\`\``,Wr=`---
 order: 5
 ---
 
@@ -6843,7 +4844,7 @@ order: 5
         
 - **POST Request (with JSON body)**:
     - Used to **save user info**.
-    - Sends data to server, which writes to \`userData.json\`.`,xi=`
+    - Sends data to server, which writes to \`userData.json\`.`,Gr=`
 Model-View-Controller
 
 A way of organizing full stack web application code
@@ -6892,7 +4893,7 @@ project-root/
 └── .gitignore
 \`\`\`
 
-`,Si=`---
+`,Kr=`---
 order: 7
 ---
 
@@ -6914,7 +4915,7 @@ app.use(function (req, res, next) {
 \`\`\`
 
 
-`,Ci=`---
+`,qr=`---
 order: 6
 ---
 
@@ -6944,7 +4945,7 @@ export default models
 
 > remember to edit IP access list
 
-![[ipaccesslist.png|646]]`,wi=`---
+![[ipaccesslist.png|646]]`,Jr=`---
 order: 4
 ---
 
@@ -7057,7 +5058,7 @@ async function getPterosaurs() {
 
     document.getElementById("results").innerHTML = pterosaurHtml
 }
-\`\`\``,Ti=`---
+\`\`\``,Yr=`---
 order: 10
 ---
 
@@ -7148,7 +5149,7 @@ router.get('/', function(req, res, next) {
 });
 
 export default router;
-\`\`\``,Ei=`---
+\`\`\``,Xr=`---
 order: 8
 ---
 
@@ -7335,7 +5336,7 @@ async function createUser(){
         }
     })
 }
-\`\`\``,Di=`---
+\`\`\``,Zr=`---
 order: 9
 ---
 
@@ -7420,7 +5421,7 @@ app.listen(3000, ()=>{
 \`\`\`
 
 
-`,Oi=`---
+`,Qr=`---
 order: 11
 ---
 
@@ -7621,7 +5622,7 @@ app.get('/signout', (req, res, next) => {
     
 });
 app.use(authProvider.interactionErrorHandler());
-\`\`\``,ki=`---
+\`\`\``,$r=`---
 order: 13
 ---
 
@@ -7920,7 +5921,7 @@ async function deleteUser(id){
         })
     })
 }
-\`\`\``,Ai=`---
+\`\`\``,ei=`---
 order: 12
 ---
 
@@ -8199,7 +6200,7 @@ async function deleteUser(id){
         })
     })
 }
-\`\`\``,ji=`---
+\`\`\``,ti=`---
 order: 14
 ---
 
@@ -8282,7 +6283,7 @@ index.html
     <div id = "output"></div>
 </body>
 </html>
-\`\`\``,Mi=`---
+\`\`\``,ni=`---
 order: 18
 ---
 
@@ -8492,7 +6493,7 @@ router.post('/create-payment-intent', async (req, res) => {
 })
 
 export default router;
-\`\`\``,Ni=`---
+\`\`\``,ri=`---
 order: 16
 ---
 
@@ -8806,7 +6807,7 @@ function setLoading(isLoading) {
     document.querySelector("#button-text").classList.remove("hidden");
   }
 }
-\`\`\``,Pi=`---
+\`\`\``,ii=`---
 order: 15
 ---
 
@@ -9002,7 +7003,7 @@ export default app;
 
 
 
-![[5-12demo.png|650]]`,Fi=`---
+![[5-12demo.png|650]]`,ai=`---
 order: 17
 ---
 
@@ -9129,7 +7130,7 @@ package.json
     "mocha": "^11.4.0"
   }
 }
-\`\`\``,Ii=`---
+\`\`\``,oi=`---
 order: 19
 ---
 
@@ -9228,7 +7229,7 @@ ENTRYPOINT ["npm", "start"]
 docker build -t amelial9/node-app .
 docker run -d -p 4000:3000 amelial9/node-app
 \`\`\`
-`,Li=`---
+`,si=`---
 order: 0
 ---
 
@@ -9390,7 +7391,7 @@ print("zero!")
 // -2...
 // -1...
 // zero!
-\`\`\``,Ri=`---
+\`\`\``,ci=`---
 order: 1
 ---
 
@@ -9439,7 +7440,7 @@ struct SundaeToppings {
     }
 }
 \`\`\`
-This macro sets "nuts", "cherry", and "fudge" to be "bit flags" values (1, 2, 4, ...)`,zi=`---
+This macro sets "nuts", "cherry", and "fudge" to be "bit flags" values (1, 2, 4, ...)`,li=`---
 order: 2
 ---
 
@@ -9524,7 +7525,7 @@ Use "init!"
 	Makes the receiving reference an optional
 
 
-`,Bi=`---
+`,ui=`---
 order: 4
 ---
 
@@ -9558,7 +7559,7 @@ protocol DiceGameDelegate {
     func gameDidEnd(game: DiceGame)
 }
 \`\`\`
-`,Vi=`---
+`,di=`---
 order: 5
 ---
 
@@ -9592,7 +7593,7 @@ if let value = p.value(forKey: "firstName") {
 \`\`\`
 
 
-`,Hi=`
+`,fi=`
 ### Error handling
 
 An example class:
@@ -9665,7 +7666,7 @@ catch {
 }
 \`\`\`
 
-`,Ui=`---
+`,pi=`---
 order: 3
 ---
 
@@ -9710,7 +7711,7 @@ class LinearCongruentialGenerator:
       return lastRandom / m
     }
 }
-\`\`\``,Wi=`---
+\`\`\``,mi=`---
 order: 6
 ---
 
@@ -9748,7 +7749,7 @@ class SomeClass: NSObject {
 }
 let selectorForMethod = #selector(SomeClass.doSomething(_:))
 let selectorForPropertyGetter = #selector(getter: SomeClass.property)
-\`\`\``,Gi=`
+\`\`\``,hi=`
 Label (UILabel)
 	simplest of them all: read-only text
 Image (UIImage View)
@@ -9760,7 +7761,7 @@ TextView (UITextView)
 Button (UIButton)
 	simple push-action with a label
 Switch (UISwitch)
-	simple toggle-switch between one value and another`,Ki=`
+	simple toggle-switch between one value and another`,gi=`
 Provides:
 	A view controller model to encapsulate the contents of your user interface
 	Handling touch- and motion-based events
@@ -9770,7 +7771,7 @@ Provides:
 	Animating user-interface content
 	A document model that includes iCloud integration
 
-`,qi=`---
+`,_i=`---
 order: 7
 ---
 
@@ -9810,7 +7811,2006 @@ XCTAssert...: assertion functions
 	XCTAssertNotEqual: two expressions are inequal
 	... and a few others
 	all overloaded to take a trailing "message" argument
-		this message is what's displayed when the test fails`,Ji=`---
+		this message is what's displayed when the test fails`,vi=`---
+order: 1
+---
+
+There are multiple ways to join tables, with the two below being among the most common:
+
+\`\`\`
+SELECT DISTINCT cname  
+FROM Product, Company  
+WHERE manufacturer = cname
+\`\`\`
+
+\`\`\`
+SELECT DISTINCT cname  
+FROM Product
+JOIN Company
+ON manufacturer = cname
+\`\`\`
+
+
+#### A simple JOIN example
+
+
+\`Product\` 
+
+| pname     | category | manufacturer |
+|-----------|----------|--------------|
+| Gizmo     | gadget   | GizmoWorks   |
+| Camera    | Photo    | Hitachi      |
+| OneClick  | Photo    | Hitachi      |
+
+\`Company\`
+
+| cname      | country |
+|------------|---------|
+| GizmoWorks | USA     |
+| Canon      | Japan   |
+| Hitachi    | Japan   |
+
+\`\`\`
+SELECT DISTINCT cname  
+FROM Product p, Company c
+WHERE p.manufacturer = c.cname;
+\`\`\`
+
+| cname      |
+|------------|
+| GizmoWorks |
+| Hitachi    |
+
+
+#### (Inner) JOIN
+
+\`FROM Product, Company\`
+*"From <u><i>all possible combinations</i></u> of product of company"*
+
+\`WHERE\`
+*"... choose only those results where the manufacturer of the product is the same as the company name"*
+
+\`SELECT DISTINCT cname\`
+*"... then display only the unique company names."*
+
+| id  | name |
+| --- | ---- |
+| 1   | Joe  |
+| 2   | Jack |
+| 3   | Jill |
+
+| employeeID | productID |
+| ---------- | --------- |
+| 1          | 344       |
+| 1          | 355       |
+| 2          | 544       |
+
+\`\`\`
+SELECT *
+FROM Employee E, Sales S
+WHERE E.id = S.employeeID
+\`\`\`
+
+| id  | name | employeeID | productID |
+| --- | ---- | ---------- | --------- |
+| 1   | Joe  | 1          | 344       |
+| 1   | Joe  | 1          | 355       |
+| 2   | Jack | 2          | 544       |
+
+alternative syntax:
+\`\`\`
+SELECT *
+FROM Employee E
+	INNER JOIN
+	Sales S
+	ON E.id = S.employeeID
+\`\`\`
+
+Retrieve employees and their sales:
+\`\`\`
+SELECT *
+FROM Employee E
+	LEFT OUTER JOIN
+	Sales S
+	ON E.id = S.employeeID
+\`\`\`
+
+| id  | name | employeeID | productID |
+| --- | ---- | ---------- | --------- |
+| 1   | Joe  | 1          | 344       |
+| 1   | Joe  | 1          | 355       |
+| 2   | Jack | 2          | 544       |
+| 3   | Jill | null       | null      |
+
+
+#### Outer JOIN
+
+\`Employee\`
+
+| id  | name |
+| --- | ---- |
+| 1   | Joe  |
+| 2   | Jack |
+| 3   | Jill |
+
+\`Sales\`
+
+| employeeID | productID |
+|------------|-----------|
+| 1          | 344       |
+| 1          | 355       |
+| 2          | 544       |
+
+\`\`\`
+-- Retrieve employees and their sales
+
+SELECT *
+FROM Employee E
+LEFT OUTER JOIN Sales S
+ON E.id = S.employeeID;
+\`\`\`
+
+
+| id | name | employeeID | productID |
+|----|------|------------|-----------|
+| 1  | Joe  | 1          | 344       |
+| 1  | Joe  | 1          | 355       |
+| 2  | Jack | 2          | 544       |
+| 3  | Jill | NULL       | NULL      |
+
+\`FROM Employee E LEFT OUTER JOIN Sales S\`  
+_Start with all rows from the \`Employee\` table, and include matching rows from \`Sales\` — if there is no match, still include the employee with [[NULL]]s for sales data._
+`,yi=`---
+order: 0
+---
+A relation R has a set of attributes A, B, C, ...
+	*– e.g., cname, country, no_employees, for_profit*
+An attribute A has a domain SA
+	*– The domain is the set of allowed values.
+	– Ex: no_employees: Domain is the set of all integers
+	– Ex: cname: Domain is the set of all text shorter than 20 chars*
+A Relation R is subset of S1 x S2 x ... x Sn
+	*– Where Si is the domain of attribute i
+	– n is number of attributes of the relation
+	– Example:
+		Think of all possible tuples Integer X Varchar X Varchar
+		A tuple (234, Bill, Howe) is one of these.
+		A relation is a set of these tuples*
+		INFO 330 – Au 2024 4
+
+
+
+Each attribute has a type
+Types are enforced
+
+
+
+\`INT\` / \`INTEGER\` *-2,147,483,648 to 2,147,483,647*
+
+\`SMALLINT\` *32,768 to 32,767*
+
+\`BIGINT\` *-9,223,372,036,854,775,808 to 9,223,372,036,854,775,807*  
+
+\`DECIMAL(p,s)\` *exact numeric, precision p, scale s*
+
+\`FLOAT(p)\` *approximate numeric, precision p (precision in binary digits)*
+
+\`DATE\` *(YYYY-MM-DD)*
+
+\`TIME\` *(HH:MM:SS)*
+
+\`CHAR(n)\` *fixed-length string*
+
+\`NCHAR(n)\` *fixed-length Unicode string*
+
+\`VARCHAR(n)\` *variable-length string*
+
+\`NVARCHAR(n)\` *variable-length Unicode string*
+
+\`BIT(BOOLEAN)\` *TRUE/FALSE/NULL*
+
+`,bi=`---
+order: 6
+---
+
+**Company Table**
+
+| cname   | country | no_employees | for_profit |
+|---------|---------|--------------|------------|
+| Canon   | Japan   | 50000        | Y          |
+| Hitachi | Japan   | 30000        | Y          |
+
+\`\`\`
+CREATE TABLE Company (
+  cname VARCHAR(30),
+  country VARCHAR(20),
+  no_employees INT,
+  for_profit BOOLEAN
+);
+\`\`\`
+
+or:
+
+\`\`\`
+CREATE TABLE Company (
+  cname VARCHAR(30) PRIMARY KEY,
+  country VARCHAR(20),
+  no_employees INT,
+  for_profit BOOLEAN
+);
+\`\`\`
+
+
+---
+
+Product(<u>name</u>, category)
+
+\`\`\`
+CREATE TABLE Product (
+  name CHAR(30) PRIMARY KEY,
+  category VARCHAR(20)
+);
+\`\`\`
+
+or:
+
+\`\`\`
+CREATE TABLE Product (  
+	name CHAR(30),  
+	category VARCHAR(20),  
+	PRIMARY KEY (name))  
+\`\`\`
+
+
+
+### Keys with multiple attributes
+
+Product(<u>name</u>, <u>category</u>, price)
+
+\`\`\`
+CREATE TABLE Product (  
+	name CHAR(30),  
+	category VARCHAR(20),  
+	price INT,  
+	PRIMARY KEY (name, category)  
+)
+\`\`\`
+
+| **Name** | **Category** | **Price** |
+| -------- | ------------ | --------- |
+| Gizmo    | Gadget       | 10        |
+| Camera   | Photo        | 20        |
+| Gizmo    | Photo        | 30        |
+| Gizmo    | Gadget       | 40        |
+
+
+### Other keys
+
+\`\`\`
+CREATE TABLE Product (  
+	productID CHAR(10),  
+	name CHAR(30),  
+	category VARCHAR(20),  
+	price INT,  
+	PRIMARY KEY (productID),  
+	UNIQUE (name, category))
+\`\`\`
+
+There is at most one **PRIMARY KEY**;  
+there can be many **UNIQUE**
+
+| Feature            | PRIMARY KEY                 | UNIQUE                                         |
+| ------------------ | --------------------------- | ---------------------------------------------- |
+| Ensures uniqueness | ✅ Yes                       | ✅ Yes                                          |
+| Allows NULL values | ❌ No (NULL not allowed)     | ✅ Yes (unless you say otherwise)               |
+| Number per table   | ❗Only one allowed           | ✅ You can have multiple UNIQUE constraints     |
+| Main identity      | ✅ Used to identify each row | ❌ Just used to enforce rules, not row identity |
+
+
+### Foreign key constraints
+
+\`\`\`
+CREATE TABLE Purchase (  
+	prodName CHAR(30) REFERENCES Product(name),  
+	date DATETIME)
+\`\`\`
+
+prodName is a [[Keys#Foreign key|foreign key]] to Product(name)  
+name must be a key in Product
+
+Example:
+\`\`\`
+CREATE TABLE Purchase (  
+	prodName CHAR(30),  
+	category VARCHAR(20),  
+	date DATETIME,  
+	FOREIGN KEY (prodName, category)  
+	REFERENCES Product(name, category)
+\`\`\`
+- (name, category) must be a KEY in Product
+
+`,xi=`---
+order: 3
+---
+
+All relations must be flat: we say that the relation is in *first normal form*  
+- Every cell holds a single value  
+- Table is two-dimensional – just rows and columns  
+- No nested structures (arrays, objects, sub-tables)
+
+### ❌ Not in 1NF:
+
+| StudentID | Name  | Courses           |
+|-----------|-------|-------------------|
+| 1         | Alice | Math, Physics     |
+| 2         | Bob   | English, History  |
+
+### ✅ 1NF (Flat Table):
+
+| StudentID | Name  | Course   |
+|-----------|-------|----------|
+| 1         | Alice | Math     |
+| 1         | Alice | Physics  |
+| 2         | Bob   | English  |
+| 2         | Bob   | History  |
+`,Si=`---
+order: 7
+---
+
+\`\`\`
+INSERT Product(name, category)  
+VALUES (‘gizmo’, ‘toy'),  
+	(‘digicam’, ‘camera’)  
+\`\`\`
+
+You can specify which columns you’re providing.  
+
+You can insert multiple records with one  statement. Often much faster than a separate statement for each record.
+
+---
+
+\`\`\`
+UPDATE Product
+SET category = ‘toy’
+WHERE name = ‘digicam’
+\`\`\`
+You can make multiple changes with one statement  
+ALL records that match this condition will be updated.
+
+---
+
+\`\`\`
+DELETE FROM Product  
+WHERE category = ‘toy’
+\`\`\`
+
+ALL records that match this condition will be updated.
+`,Ci=`---
+order: 2
+---
+
+key = one (or more) attributes that uniquely identify a record
+
+
+### Primary Key
+
+The one key the db designer picks to be the main way of identifying rows
+
+| student_id | first_name | last_name | major       |
+| ---------- | ---------- | --------- | ----------- |
+| 1          | Alice      | Smith     | Informatics |
+| 2          | Bob        | Lee       | CS          |
+| 3          | Carol      | Johnson   | Informatics |
+\`\`\`
+-- two ways for assigning PK
+
+CREATE TABLE students (
+    student_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    major VARCHAR(50)
+);
+
+CREATE TABLE students (
+    student_id INT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    major VARCHAR(50),
+    PRIMARY KEY (student_id)
+);
+\`\`\`
+
+
+
+
+### Multi-attribute keys
+
+| fName | lName    | Income | Department |
+| ----- | -------- | ------ | ---------- |
+| Alice | Smith    | 20000  | Testing    |
+| Alice | Thompson | 50000  | Testing    |
+| Bob   | Thompson | 30000  | SW         |
+| Carol | Smith    | 50000  | Testing    |
+
+
+
+### Surrogate keys
+
+| id    | fName | lName    | Income | Department |
+| ----- | ----- | -------- | ------ | ---------- |
+| 11111 | Alice | Smith    | 20000  | Testing    |
+| 22222 | Alice | Thompson | 50000  | Testing    |
+| 33333 | Bob   | Thompson | 30000  | SW         |
+| 44444 | Carol | Smith    | 50000  | Testing    |
+\`\`\`
+CREATE TABLE employees (
+    employee_id INT IDENTITY(1,1) PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    department VARCHAR(100)
+);
+
+INSERT INTO employees (first_name, last_name, department)
+VALUES ('Amelia', 'Smith', 'Informatics');
+
+SELECT * FROM employees;
+
+-- dont need to insert primary key
+\`\`\`
+
+
+
+### Super key
+
+key might be an entire tuple
+all attributes together *always* form a key
+
+| Make   | Model | Year |
+| ------ | ----- | ---- |
+| Honda  | Pilot | 2014 |
+| Honda  | CRV   | 2014 |
+| Toyota | Camry | 2012 |
+| Honda  | Pilot | 2017 |
+
+
+### Multiple keys
+a relation can have more than 1 key
+the DB designer will designate one as the primary key
+
+| SSN         | fName | lName    | Income | Department |
+| ----------- | ----- | -------- | ------ | ---------- |
+| 111-22-3333 | Alice | Smith    | 20000  | Testing    |
+| 222-33-4444 | Alice | Thompson | 50000  | Testing    |
+| 333-44-5555 | Bob   | Thompson | 30000  | SW         |
+| 444-55-6666 | Carol | Smith    | 50000  | Testing    |
+
+
+
+### Foreign key
+
+| title                  | author             | isbn       | publisher     | printing |
+| ---------------------- | ------------------ | ---------- | ------------- | -------- |
+| The New Jim Crow       | Michelle Alexander | 123-45-678 | The New Press | 1        |
+| Guns, Germs, and Steel | Jared Diamond      | 444-55-666 | Norton        | 2        |
+
+| isbn       | customer | date     |
+| ---------- | -------- | -------- |
+| 123-45-678 | 1234     | 9/2/2021 |
+| 444-55-666 | 4456     | 9/5/2021 |
+
+| customer | lname | fname |
+|----------|-------|-------|
+| 1234     | Shah  | S     |
+| 4456     | Lee   | J     
+
+- The \`isbn\` in the **Sales** table refers to the \`isbn\` in the **Books** table. This tells us which book was sold.
+- The \`customer\` in the **Sales** table refers to the \`customer\` in the **Customers** table. This tells us who bought the book.
+
+A **foreign key** is a field (or group of fields) in one table that refers to the **primary key** in another table.
+- It’s how we create relationships between tables in a database.`,wi=`---
+order: 5
+---
+
+Relational databases allow a special value NULL  
+Interpretation depends on the application:  NULL could mean “Not applicable” or “unknown” or “hidden” or “not collected” or many other things
+
+NULL or True = True
+- This expression will always be true
+
+Is NULL equal to NULL?
+- no. bc NULL can be ✨anything✨
+
+special syntax to test for NULL:
+- “x IS NULL” evaluates to True if x is NULL`,Ti=`---
+order: 4
+---
+
+**Physical data independence**
+The logical definition of the data remains unchanged, even when we make changes to the actual implementation
+
+##### Imagine a database like a filing cabinet:
+
+- **You** (the user) just ask, “Hey, give me Alice’s file.”
+    
+- **You don’t care** where in the cabinet the file is kept, how it’s arranged, or how it’s labeled inside — you just want the info.
+
+
+#### SQL Example:
+
+You have this table:
+
+\`Customers (ID, Name, Email)\`
+
+And you run:
+
+\`SELECT Name FROM Customers WHERE ID = 5;\`
+
+Now imagine the database admin:
+- Moves that table to a faster disk
+- Adds an [[Indexing|index]] on \`ID\` to make the query faster
+- Stores some rows in a different file for performance
+
+#### Query **still works the same**:
+
+- You **don’t have to change** it
+- You **still get the same result**
+- You **don’t even know** anything changed inside`,Ei=`---
+order: 9
+---
+
+One answer for each product
+\`\`\`
+SELECT product, count(*)  
+FROM Purchase  
+GROUP BY product
+\`\`\`
+
+One answer for each month
+\`\`\`
+SELECT month, count(*)  
+FROM Purchase  
+GROUP BY month
+\`\`\`
+
+
+Using multiple aggregates:
+\`\`\`
+SELECT product, sum(quantity) AS SumQuantity, max(price) AS MaxPrice  
+FROM Purchase
+GROUP BY product
+\`\`\`
+
+
+
+**All attributes must be involved in GROUP BY or an [[Simple Aggregation|aggregate]]**
+✅
+\`\`\`
+SELECT product, max(quantity)  
+FROM Purchase 
+GROUP BY product
+\`\`\`
+
+❌
+\`\`\`
+SELECT product, quantity  
+FROM Purchase  
+GROUP BY product
+\`\`\`
+
+
+### GROUP BY + DISTINCT
+
+\`\`\`
+SELECT month  
+FROM Purchase  
+GROUP BY month
+\`\`\`
+
+=
+
+\`\`\`
+SELECT DISTINCT month  
+FROM Purchase
+\`\`\`
+
+
+
+### GROUP BY + WHERE
+
+| Product | Price | Quantity |
+| ------- | ----- | -------- |
+| Bagel   | 3     | 20       |
+|         | 1.50  | 20       |
+| Banana  | 0.5   | 50       |
+|         | 2     | 10       |
+|         | 4     | 10       
+
+\`\`\`
+SELECT product, Sum(quantity) AS TotalSales  
+FROM Purchase  
+WHERE price > 1  
+GROUP BY product
+\`\`\`
+
+| Product | TotalSales |
+| ------- | ---------- |
+| Bagel   | 40         |
+| Banana  | 20         |
+
+
+### Grouping and Aggregation  
+
+1. Compute the FROM and WHERE clauses.  
+2. Group by the attributes in the GROUPBY  
+3. Compute the SELECT clause: grouped attributes and aggregates.  
+
+> <b><i>FWGS</i></b>
+
+\`\`\`
+SELECT product, sum(price * quantity) as rev  
+FROM Purchase  
+GROUP BY product  
+ORDER BY rev DESC
+\`\`\`
+
+
+### GROUP BY + JOIN
+
+\`\`\`
+SELECT x.manufacturer, y.month, COUNT(*)
+FROM Product x, Purchase y
+WHERE x.product_id = y.product_id
+	and y.price > 100
+GROUP BY x.manufacturer, y.month
+\`\`\``,Di=`---
+order: 8
+---
+
+Purchase(pid, product, price, quantity, month)  
+\`\`\`
+SELECT product, sum(price*quantity)  
+FROM Purchase  
+WHERE price > 1  
+GROUP BY product  
+HAVING sum(quantity) > 30
+\`\`\`
+**HAVING clause contains conditions on aggregates**
+Where clause before grouping, having clause after [[GROUP BY|grouping]]
+
+#### WHERE vs HAVING  
+WHERE is applied to individual rows  
+- The rows may or may not contribute to the aggregate  
+- No aggregates allowed here
+- Occasionally, some groups become empty and are removed  
+HAVING is applied to the entire group  
+- Entire group is returned, or removed  
+- May use aggregate functions on the group  
+
+
+\`\`\`
+SELECT COUNT(*) AS total_users
+FROM users
+HAVING COUNT(*) > 100;
+\`\`\`
+Also works.
+GROUP BY not strictly required
+
+
+**Example**
+
+Compute the total income per month  
+Show only months with less than 10 items sold  
+Order by quantity sold and display as “TotalSold” 
+
+Purchase(pid, product, price, quantity, month)
+\`\`\`
+SUM month, SUM(price * quantity),  
+sum(quantity) as TotalSold  
+FROM Purchase  
+GROUP BY month  
+HAVING sum(quantity) < 10
+ORDER BY sum(quantity)  
+\`\`\``,Oi=`---
+order: 10
+---
+
+Total quantities for all sales over $1, by product.
+\`\`\`
+SELECT sum(quantity)  
+FROM Purchase  
+WHERE price > 1
+\`\`\`
+
+
+Five basic aggregate operations:
+\`\`\`
+SELECT count(*) FROM Purchase  
+SELECT sum(quantity) FROM Purchase  
+SELECT avg(price) FROM Purchase  
+SELECT max(quantity) FROM Purchase  
+SELECT min(quantity) FROM Purchase
+\`\`\`
+
+
+Multiple simple aggregations in one statement   
+\`\`\`
+SELECT count(*), sum(quantity), avg(price)  
+FROM Purchase
+\`\`\`
+
+
+Compute the average price with sum and count  
+\`\`\`
+SELECT sum(quantity) / count(*) AS average_quant  
+FROM Purchase
+\`\`\`
+
+
+SQL as a calculator
+\`\`\`
+SELECT 1+2+3+4+5 AS expr
+SELECT 25 / 100
+SELECT 25 / 100.0
+SELECT 25 / CAST(100 AS Float)
+\`\`\`
+
+
+\`\`\`
+SELECT sum(quantity) / count(*)  
+FROM Purchase  
+\`\`\`
+\`int / int = int\`
+
+\`\`\`
+SELECT (1.0*sum(quantity)) / count(*)  
+FROM Purchase  
+\`\`\`
+\`(float * int) / int = float\`
+
+\`\`\`
+SELECT CAST(sum(quantity) AS float) / count(*)  
+FROM Purchase  
+\`\`\`
+\`(float * int) / int = float\`
+
+
+### Aggregation and NULL
+
+[[NULL]] values are not used in aggregates
+
+\`\`\`
+CREATE TABLE Purchase (
+    id INT,
+    item_name VARCHAR(50),
+    quantity INT,
+    price DECIMAL(10, 2),
+    purchase_month VARCHAR(20)
+);
+
+INSERT INTO Purchase VALUES (12, 'gadget', NULL, NULL, 'april');
+INSERT INTO Purchase VALUES (12, 'gadget', 5, NULL, 'april');
+\`\`\`
+
+| id  | item_name | quantity | price | purchase_month |
+|-----|-----------|----------|-------|----------------|
+| 12  | gadget    | NULL     | NULL  | april          |
+| 12  | gadget    | 5        | NULL  | april          |
+
+
+\`\`\`
+SELECT count(quantity) FROM Purchase
+
+SELECT count(*)  
+FROM Purchase  
+WHERE quantity IS NOT null;
+\`\`\``,ki=`---
+order: 11
+---
+
+[[Nested Queries#Subqueries in FROM|Nested queries in the FROM clause]]:
+\`\`\`
+SELECT X.pname  
+FROM (SELECT *  
+	FROM Product AS Y  
+	WHERE price > 20) as X
+WHERE X.price < 500
+\`\`\`
+
+
+Use WITH to assign a name to a result so it can be reused:
+\`\`\`
+WITH expensiveprods as (
+	SELECT *
+	FROM Product AS Y
+	WHERE price > 20
+)
+SELECT X.pname
+FROM expensiveprods as X
+WHERE X.price < 500
+\`\`\`
+
+Multiple results can be named  
+\`\`\`
+WITH seattlecompanies as (
+	SELECT *
+	FROM Company
+	WHERE city = ‘Seattle’
+),
+expensiveprods as (
+	SELECT *
+	FROM Product AS Y
+	WHERE price > 20
+)
+SELECT s.cname, e.pname
+FROM expensiveprods e, seattlecompanies s
+WHERE e.cid = s.cid
+\`\`\`
+
+Results can refer to previous results:
+\`\`\`
+WITH seattlecompanies as (  
+	SELECT *  
+	FROM Company  
+	WHERE city = ‘Seattle’  
+),  
+seattleprods as (  
+	SELECT p.*  
+	FROM Product p, seattlecompanies s  
+	WHERE p.cid = s.cid  
+),  
+cheapseattleprods as (  
+	SELECT *  
+	FROM seattleprods p  
+	WHERE price < 100  
+),  
+SELECT * FROM cheapseattleprods
+\`\`\`
+
+Example: Find companies that sell both cheap and expensive products  
+\`\`\`
+WITH cheap as (  
+	SELECT cid  
+	FROM Product p, Company c  
+	WHERE p.cid = c.cid  
+	AND p.price < 10  
+)  
+expensive as (  
+	SELECT cid  
+	FROM Product p, Company c  
+	WHERE p.cid = c.cid  
+	AND p.price > 100  
+)  
+SELECT cname FROM Company c, cheap, expensive  
+WHERE c.cid = cheap.cid  
+AND c.cid = expensive.cid
+\`\`\``,Ai=`---
+order: 12
+---
+
+refers to a record (or tuple) that provides evidence or support for an [[Simple Aggregation|aggregate]] query result
+
+
+\`\`\`
+SELECT x.city, MAX(y.price)
+FROM Company x, Product y
+WHERE x.cid = y.cid
+GROUP BY x.city;
+\`\`\`
+
+Getting the result per city, but don't know which product actually has that maximum price.
+
+\`\`\`
+WITH CityMax AS (
+  SELECT x.city, MAX(y.price) AS maxprice
+  FROM Company x, Product y
+  WHERE x.cid = y.cid
+  GROUP BY x.city
+)
+SELECT DISTINCT u.city, v.pname, v.price
+FROM Company u, Product v, CityMax w
+WHERE u.cid = v.cid AND u.city = w.city AND v.price = w.maxprice;
+\`\`\`
+
+
+| cid | cname     | city    |
+| --- | --------- | ------- |
+| 1   | Apple     | Seattle |
+| 2   | Microsoft | Seattle |
+| 3   | Samsung   | Seoul   |
+
+| pname     | price | cid |
+| --------- | ----- | --- |
+| iPhone    | 999   | 1   |
+| MacBook   | 1999  | 1   |
+| Surface   | 1499  | 2   |
+| Galaxy    | 1199  | 3   |
+| GalaxyTab | 1999  | 3   |
+
+|city|pname|price|
+|---|---|---|
+|Seattle|MacBook|1999|
+|Seoul|GalaxyTab|1999`,ji=`---
+order: 14
+---
+
+### Database Design Process
+
+**Conceptual Database Design**
+	Organizing information into a data model.
+	Identifies entities, relationships, constraints, and operations.
+	Aims to capture requirements independently of specific systems/tools.
+
+**Data Model Components**
+	Structures (e.g., entities like Employee, Product),
+	Constraints (e.g., each employee must have a supervisor),
+	Operations (e.g., make a purchase).
+
+**Design Levels**
+	Conceptual Schema (entities and relationships)
+	[[From ERD to relational schema|Relational Schema]] (tables and constraints)
+	[[Physical data dependence|Physical Schema]] (storage details)
+
+
+### Conceptual Design Process
+
+**Entity Identification**
+	Begin by identifying entities—the real-world things that data is about.
+	Example: For a race-tracking app, possible entities include:
+		Racers, Races, Bicycles/Equipment, Sponsors, Race Results
+
+**Relationships Among Entities**
+	Recognize how entities are related:
+		Parent-Child
+		Has-A, Is-A
+		Part-Of, Depends-On
+	Concepts like Inheritance, Aggregation, Association, etc.
+
+**[[Entity Relationship Diagram|Entity-Relationship (E/R) Diagrams]]**
+	Entity Set = a class/type of object
+	Entity = an instance
+	Includes attributes, relationships, and keys for each entity set.
+
+**Relations and Multiplicity**
+	A relation is a mathematical subset of the Cartesian product of two sets.
+	[[Relationship|Relationships]] may be:
+		One-to-one
+		One-to-many
+		Many-to-many
+
+**Attributes on Relationships**
+	Relationships can have their own attributes (e.g., date of purchase in a "Buys" relationship).
+
+`,Mi=`---
+order: 15
+---
+
+![[ERD_intro.png|580]]
+
+
+- An **entity** corresponds to an instance of an object
+	- corresponds to a row in an RDBMS table
+- An attribute corresponds to a field  
+- An entity set is a collection of entities of the same type
+- Underline indicates the attribute is part of the [[Keys#Primary Key|Primary Key]]`,Ni=`---
+order: 16
+---
+
+If A and B are sets, then a [[Relations and datatypes|relation]] R is a subset of A * B
+
+![[relationship.png|641]]
+
+
+- One-to-one
+- One-to-many; Many-to-one
+- Many-to-many
+
+![[relationship1.png|490]]
+
+![[arrows.png|471]]
+
+
+### Multiplicity & Cardinality
+
+- In UML, multiplicity specifies lower and upper bound constraints on the cardinality of a relationship
+
+| Multiplicity | Cardinality | Description                                  |
+| ------------ | ----------- | -------------------------------------------- |
+| 0..0         | 0           | Collection must be empty                     |
+| 0..1         |             | Either zero or one instance                  |
+| 1..1         | 1           | Exactly one instance                         |
+| 0..*         | *           | Zero or more instances                       |
+| 1..*         |             | One or more instance                         |
+| 5..5         | 5           | Exactly 5 instances                          |
+| m..n         |             | At least *m*, but no more than *n* instances |
+
+<br>
+
+### Multi-way Relationships
+
+
+![[relation.png|579]]
+
+
+
+**A** and **B** are two sets (collections of things).
+    
+Example:  
+A = {Person1, Person2}  
+B = {Product1, Product2}
+        
+**A × B** (called the "Cartesian product") is **all possible combinations** of one item from A and one item from B.  
+    A × B = { (Person1, Product1), (Person1, Product2), (Person2, Product1), (Person2, Product2) }
+    
+**Relation R** is **some subset** of A × B — meaning R just **picks certain pairs** out of A × B that actually make sense for the relationship you're modeling.
+
+
+![[relation1.png|582]]`,Pi=`---
+order: 13
+---
+
+Which categories of products were purchased on both 3/1/2025 and 3/3/2025?
+
+\`\`\`
+SELECT *
+FROM Productwithkeys p
+JOIN purchasewithkeys marchfirst
+  ON p.productID = marchfirst.productid
+  AND CONVERT(date, marchfirst.date) = '3/1/2025'
+JOIN purchasewithkeys marchthird
+  ON p.productID = marchthird.productid
+  AND CONVERT(date, marchthird.date) = '3/3/2025'
+\`\`\`
+
+same with WHERE syntax
+\`\`\`
+SELECT *
+FROM Productwithkeys p,
+     purchasewithkeys marchfirst,
+     purchasewithkeys marchthird
+WHERE p.productID = marchfirst.productid
+  AND p.productID = marchthird.productid
+  AND CONVERT(date, marchfirst.date) = '3/1/2025'
+  AND CONVERT(date, marchthird.date) = '3/3/2025'
+\`\`\`
+
+same with CTE
+\`\`\`
+WITH marchfirst AS (
+    SELECT *
+    FROM purchasewithkeys marchfirst
+    WHERE CONVERT(date, date) = '3/1/2025'
+), marchthird AS (
+    SELECT *
+    FROM purchasewithkeys marchthird
+    WHERE CONVERT(date, date) = '3/3/2025'
+)
+SELECT *
+FROM Productwithkeys p, marchfirst mf, marchthird mt
+WHERE p.productID = mf.productid
+  AND p.productID = mt.productid
+\`\`\``,Fi=`---
+order: 17
+---
+
+![[weakentity.png|550]]
+
+
+- A **weak entity** can't be uniquely identified by its own attributes alone.
+- It **depends** on a **strong entity** (another table/entity) for its **[[Keys#Primary Key|primary key]]**.
+- From the example:
+	**University(name)** → Strong entity (can be identified just by \`name\`).
+	**Team(sport, number, universityName)** → Weak entity (needs \`universityName\` to uniquely identify a Team).
+        
+Without the university's name, you might have multiple teams with the same sport and number — but _which_ university they belong to would be unclear.
+
+
+Why do we care about Weak Entities?
+1. **Avoid Duplicating Keys**:
+    - Instead of copying the whole key into every weak entity, you reference it simply.
+2. **Reflect Logical Structure**:
+    - It models real-world dependency — e.g., a Team exists only **because** a University exists.
+3. **Automatic Deletion**:
+    - If the **strong entity** (like a University) is deleted, the **dependent weak entities** (like its Teams) should automatically be deleted too.
+
+
+### Weak Relationship
+
+A relationship is weak (identifying) only if it connects a weak entity to its owner (strong entity) and is used to define its primary key.`,Ii=`---
+order: 19
+---
+
+\`\`\`
+CREATE TABLE User (  
+	uid int primary key,  
+	firstName text,  
+	lastName text NOT NULL,  
+	age int CHECK (age > 12 and age < 120),  
+	email text,  
+	phone text,  
+	CHECK (email is not NULL or phone is not NULL)  
+)
+\`\`\`
+
+
+Similar to FK, but not supported
+\`\`\`
+CREATE TABLE Purchase (
+    prodName CHAR(30)
+        CHECK (prodName IN (
+            SELECT Product.name
+            FROM Product
+        )),
+    date DATETIME NOT NULL
+);
+\`\`\`
+
+`,Li=`---
+order: 20
+---
+
+
+![[fk.png|574]]
+
+
+
+![[fk1.png|593]]
+
+
+
+What should the DB engine do if execution SQL statement collides with a FOREIGN KEY constraint?
+	For example:  \`DELETE FROM Company WHERE name = ‘lmao’;\`
+		and the Products Table contains Foreign Key entries for  \`cname = ‘Imao’\`
+
+ON DELETE / ON UPDATE Options  
+- NO ACTION  
+	Default behavior; Raises an error and the Delete/Update is rolled back
+- CASCADE
+	Automatically fixes the referencing Table; on UPDATE, corresponding rows are changed
+- SET NULL
+	Automatically fixes the referencing Table; FOREIGN KEY column must be NULLABLE
+- SET DEFAULT  
+	Automatically fixes the referencing Table; FOREIGN KEY column must have DEFAULT value defined
+
+
+\`\`\`
+CREATE TABLE Company (
+	name VARCHAR(100) PRIMARY KEY);
+	CREATE TABLE Product (
+	name VARCHAR(100) PRIMARY KEY,
+	cname VARCHAR(100) REFERENCES Company (name)
+	ON UPDATE CASCADE
+	ON DELETE SET NULL);
+\`\`\`
+
+
+#### Weak Entity Set -> Foreign Key + Cascade Delete  
+\`\`\`
+CREATE TABLE Team (  
+	univname CHAR(30) REFERENCES University(name)  
+	ON DELETE CASCADE ON UPDATE CASCADE,  
+	number int,
+	sport CHAR(30))
+\`\`\`
+`,Ri=`---
+order: 18
+---
+
+### Database design process
+
+![[dbdesignprocess.png|519]]
+
+
+[[Conceptual Database Design|Conceptual Model]] -> Relational Model
+	+ schema
+	+ constraints
+
+
+![[nnrelationshiptorelation.png|563]]
+
+
+![[n1relationshiptorelation.png|526]]
+
+`,zi=`---
+order: 21
+---
+
+
+A subquery is a SQL query nested inside a larger query
+Such inner-outer queries are called nested queries
+A subquery may occur in:
+- A SELECT clause
+- A FROM clause
+- A WHERE clause
+
+In a SELECT clause, must return **a single value** (1 row, 1 column)
+In a FROM clause, returns a **relation** (many rows, many relations), aliased using a tuple variable
+In a WHERE clause, **may** return a **single value** to be compared with another value
+In a WHERE clause, **may** return a **relation** to be used with WHERE EXISTS
+
+
+### Subqueries in SELECT (single value)
+
+For each product return the city where it is manufactured
+\`\`\`
+SELECT X.pname, (SELECT Y.city  
+	FROM Company Y  
+	WHERE Y.cid = X.cid) as City  
+FROM Product X
+\`\`\`
+
+> "Correlated subquery": a subquery that depends on a value from the outer query
+> "Using this product's \`cid\`, find the \`city\` in the \`Company\` table."
+
+
+Same thing as:
+\`\`\`
+SELECT X.pname, Y.city  
+FROM Product X, Company Y  
+WHERE X.cid = Y.cid
+\`\`\`
+
+
+Compute the number of products made by each company
+\`\`\`
+SELECT C.cid, C.cname, (SELECT count(*)
+	FROM Product P  
+	WHERE P.cid = C.cid)  
+FROM Company C
+\`\`\`
+
+Same thing as:
+\`\`\`
+SELECT C.cid, C.cname, count(pname)  
+FROM Company C LEFT JOIN Product P  
+ON C.cid = P.cid  
+GROUP BY C.cid, C.cname
+\`\`\`
+
+> Without LEFT JOIN, companies with no products are excluded
+
+
+### Subqueries in FROM
+
+Find all products whose prices is > 20 and < 500
+
+\`\`\`
+SELECT X.pname  
+FROM (SELECT *  
+	FROM Product AS Y  
+	WHERE price > 20) as X  
+WHERE X.price < 500
+\`\`\`
+
+> Every SQL returns a relation, so you can use it in the FROM clause like any other relation
+
+Sometimes we need to compute an intermediate table only to use it later in a SELECT-FROM-WHERE  
+- Option 1: use a subquery in the FROM clause
+- Option 2: use the [[WITH]] clause  
+
+\`\`\`
+WITH myTable AS (
+	SELECT *
+	FROM Product AS Y
+	WHERE price > 20)
+SELECT X.pname
+FROM myTable as X
+WHERE X.price < 500
+\`\`\`
+
+
+### Subqueries in WHERE
+
+Find all companies that make **some** products with price < 200
+
+Using EXISTS:
+\`\`\`
+SELECT C.cid, C.cname  
+FROM Company C  
+WHERE EXISTS (SELECT *  
+	FROM Product P  
+	WHERE C.cid = P.cid and P.price < 200)
+\`\`\`
+EXISTS returns TRUE if the subquery returns any row
+
+Using IN:
+\`\`\`
+SELECT C.cid, C.cname  
+FROM Company C  
+WHERE C.cid IN (SELECT P.cid  
+	FROM Product P  
+	WHERE P.price < 200)
+\`\`\`
+
+Using ANY:
+\`\`\`
+SELECT C.cid, C.cname  
+FROM Company C  
+WHERE 200 > ANY (SELECT price  
+	FROM Product P  
+	WHERE P.cid = C.cid)
+\`\`\`
+
+> Not supported in some DBMS (avoid)
+
+
+Unnest it:
+\`\`\`
+SELECT DISTINCT C.cid, C.cname  
+FROM Company C, Product P  
+WHERE C.cid = P.cid and P.price < 200
+\`\`\`
+
+
+Find all companies s.t. all their products have price < 200 = Find all companies that make only products with price < 200
+
+
+Find all companies s.t. all their products have price < 200  
+1. Find the other companies that make some product ≥ 200
+
+\`\`\`
+SELECT C.cid, C.cname
+FROM Company C
+WHERE C.cid NOT IN (
+	SELECT P.cid
+	FROM Product P
+	WHERE P.price >= 200
+)
+\`\`\`
+
+2. Find all companies s.t. all their products have price < 200
+
+Another way using EXISTS
+
+\`\`\`
+SELECT C.cid, C.cname
+FROM Company C
+WHERE NOT EXISTS (SELECT *
+	FROM Product P
+	WHERE P.cid = C.cid and P.price >= 200)
+\`\`\`
+
+Using ALL:
+\`\`\`
+SELECT C.cid, C.cname  
+FROM Company C  
+WHERE 200 >= ALL (SELECT price  
+	FROM Product P  
+	WHERE P.cid = C.cid)
+\`\`\`
+
+> Not supported in some DBMS (avoid)`,Bi=`---
+order: 23
+---
+
+In SQL, ranking functions help us assign ranks to rows based on partitioning and order expressions.
+A [[Window Functions|window]] is just a set of rows that meet certain conditions
+
+Generic syntax:
+\`\`\`
+SELECT 
+  RANK() / DENSE_RANK() / ROW_NUMBER() OVER ( -- Compulsory expression
+    PARTITION BY partitioning_expression -- Optional expression
+    ORDER BY order_expression) -- Compulsory expression
+FROM table_name;
+\`\`\`
+
+
+1. **ROW_NUMBER()**: This function assigns a unique sequential number to each row within a window. It's like numbering the rows in order.
+2. **RANK()**: The\xA0\`RANK()\`\xA0function handles tied values by assigning the same rank to them. However, it may skip subsequent ranks, leaving gaps in the sequence.
+3. **DENSE_RANK()**: Similar to\xA0\`RANK()\`,\xA0\`DENSE_RANK()\`\xA0also handles tied values by assigning the same rank. However, it does not skip ranks, resulting in no gaps in the sequence.
+
+#### Window Function Ranking with ORDER BY
+
+Write a query to display the list of artists sorted in descending order of their concert revenue.
+\`\`\`
+SELECT 
+ artist_name, 
+ concert_revenue, 
+ ROW_NUMBER() OVER (ORDER BY concert_revenue) AS row_num,
+ RANK() OVER (ORDER BY concert_revenue) AS rank_num,
+ DENSE_RANK() OVER (ORDER BY concert_revenue) AS dense_rank_num
+FROM concerts;
+\`\`\`
+
+|artist_name|concert_revenue|row_num|rank_num|dense_rank_num|
+|---|---|---|---|---|
+|BTS|800000|1|1|1|
+|Beyonce|750000|2|2|2|
+|Ariana Grande|720000|3|3|3|
+|Bruno Mars|700000|4|4|4|
+|Taylor Swift|700000|5|4|4|
+|Justin Bieber|680000|6|6|5|
+|Pink Floyd|670000|7|7|6|
+|Red Hot Chili Peppers|660000|8|8|7|
+|U2|650000|9|9|8|
+|Ed Sheeran|650000|10|9|8|
+
+#### Window Function Ranking with PARTITION BY and ORDER BY
+
+\`\`\`
+SELECT 
+  artist_name, 
+  country,
+  year_of_formation,
+  ROW_NUMBER() OVER (PARTITION BY country ORDER BY year_of_formation) AS row_num,
+ RANK() OVER (PARTITION BY country ORDER BY year_of_formation) AS rank_num,
+ DENSE_RANK() OVER (PARTITION BY country ORDER BY year_of_formation) AS dense_rank_num
+FROM concerts;
+\`\`\`
+
+|artist_name|country|concert_revenue|row_num|rank_num|dense_rank_num|
+|---|---|---|---|---|---|
+|Rihanna|Barbados|550000|1|1|1|
+|Justin Bieber|Canada|680000|1|1|1|
+|The Weeknd|Canada|620000|2|2|2|
+|BTS|South Korea|800000|1|1|1|
+|Super Junior|South Korea|490000|2|2|2|
+|EXO|South Korea|480000|3|3|3|
+|Got7|South Korea|470000|4|4|4|
+|SHINee|South Korea|470000|5|4|4|
+|Ed Sheeran|United Kingdom|650000|1|1|1|
+|Adele|United Kingdom|600000|2|2|2|
+|One Direction|United Kingdom|580000|3|3|3|
+|...|...|...|...|...|...|
+`,Vi=`---
+order: 22
+---
+
+Window functions create a new column based on calculations performed on a subset or "window" of the data. The window starts at the first row on a particular column and increases in size unless you constrain the size of the window.
+
+**syntax**
+\`\`\`
+SELECT '(Optional: The data you want to select)',
+[aggregate function]'(The column to perform the aggregate function on)'
+OVER(Optional: PARTITION BY and/or ORDER BY)
+AS '(Descriptive name)' FROM '(corresponding table)';
+\`\`\`
+
+
+\`\`\`
+SELECT 'Day', 'Mile Driving',
+SUM('Miles Driving') OVER(ORDER BY 'Day') AS 'Running Total'
+FROM 'Running total mileage visual';
+\`\`\`
+
+
+Constrain the window to be 3 rows tall:
+\`\`\`
+SELECT 'Day', 'Daily Revenue',
+AVG('Daily Revenue') OVER(ORDER BY 'Day' ROWS 2 PRECEDING)
+AS '3 Day Average' FROM 'Running Average Example';
+\`\`\`
+
+
+Window functions also works on partitioned data. It first sorts the data then applies the aggregate function on these groups.
+
+\`\`\`
+SELECT 'Day', 'Weekend', 'Daily Revenue',
+SUM('Daily Revenue') OVER(PARTITION BY 'Weekend') AS 'Total'
+FROM 'Partitioned Total Example';
+\`\`\`
+
+
+### Organizing with Window Functions
+
+#### Rows
+\`\`\`
+SELECT '(The data you want to select)',
+[aggregate function]'(The column to perform the aggregate function on)'
+OVER(ROWS [# of rows you want to aggregate - 1] PRECEDING/FOLLOWING)
+AS '(descriptive name)'
+FROM '(appropriate table)';
+\`\`\`
+
+
+\`\`\`
+SELECT *,
+AVG('Daily Revenue')
+OVER(ROWS 2 PRECEDING)
+AS '3 Day Average'
+FROM 'Running Average Example'
+\`\`\`
+
+\`\`\`
+SELECT *,
+AVG('Daily Revenue')
+OVER(ROWS 2 FOLLOWING)
+AS '3 Day Average'
+FROM 'Running Average Example'
+\`\`\`
+
+
+#### PARTITION BY
+
+\`\`\`
+SELECT '(The data you want to select)',
+[aggregate function]'(The column to perform the aggregate function on)'
+OVER(PARTITION BY [category to group by]) AS '(descriptive name)'
+FROM '(appropriate table)';
+\`\`\`
+
+\`\`\`
+SELECT Track.Name, Track.Milliseconds
+AVG(Track.Milliseconds) OVER(PARTITION BY Track.GenreId)
+AS 'AverageSongLength'
+FROM 'Track' ORDER BY Track.Name ASC LIMIT 20;
+\`\`\`
+
+
+### Summary
+
+- A window function does not cause rows to become [[GROUP BY|grouped]] into a single output row, it creates a whole output column.
+- A window function can be broken into groups and organized easily with keywords like: PARTITION BY and ORDER BY.
+	- PARTITION BY- Divides the aggregate function results between different groupings of data.
+	- ORDER BY- Organize the data being worked on by the aggregate functions and create running calculations`,Hi=`---
+order: 26
+---
+
+(recall [[Normalization#BCNF (Boyce-Codd Normal Form)|BCNF]]: For **every [[Functional dependencies|functional dependency]]** \`X → Y\`, \`X\` must be a **[[Keys#Super key|superkey]]**)
+
+### Step 1
+
+Check which functional dependencies of R are not in BCNF, if they're all in BCNF we do not need to decompose R.
+
+AB -> CD
+D -> E
+A -> C
+B -> D
+
+{AB}<sup>+</sup> = {A,B,C,D,E} -> CK: AB
+
+AB -> CD
+D -> E (violates BCNF)
+A -> C
+B -> D
+
+
+### Step 2
+
+Create two sub-relations:
+1. {X}<sup>+</sup>
+2. R - {X}<sup>+</sup> + X
+
+AB -> CD
+D -> E ->  {D}<sup>+</sup> = {D, E} -> R<sub>1</sub>(DE), R<sub>2</sub>(ABCD)
+A -> C
+B -> D
+
+
+### Step 3
+
+For each sub-relation we check if all of its functional dependencies are now in BCNF
+- if they are we keep the sub-relation as it is
+- if not, do Step 2 again for the sub-relation's dependency that does not satisfy BCNF
+
+R<sub>1</sub>(DE)
+CK = D
+D -> E (BCNF)
+
+R<sub>2</sub>(ABCD)
+CK = AB
+AB -> CD (BCNF)
+A -> C (not in BCNF)
+B -> D
+
+R<sub>3</sub>(AC)
+CK = A
+A -> C (BCNF)
+
+R<sub>4</sub>(ABD)
+CK = AB
+AB -> D (BCNF)
+B -> D (not in BCNF)
+
+R<sub>5</sub>(BD)
+CK = B
+B -> D (BCNF)
+
+R<sub>6</sub>(AB)
+CK = AB
+AB -> AB (BCNF)
+
+
+### Step 4
+
+Final decomposition is composed of sub-relations that all their functional dependencies hold BCNF
+
+
+R<sub>1</sub>(DE)
+D -> E
+
+R<sub>3</sub>(AC)
+A -> C
+
+R<sub>5</sub>(BD)
+B -> D
+
+R<sub>6</sub>(AB)
+AB -> AB`,Ui=`---
+order: 24
+---
+
+A **functional dependency** is a constraint that describes a relationship between attributes (columns) in a relation (table).
+
+ >If two tuples agree on attribute X, they must also agree on the attributes Y
+   \`X -> Y\`
+
+X functionally determines Y.
+
+
+If you have a table \`Students\` with attributes:
+\`StudentID, Name, Major)\`
+
+and each student has a unique \`StudentID\`, then:
+\`StudentID -> Name, Major\`
+
+Means knowing the StudentID uniquely determines the Name and Major.
+
+If we can be sure that *every instance* of R (relational schema) will be one in which a given FD is true, then we say that R satisfies the FD
+
+### Additional Rules
+
+If X → Y and X → Z, then X → YZ
+
+If X → YZ, then X → Y and X → Z
+
+If X → Y and WY → Z, then WX → Z
+`,Wi=`---
+order: 25
+---
+
+**Normalization** is a **process** in database design used to:
+- Eliminate redundancy
+- Prevent update anomalies
+- Ensure data integrity
+
+Normal forms are levels or stages of normalization.
+
+#### 1NF (First Normal Form)
+- All values in each column must be **atomic** (i.e., indivisible).
+- No repeating groups or arrays.
+
+| StudentID | CourseID | StudentName |
+| --------- | -------- | ----------- |
+| 1         | C101     | Alice       |
+| 1         | C102     | Alice       |
+| 2         | C101     | Bob         |
+
+\`StudentName\` depends **only on StudentID**, not the full key → **partial dependency**
+
+#### 2NF (Second Normal Form)
+- Must be in **1NF**
+- **No partial dependency**: No non-key attribute should depend on **part of a composite key**
+
+|EmployeeID|DeptID|DeptName|
+|---|---|---|
+|1|10|Sales|
+|2|20|HR|
+|3|10|Sales|
+
+\`DeptID → DeptName\` (transitive: \`EmployeeID → DeptID → DeptName\`)
+
+#### 3NF (Third Normal Form)
+- Must be in **2NF**
+- No **transitive dependency**: Non-key attributes shouldn’t depend on **other non-key attributes**
+	- transitive dependency: A non-key attribute depends on another non-key attribute, which in turn depends on the key.
+
+|Course|Instructor|Room|
+|---|---|---|
+|Math101|Smith|R1|
+|CS102|Jones|R2|
+|Math101|Smith|R1|
+
+**Instructor** is not a key, but it's determining \`Room\` → violates BCNF
+
+#### BCNF (Boyce-Codd Normal Form)
+- Must be in **3NF**
+- For **every functional dependency** \`X → Y\`, \`X\` must be a **superkey**
+
+| Student | Language | Hobby  |
+| ------- | -------- | ------ |
+| Alice   | French   | Music  |
+| Alice   | French   | Sports |
+| Alice   | Spanish  | Music  |
+| Alice   | Spanish  | Sports |
+
+#### Relational Schema Design  (or Logical Design)  
+
+• Start with some relational schema  
+• Find out its [[Functional dependencies|functional dependencies]] (FDs)  
+• Use FDs to normalize the relational schema  
+
+
+One person may have multiple phones, but lives in only one city  
+Primary key is thus (SSN, PhoneNumber)
+What's wrong?
+
+| Name | SSN         | PhoneNumber  | City      |
+| ---- | ----------- | ------------ | --------- |
+| Fred | 123-45-6789 | 206-555-1234 | Seattle   |
+| Fred | 123-45-6789 | 206-555-6543 | Seattle   |
+| Joe  | 987-65-4321 | 908-555-2121 | Westfield |
+| Joe  | 987-65-4321 | 908-555-1234 | Westfield |
+
+The only key is: \`{SSN, PhoneNumber}\`
+Hence \`SSN -> Name, City\` is a “bad” dependency  
+- Why? Partial dependency
+	- partial dependency: when a non-key attribute depends on part of a composite key, not the full key
+
+In other words:  
+SSN<sup>+</sup> = SSN, Name, City and is neither SSN nor All Attributes  
+- Is not enough to uniquely identify tuples
+- But it's also not trivial (more than just itself)
+
+
+> \`SSN⁺\` : the **closure** of the attribute \`SSN\`, meaning the set of attributes functionally determined by SSN.
+> \`SSN⁺ = {SSN, Name, City}\`
+
+#### Example BCNF Decomposition
+
+| Name | SSN         | City      |
+|------|-------------|-----------|
+| Fred | 123-45-6789 | Seattle   |
+| Joe  | 987-65-4321 | Westfield |
+
+| SSN         | PhoneNumber   |
+|-------------|---------------|
+| 123-45-6789 | 206-555-1234  |
+| 123-45-6789 | 206-555-6543  |
+| 987-65-4321 | 908-555-2121  |
+| 987-65-4321 | 908-555-1234  |
+`,Gi=`---
+order: 27
+---
+
+### Views
+
+\`\`\`
+CREATE VIEW oldCats as 
+    SELECT *
+    FROM Cats
+    WHERE age > 4
+\`\`\`
+
+- Views are virtual tables based on SELECT queries.
+- Do not store data themselves — just a saved query.
+- Auto-update if base table data changes.
+- Can be queried like regular tables.
+
+### Temp tables
+
+\`\`\`
+CREATE TABLE #temp_customers (
+    id INT,
+    age INT
+)
+
+SELECT * FROM #temp_customers
+
+DROP TABLE IF EXISTS #temp_customers
+\`\`\`
+
+
+- lives only during current session.
+- Good for storing intermediate results in scripts
+`,Ki=`---
+order: 28
+---
+
+- SQL = a declarative language where we say what data we want to retrieve
+- RA = an algebra where we say how we want to retrieve the data
+- RDMS translates SQL to RA then optimizes for performance
+
+
+## RA Operators
+
+- $\\pi / \\Pi$: SELECT, projection
+- $\\sigma$ (sigma): WHERE, selection
+- $\\gamma$ (gamma): grouping & aggregation
+- $\\bowtie$: JOIN
+- ⟕: LEFT OUTER JOIN
+- ⟖: RIGHT OUTER JOIN
+- ⟗: FULL OUTER JOIN
+- $\\times$: cartesian product, \`FROM T, S\` with no WHERE
+- $\\cup$: UNION
+- $\\cap$: intersection; INTERSECT
+- $-$: difference; EXCEPT
+ - $\\tau$ (tau): sort
+- $\\delta$ (delta): duplicate elimination; SELECT DISTINCT
+- $\\rho$ (rho): rename
+
+#### Unary operator
+
+Projection removes unspecified columns
+
+![[file-20261021104552477.png|478]]
+
+
+Selection filters tuples from the input
+
+![[file-20261021104617526.png|493]]
+
+
+#### Binary operator
+
+Joins inputs relations on the specified condition
+
+![[file-20261021104647531.png|577]]
+
+
+## English to SQL to RA Example
+
+![[file-20261021105014177.png|578]]
+
+`,qi=`---
+order: 29
+---
+
+## Concurrency Anomalies
+
+Dirty/Inconsistent Read
+- reading another transaction's uncommitted write
+	• Write-Read (WR) conflict
+
+Unrepeatable Read
+- happens when data is read prior to a change
+	-  Read-Write (RW) conflict
+
+Phantom Read
+- happens when data is read prior to an addition/deletion
+	• Read-Write (RW) conflict
+
+lost update
+- when a write "disappears"
+	- A Write-write (WW) conflict
+
+
+## Transactions & ACID
+
+#### ACID
+
+- Atomic
+	- A transaction is atomic if everything works or nothing happens
+- Consistent
+	- Transaction start in a valid state and end in a valid state
+- Isolated
+	- behaves as if it were the only transaction running
+	- The most important feature of ACID
+- Durable
+	- Crash recovery: committed changes survive crashes
+		- What if the database fails in the middle of our atomic transaction?
+
+
+## Schedules & Serializability
+
+Transactions are sequence of element reads and/or writes
+• $R_i(A) \\space \\rightarrow$ read element A
+• $W_i(A) \\space \\rightarrow$ update element A
+
+Schedules are a sequence of interleaved actions from all transactions
+
+#### Serial Schedules
+
+A **serial schedule** is a schedule where each transaction is executed in some order, one after the other
+
+A **serializable schedule** is a schedule where transactions are executed with possible interleaving, but it appears to the outside as if they were executed in serial order
+
+
+## Conflict Serializability
+
+We define operation “conflicts” and check for their interactions in a schedule
+
+Most application concurrency problems are describable by conflicts
+- Lost Update $\\rightarrow$ Write-Write (WW) conflict
+- Dirty Read $\\rightarrow$ Write-Read (WR) conflict
+- Unrepeatable Read $\\rightarrow$ Read-Write (RW) conflict
+- Phantom Read
+
+Types of Conflicts
+- Intra-transaction conflicts
+	- Operations within a transaction cannot be swapped
+- Inter-transaction conflicts
+	- WW conflicts $\\rightarrow$ $W_1(X)$, $W_2(X)$
+	- WR conflicts $\\rightarrow$ $W_1(X)$, $R_2(X)$
+	- RW conflicts $\\rightarrow$ $R_1(X)$, $W_2(X)$
+
+
+A schedule is **conflict serializable** if it can be transformed into a serial schedule by a series of swappings of adjacent non-conflicting actions
+
+![[file-20261102111700596.png|598]]
+
+
+
+## Precedence Graphs
+
+Rules:
+- one node per transaction
+- draw an edge $T_i \\rightarrow T_j$ whenever an action of $T_i$ conflicts with a later action of $T_j$
+- no cycle $\\rightarrow$ conflict-serializable. cycle $\\rightarrow$ not conflict-serializable
+
+Faster way:
+instead of comparing every pair, list each element's actions in order. Then look for cross-transaction pairs where at least one is a write
+
+
+## Locks &  2PL
+
+scheduler
+- optimistic: execute first, check later
+	- cheap overhead, expensive aborts $\\rightarrow$ good for low retention
+- pessimistic (locking): prevent conflicts up front
+	- expensive overhead, cheap aborts $\\rightarrow$ good for high retention
+	- use in class
+
+binary locks
+- $L_i(X) \\rightarrow$ txn i locks X (required before R or W on X)
+- $U_i(X) \\rightarrow$ txn i unlocks X
+- if another txn holds the lock $\\rightarrow$ wait (“blocking”)
+- lock granularity depends on the DBMS
+    - SQLite $\\rightarrow$ whole database only
+    - MySQL, SQL Server, Oracle $\\rightarrow$ row or table
+
+#### 2-Phase Locking
+
+rule: in every txn, all lock requests come before all unlock requests
+- growing phase (only lock) $\\rightarrow$ shrinking phase (only unlock)
+
+2PL guarantees conflict serializability
+each txn acts as if it ran all at once at the moment it starts unlocking
+
+#### Deadlocks
+
+a side effect of 2PL: txns hold locks while waiting for more
+
+\`\`\`
+T1 (A,B): L(A) ... L(B) blocked   (T2 has B)
+T2 (B,C): L(B) ... L(C) blocked   (T3 has C)
+T3 (C,D): L(C) ... L(D) blocked   (T4 has D)
+T4 (D,A): L(D) ... L(A) blocked   (T1 has A)
+\`\`\`
+
+the DBMS builds a waits-for graph, and a cycle means deadlock
+
+
+## Strict 2PL & Recoverability
+
+
+- Every isolation level uses strict 2PL X locks for writes
+- The only thing that changes between levels is how long read locks are held
+- Less read locking → faster, but more anomalies possible
+- Set it with:
+\`\`\`sql
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+\`\`\`
+- Default level depends on the DBMS
+
+#### Summary (fast → correct)
+| Level            | Read locks                                | Dirty read | Unrepeatable read | Phantom   |
+| ---------------- | ----------------------------------------- | ---------- | ----------------- | --------- |
+| READ UNCOMMITTED | none                                      | possible   | possible          | possible  |
+| READ COMMITTED   | short: lock → read → unlock right away    | prevented  | possible          | possible  |
+| REPEATABLE READ  | held until commit (strict 2PL)            | prevented  | prevented         | possible  |
+| SERIALIZABLE     | held until commit + table/predicate locks | prevented  | prevented         | prevented |
+
+#### READ UNCOMMITTED
+
+- Reads: no locks
+- Problem: dirty reads, since you can read a write that hasn't committed
+- Fastest level
+- Use case: static data, or reads where accuracy isn't critical
+
+#### READ COMMITTED
+
+- Reads: short S locks (acquire, read, release immediately)
+- Fixes dirty reads: S must wait for X, and X is held until commit, so you only see committed data
+- Problem: unrepeatable reads, since S is released before the txn ends
+- Use case: e-commerce ("only 2 left in stock" was true when you read it, but may change)
+
+#### REPEATABLE READ
+
+- Reads: S locks held until commit (strict 2PL)
+- Fixes unrepeatable reads: no one can write what you've read until you're done
+- This is full strict 2PL → conflict serializable
+- Problem: phantoms are still possible`,Ji=`---
 order: 0
 ---
 Few takeaways on how to work with agents from lauren tan's [talk](https://x.com/poteto/status/2102050467505430555)
@@ -9821,7 +9821,7 @@ Few takeaways on how to work with agents from lauren tan's [talk](https://x.com/
 	- feature map: what feature exists and how a user reaches them (shortcuts, which element to click)
 - your codebase is the agent's memory. agents will learn whatever existing patterns they see, including workarounds, which spread like virus
 - an agent-friendly codebase might not be the one that's easiest for human to work with
-	- agents love shortcuts, so make the shortcut the correct path. strict boundaries`,Yi={"CSE 333/Style checklist.md":`2026-10-20T12:32:00-07:00`,"CSE 333/week 1-2/Intro.md":`2026-10-01T00:10:11-07:00`,"CSE 333/week 1-2/Memory, Data, Parameters.md":`2026-10-03T18:48:59-07:00`,"CSE 333/week 1-2/Modules, C Preprocessor.md":`2026-10-12T17:15:25-07:00`,"CSE 333/week 1-2/Pointers.md":`2026-10-05T20:08:57-07:00`,"CSE 333/week 1-2/Structs, Heap.md":`2026-10-07T15:09:32-07:00`,"CSE 333/week 3-4/Buffering, POSIX I／O, System Calls.md":`2026-10-17T01:29:38-07:00`,"CSE 333/week 3-4/C++ Classes, Constructors, and Copies.md":`2026-10-23T23:08:37-07:00`,"CSE 333/week 3-4/C++ References, Const, Classes.md":`2026-10-21T14:12:13-07:00`,"CSE 333/week 3-4/C++ intro.md":`2026-10-19T17:13:40-07:00`,"CSE 333/week 3-4/Linking, File I／O.md":`2026-10-12T17:15:25-07:00`,"CSE 333/week 3-4/Makefiles, C++ Preview.md":`2026-10-17T01:29:38-07:00`,"CSE 333/week 5-6/C++ Class Details, Heap.md":`2026-10-26T14:16:44-07:00`,"CSE 333/week 5-6/C++ STL, Smart Pointer.md":`2026-11-06T01:47:38-08:00`,"CSE 333/week 5-6/C++ Smart Pointers.md":`2026-11-07T17:01:55-08:00`,"CSE 333/week 5-6/C++ Standard Template Library.md":`2026-10-30T17:30:14-07:00`,"CSE 333/week 5-6/C++ Templates.md":`2026-10-28T16:59:34-07:00`,"CSE 444/week 1-2/DBMS architecture.md":`2026-04-03T23:55:21-07:00`,"CSE 444/week 1-2/Indexing.md":`2026-04-10T03:11:09-07:00`,"CSE 444/week 1-2/Relational Model Review.md":`2026-04-01T13:30:22-07:00`,"CSE 444/week 1-2/Review.md":`2026-03-30T13:36:00-07:00`,"CSE 444/week 1-2/Storage.md":`2026-04-06T18:38:59-07:00`,"CSE 444/week 3-4/Query Optimization.md":`2026-04-25T21:11:47-07:00`,"CSE 444/week 3-4/Query execution and operator algorithms.md":`2026-04-18T03:03:03-07:00`,"CSE 444/week 3-4/Query plan costs.md":`2026-04-25T21:11:47-07:00`,"CSE 444/week 5-6/Concurrency Control.md":`2026-04-30T03:14:32-07:00`,"CSE 444/week 5-6/Optimistic Concurrency Control.md":`2026-05-04T16:21:19-07:00`,"CSE 444/week 7-8/Parallel DBMSs.md":`2026-05-18T13:21:26-07:00`,"CSE 444/week 7-8/Transactions Recovery.md":`2026-05-13T03:03:41-07:00`,"CSE 444/week 9-10/Column Stores.md":`2026-06-06T20:44:35-07:00`,"CSE 444/week 9-10/MapReduce.md":`2026-05-27T13:26:15-07:00`,"CSE 444/week 9-10/Replication.md":`2026-06-06T20:44:35-07:00`,"CSE 444/week 9-10/Spark.md":`2026-05-30T16:45:53-07:00`,"CSE 444/week 9-10/Two-Phase Commit.md":`2026-06-01T13:28:06-07:00`,"DSA/Algo review.md":`2026-08-29T03:09:35-05:00`,"DSA/Big-O Notation.md":`2026-03-21T22:23:56-07:00`,"DSA/DP.md":`2026-03-21T22:23:56-07:00`,"DSA/DSA Patterns - I.md":`2026-03-21T22:23:56-07:00`,"DSA/DSA Patterns - II.md":`2026-03-21T22:23:56-07:00`,"INFO 330/01_basic sql/JOINs.md":`2026-03-21T22:23:56-07:00`,"INFO 330/01_basic sql/Relations and datatypes.md":`2026-03-21T22:23:56-07:00`,"INFO 330/02_relational model/Create table.md":`2026-03-21T22:23:56-07:00`,"INFO 330/02_relational model/First normal form.md":`2026-03-21T22:23:56-07:00`,"INFO 330/02_relational model/INSERT, UPDATE, DELETE.md":`2026-03-21T22:23:56-07:00`,"INFO 330/02_relational model/Keys.md":`2026-03-21T22:23:56-07:00`,"INFO 330/02_relational model/NULL.md":`2026-03-21T22:23:56-07:00`,"INFO 330/02_relational model/Physical data dependence.md":`2026-03-21T22:23:56-07:00`,"INFO 330/03_intermediate SQL/GROUP BY.md":`2026-03-21T22:23:56-07:00`,"INFO 330/03_intermediate SQL/HAVING.md":`2026-03-21T22:23:56-07:00`,"INFO 330/03_intermediate SQL/Simple Aggregation.md":`2026-03-21T22:23:56-07:00`,"INFO 330/03_intermediate SQL/WITH.md":`2026-03-21T22:23:56-07:00`,"INFO 330/03_intermediate SQL/Witnesses.md":`2026-03-21T22:23:56-07:00`,"INFO 330/04_conceptual modeling/Conceptual Database Design.md":`2026-03-21T22:23:56-07:00`,"INFO 330/04_conceptual modeling/Entity Relationship Diagram.md":`2026-03-21T22:23:56-07:00`,"INFO 330/04_conceptual modeling/Relationship.md":`2026-03-21T22:23:56-07:00`,"INFO 330/04_conceptual modeling/SELF JOIN Practice.md":`2026-03-21T22:23:56-07:00`,"INFO 330/04_conceptual modeling/Weak Entity Sets.md":`2026-03-21T22:23:56-07:00`,"INFO 330/05_relational schema/CHECK Constraint.md":`2026-03-21T22:23:56-07:00`,"INFO 330/05_relational schema/FK Constraints.md":`2026-03-21T22:23:56-07:00`,"INFO 330/05_relational schema/From ERD to relational schema.md":`2026-03-21T22:23:56-07:00`,"INFO 330/06_logical db design review/Nested Queries.md":`2026-03-21T22:23:56-07:00`,"INFO 330/07_window functions/Row Number, Rank, Dense Rank.md":`2026-03-21T22:23:56-07:00`,"INFO 330/07_window functions/Window Functions.md":`2026-03-21T22:23:56-07:00`,"INFO 330/08_functional dependencies, normalization, views/BCNF Decomposition.md":`2026-03-21T22:23:56-07:00`,"INFO 330/08_functional dependencies, normalization, views/Functional dependencies.md":`2026-03-21T22:23:56-07:00`,"INFO 330/08_functional dependencies, normalization, views/Normalization.md":`2026-03-21T22:23:56-07:00`,"INFO 330/09/Views & Temp Tables.md":`2026-03-21T22:23:56-07:00`,"INFO 330/CSE414/Relational Algebra.md":`2026-10-21T10:51:42-07:00`,"INFO 330/CSE414/Transactions.md":`2026-11-02T13:10:13-08:00`,"INFO 441/00_Imports.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/00_node project with express server.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/AJAX.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/Simple server template.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/audit img tags.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/checkTime.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/pluralize.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/JSON File Data Flow.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/MVC.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/Middleware.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/MongoDB connection.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/Pterosaurs.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/SQL Injection.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/User Data Demo (MongoDB).md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/XSS (Cross Site Scripting Attacks).md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 5-6/Session (authentication).md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 5-6/User Actions Part 2.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 5-6/User Actions.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 5-6/Websockets.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 7-8/Caching.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 7-8/Carts & Payments.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 7-8/Microservices and Proxies.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 7-8/Testing.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 9-10/Docker.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 1-2/Intro.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 1-2/Macros.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 1-2/Object-orientated Swift.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Dynamic Swft.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Key-Value Coding.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Object-orientated Swift Part 2.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Protocols.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Selectors.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Simple controls.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/UIKit.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Unit Testing.md":`2026-03-21T22:23:56-07:00`,"dump/agents.md":`2026-10-18T21:31:48-07:00`,"sync.md":`2026-06-06T20:44:35-07:00`},Xi=[{id:`sql-notes`,name:`SQL notes`,subtitle:`About SQL and databases`,vaultFolder:`INFO 330`},{id:`systems-programming`,name:`Systems Programming`,subtitle:`CSE 333`,vaultFolder:`CSE 333`},{id:`database-systems-internals`,name:`Database Systems Internals`,subtitle:`CSE 444; About databases, more advanced`,vaultFolder:`CSE 444`},{id:`server-side-development`,name:`Server-side Development`,subtitle:`Notes about server from INFO 441`,vaultFolder:`INFO 441`},{id:`ios-development`,name:`iOS Development`,subtitle:`Notes about iOS from INFO 449`,vaultFolder:`INFO 449`},{id:`dump`,name:`dump`,subtitle:`my brain dump`,vaultFolder:`dump`},{id:`dsa`,name:`DSA`,subtitle:``,vaultFolder:`DSA`}];function Zi(e){return Xi.find(t=>t.id===e)}var Qi=/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/;function $i(e){let t=e.match(Qi);if(!t)return;let n=/^order:\s*(\d+)\s*$/m.exec(t[1]);if(n)return Number.parseInt(n[1],10)}function ea(e){return(e.split(/[/\\]/).pop()??e).replace(/\.md$/i,``)}function ta(e){let t=e.match(Qi);return t?e.slice(t[0].length):e}function na(e){return e.replace(/\\/g,`/`).replace(/\/+/g,`/`)}var ra=Object.assign({"../../../milynotes vault/CSE 333/Style checklist.md":Qn,"../../../milynotes vault/CSE 333/week 1-2/Intro.md":$n,"../../../milynotes vault/CSE 333/week 1-2/Memory, Data, Parameters.md":er,"../../../milynotes vault/CSE 333/week 1-2/Modules, C Preprocessor.md":tr,"../../../milynotes vault/CSE 333/week 1-2/Pointers.md":nr,"../../../milynotes vault/CSE 333/week 1-2/Structs, Heap.md":rr,"../../../milynotes vault/CSE 333/week 3-4/Buffering, POSIX I／O, System Calls.md":ir,"../../../milynotes vault/CSE 333/week 3-4/C++ Classes, Constructors, and Copies.md":ar,"../../../milynotes vault/CSE 333/week 3-4/C++ References, Const, Classes.md":or,"../../../milynotes vault/CSE 333/week 3-4/C++ intro.md":sr,"../../../milynotes vault/CSE 333/week 3-4/Linking, File I／O.md":cr,"../../../milynotes vault/CSE 333/week 3-4/Makefiles, C++ Preview.md":lr,"../../../milynotes vault/CSE 333/week 5-6/C++ Class Details, Heap.md":ur,"../../../milynotes vault/CSE 333/week 5-6/C++ STL, Smart Pointer.md":dr,"../../../milynotes vault/CSE 333/week 5-6/C++ Smart Pointers.md":fr,"../../../milynotes vault/CSE 333/week 5-6/C++ Standard Template Library.md":pr,"../../../milynotes vault/CSE 333/week 5-6/C++ Templates.md":mr,"../../../milynotes vault/CSE 444/week 1-2/DBMS architecture.md":hr,"../../../milynotes vault/CSE 444/week 1-2/Indexing.md":gr,"../../../milynotes vault/CSE 444/week 1-2/Relational Model Review.md":_r,"../../../milynotes vault/CSE 444/week 1-2/Review.md":vr,"../../../milynotes vault/CSE 444/week 1-2/Storage.md":yr,"../../../milynotes vault/CSE 444/week 3-4/Query Optimization.md":br,"../../../milynotes vault/CSE 444/week 3-4/Query execution and operator algorithms.md":xr,"../../../milynotes vault/CSE 444/week 3-4/Query plan costs.md":Sr,"../../../milynotes vault/CSE 444/week 5-6/Concurrency Control.md":Cr,"../../../milynotes vault/CSE 444/week 5-6/Optimistic Concurrency Control.md":wr,"../../../milynotes vault/CSE 444/week 7-8/Parallel DBMSs.md":Tr,"../../../milynotes vault/CSE 444/week 7-8/Transactions Recovery.md":Er,"../../../milynotes vault/CSE 444/week 9-10/Column Stores.md":Dr,"../../../milynotes vault/CSE 444/week 9-10/MapReduce.md":Or,"../../../milynotes vault/CSE 444/week 9-10/Replication.md":kr,"../../../milynotes vault/CSE 444/week 9-10/Spark.md":Ar,"../../../milynotes vault/CSE 444/week 9-10/Two-Phase Commit.md":jr,"../../../milynotes vault/DSA/Algo review.md":Mr,"../../../milynotes vault/DSA/Big-O Notation.md":Nr,"../../../milynotes vault/DSA/DP.md":Pr,"../../../milynotes vault/DSA/DSA Patterns - I.md":Fr,"../../../milynotes vault/DSA/DSA Patterns - II.md":Ir,"../../../milynotes vault/INFO 330/01_basic sql/JOINs.md":Lr,"../../../milynotes vault/INFO 330/01_basic sql/Relations and datatypes.md":Rr,"../../../milynotes vault/INFO 330/02_relational model/Create table.md":zr,"../../../milynotes vault/INFO 330/02_relational model/First normal form.md":Br,"../../../milynotes vault/INFO 330/02_relational model/INSERT, UPDATE, DELETE.md":Vr,"../../../milynotes vault/INFO 330/02_relational model/Keys.md":Hr,"../../../milynotes vault/INFO 330/02_relational model/NULL.md":Ur,"../../../milynotes vault/INFO 330/02_relational model/Physical data dependence.md":Wr,"../../../milynotes vault/INFO 330/03_intermediate SQL/GROUP BY.md":Gr,"../../../milynotes vault/INFO 330/03_intermediate SQL/HAVING.md":Kr,"../../../milynotes vault/INFO 330/03_intermediate SQL/Simple Aggregation.md":qr,"../../../milynotes vault/INFO 330/03_intermediate SQL/WITH.md":Jr,"../../../milynotes vault/INFO 330/03_intermediate SQL/Witnesses.md":Yr,"../../../milynotes vault/INFO 330/04_conceptual modeling/Conceptual Database Design.md":Xr,"../../../milynotes vault/INFO 330/04_conceptual modeling/Entity Relationship Diagram.md":Zr,"../../../milynotes vault/INFO 330/04_conceptual modeling/Relationship.md":Qr,"../../../milynotes vault/INFO 330/04_conceptual modeling/SELF JOIN Practice.md":$r,"../../../milynotes vault/INFO 330/04_conceptual modeling/Weak Entity Sets.md":ei,"../../../milynotes vault/INFO 330/05_relational schema/CHECK Constraint.md":ti,"../../../milynotes vault/INFO 330/05_relational schema/FK Constraints.md":ni,"../../../milynotes vault/INFO 330/05_relational schema/From ERD to relational schema.md":ri,"../../../milynotes vault/INFO 330/06_logical db design review/Nested Queries.md":ii,"../../../milynotes vault/INFO 330/07_window functions/Row Number, Rank, Dense Rank.md":ai,"../../../milynotes vault/INFO 330/07_window functions/Window Functions.md":oi,"../../../milynotes vault/INFO 330/08_functional dependencies, normalization, views/BCNF Decomposition.md":si,"../../../milynotes vault/INFO 330/08_functional dependencies, normalization, views/Functional dependencies.md":ci,"../../../milynotes vault/INFO 330/08_functional dependencies, normalization, views/Normalization.md":li,"../../../milynotes vault/INFO 330/09/Views & Temp Tables.md":ui,"../../../milynotes vault/INFO 330/CSE414/Relational Algebra.md":di,"../../../milynotes vault/INFO 330/CSE414/Transactions.md":fi,"../../../milynotes vault/INFO 441/00_Imports.md":pi,"../../../milynotes vault/INFO 441/week 1-2/00_node project with express server.md":mi,"../../../milynotes vault/INFO 441/week 1-2/AJAX.md":hi,"../../../milynotes vault/INFO 441/week 1-2/Simple server template.md":gi,"../../../milynotes vault/INFO 441/week 1-2/audit img tags.md":_i,"../../../milynotes vault/INFO 441/week 1-2/checkTime.md":vi,"../../../milynotes vault/INFO 441/week 1-2/pluralize.md":yi,"../../../milynotes vault/INFO 441/week 3-4/JSON File Data Flow.md":bi,"../../../milynotes vault/INFO 441/week 3-4/MVC.md":xi,"../../../milynotes vault/INFO 441/week 3-4/Middleware.md":Si,"../../../milynotes vault/INFO 441/week 3-4/MongoDB connection.md":Ci,"../../../milynotes vault/INFO 441/week 3-4/Pterosaurs.md":wi,"../../../milynotes vault/INFO 441/week 3-4/SQL Injection.md":Ti,"../../../milynotes vault/INFO 441/week 3-4/User Data Demo (MongoDB).md":Ei,"../../../milynotes vault/INFO 441/week 3-4/XSS (Cross Site Scripting Attacks).md":Di,"../../../milynotes vault/INFO 441/week 5-6/Session (authentication).md":Oi,"../../../milynotes vault/INFO 441/week 5-6/User Actions Part 2.md":ki,"../../../milynotes vault/INFO 441/week 5-6/User Actions.md":Ai,"../../../milynotes vault/INFO 441/week 5-6/Websockets.md":ji,"../../../milynotes vault/INFO 441/week 7-8/Caching.md":Mi,"../../../milynotes vault/INFO 441/week 7-8/Carts & Payments.md":Ni,"../../../milynotes vault/INFO 441/week 7-8/Microservices and Proxies.md":Pi,"../../../milynotes vault/INFO 441/week 7-8/Testing.md":Fi,"../../../milynotes vault/INFO 441/week 9-10/Docker.md":Ii,"../../../milynotes vault/INFO 449/week 1-2/Intro.md":Li,"../../../milynotes vault/INFO 449/week 1-2/Macros.md":Ri,"../../../milynotes vault/INFO 449/week 1-2/Object-orientated Swift.md":zi,"../../../milynotes vault/INFO 449/week 3-4/Dynamic Swft.md":Bi,"../../../milynotes vault/INFO 449/week 3-4/Key-Value Coding.md":Vi,"../../../milynotes vault/INFO 449/week 3-4/Object-orientated Swift Part 2.md":Hi,"../../../milynotes vault/INFO 449/week 3-4/Protocols.md":Ui,"../../../milynotes vault/INFO 449/week 3-4/Selectors.md":Wi,"../../../milynotes vault/INFO 449/week 3-4/Simple controls.md":Gi,"../../../milynotes vault/INFO 449/week 3-4/UIKit.md":Ki,"../../../milynotes vault/INFO 449/week 3-4/Unit Testing.md":qi,"../../../milynotes vault/dump/agents.md":Ji,"../../../milynotes vault/sync.md":``}),ia=Xi.map(e=>e.vaultFolder);function aa(e,t){let n=e.replace(/\\/g,`/`),r=`milynotes vault/${t}/`,i=n.lastIndexOf(r);return i===-1?null:n.slice(i+r.length)}var oa=new Map;for(let[e,t]of Object.entries(ra))for(let n of ia){let r=aa(e,n);if(r){oa.set(`${n}::${na(r)}`,t);break}}function sa(e,t){let n=`${e}::${na(t)}`;return oa.get(n)??null}function ca(e,t){return`/category/${encodeURIComponent(e)}/note/${encodeURIComponent(t)}`}function la(e){let t=[];for(let[n,r]of Object.entries(ra)){let i=aa(n,e);if(i===null)continue;let a=$i(r);a!==void 0&&t.push({title:ea(i),order:a,relativePath:i})}return t.sort((e,t)=>e.order-t.order),t}var ua=new Map(Xi.map(e=>[e.vaultFolder,e]));function da(e,t=40){let n=e.trim().toLowerCase();if(n.length<2)return[];let r=n.split(/\s+/).filter(Boolean);if(r.length===0)return[];let i=[];outer:for(let[e,n]of Object.entries(ra)){let a=null,o=null;for(let t of ia){let n=aa(e,t);if(n!==null){a=t,o=n;break}}if(!a||o===null)continue;let s=ua.get(a);if(!s||$i(n)===void 0)continue;let c=ea(o),l=na(o),u=`${c}\n${l}\n${ta(n)}`.toLowerCase();if(r.every(e=>u.includes(e))&&(i.push({categoryId:s.id,categoryName:s.name,relativePath:l,title:c}),i.length>=t))break outer}return i.sort((e,t)=>e.title.localeCompare(t.title,void 0,{sensitivity:`base`})),i}function fa(e=12){let t=[];for(let e of Xi)for(let n of la(e.vaultFolder)){let r=Yi[`${e.vaultFolder}/${na(n.relativePath)}`];r&&t.push({categoryId:e.id,categoryName:e.name,relativePath:na(n.relativePath),title:n.title,added:new Date(r)})}return t.sort((e,t)=>t.added.getTime()-e.added.getTime()),t.slice(0,e)}var pa=o((e=>{var t=Symbol.for(`react.transitional.element`),n=Symbol.for(`react.fragment`);function r(e,n,r){var i=null;if(r!==void 0&&(i=``+r),n.key!==void 0&&(i=``+n.key),`key`in n)for(var a in r={},n)a!==`key`&&(r[a]=n[a]);else r=n;return n=r.ref,{$$typeof:t,type:e,key:i,ref:n===void 0?null:n,props:r}}e.Fragment=n,e.jsx=r,e.jsxs=r})),D=o(((e,t)=>{t.exports=pa()}))(),ma=new Map(Xi.map(e=>[e.id,la(e.vaultFolder)]));function ha(e){let t=/^\/category\/([^/]+)/.exec(e);return t?decodeURIComponent(t[1]):void 0}function ga(){let{pathname:e}=lt(),t=ha(e),[n,r]=(0,v.useState)({}),i=e=>n[e]??e===t,a=e=>r(t=>({...t,[e]:!i(e)}));return(0,D.jsxs)(`nav`,{className:`sidebar`,"aria-label":`Notes`,children:[(0,D.jsx)(`p`,{className:`sidebar__heading`,children:`Categories`}),(0,D.jsx)(`ul`,{className:`sidebar__list`,children:Xi.map(t=>{let n=ma.get(t.id)??[],r=i(t.id);return(0,D.jsxs)(`li`,{className:`sidebar__group`,children:[(0,D.jsxs)(`div`,{className:`sidebar__group-row`,children:[(0,D.jsx)(Fn,{to:`/category/${t.id}`,end:!0,className:`sidebar__category`,children:t.name}),n.length>0?(0,D.jsx)(`button`,{type:`button`,className:`sidebar__toggle`,"aria-expanded":r,"aria-label":`${r?`Collapse`:`Expand`} ${t.name}`,onClick:()=>a(t.id),children:(0,D.jsx)(`svg`,{width:12,height:12,viewBox:`0 0 12 12`,"aria-hidden":!0,children:(0,D.jsx)(`path`,{d:`M4.5 2.5 8 6l-3.5 3.5`,fill:`none`,stroke:`currentColor`,strokeWidth:`1.4`,strokeLinecap:`round`,strokeLinejoin:`round`})})}):null]}),r?(0,D.jsx)(`ul`,{className:`sidebar__notes`,children:n.map(n=>{let r=ca(t.id,n.relativePath);return(0,D.jsx)(`li`,{children:(0,D.jsx)(Pn,{to:r,className:`sidebar__note`,"aria-current":e===r?`page`:void 0,children:n.title})},n.relativePath)})}):null]},t.id)})})]})}function _a(){let{pathname:e}=lt(),[t,n]=(0,v.useState)(``),[r,i]=(0,v.useState)(!1),[a,o]=(0,v.useState)(!1),[s,c]=(0,v.useState)(!1),l=(0,v.useRef)(null),u=(0,v.useMemo)(()=>da(t),[t]),d=t.trim().length>=2,f=r&&d;(0,v.useLayoutEffect)(()=>{window.scrollTo(0,0)},[e]),(0,v.useEffect)(()=>{o(!1),i(!1),c(!1)},[e]),(0,v.useEffect)(()=>{let e=e=>{l.current?.contains(e.target)||i(!1)};return document.addEventListener(`mousedown`,e),()=>document.removeEventListener(`mousedown`,e)},[]),(0,v.useEffect)(()=>{if(!a&&!s)return;let e=e=>{e.key===`Escape`&&(o(!1),c(!1))};return window.addEventListener(`keydown`,e),()=>window.removeEventListener(`keydown`,e)},[a,s]);let p=()=>{o(!0),i(!0)},m=(0,D.jsx)(`ul`,{className:`nav__search-results`,id:`nav-search-results`,role:`listbox`,"aria-label":`Search results`,hidden:!f,children:d&&u.length===0?(0,D.jsx)(`li`,{className:`nav__search-empty`,role:`option`,children:`No notes match.`}):u.map(e=>(0,D.jsx)(`li`,{role:`option`,children:(0,D.jsxs)(Pn,{className:`nav__search-hit`,to:ca(e.categoryId,e.relativePath),onMouseDown:e=>e.preventDefault(),onClick:()=>{i(!1),o(!1)},children:[(0,D.jsx)(`span`,{className:`nav__search-hit-title`,children:e.title}),(0,D.jsx)(`span`,{className:`nav__search-hit-meta`,children:e.categoryName})]})},`${e.categoryId}::${e.relativePath}`))});return(0,D.jsxs)(`div`,{className:`layout`,children:[(0,D.jsx)(`header`,{className:`nav`,children:(0,D.jsxs)(`div`,{className:`nav__inner`,children:[(0,D.jsxs)(`div`,{className:`nav__title-group`,children:[(0,D.jsx)(`button`,{type:`button`,className:`nav__menu-btn`,"aria-label":s?`Close menu`:`Open menu`,"aria-expanded":s,"aria-controls":`site-sidebar`,onClick:()=>c(e=>!e),children:(0,D.jsx)(`svg`,{width:18,height:18,viewBox:`0 0 24 24`,"aria-hidden":!0,children:(0,D.jsx)(`path`,{d:`M4 7h16M4 12h16M4 17h16`,fill:`none`,stroke:`currentColor`,strokeWidth:`1.5`,strokeLinecap:`round`})})}),(0,D.jsx)(`img`,{className:`nav__portrait`,src:`/portrait.svg`,width:40,height:40,alt:``}),(0,D.jsx)(`h1`,{className:`nav__brand`,children:(0,D.jsx)(Pn,{to:`/`,className:`nav__brand-link`,children:`Amelia's Notes & Brain Dump.`})})]}),(0,D.jsxs)(`div`,{className:`nav__search-wrap`,ref:l,children:[(0,D.jsxs)(`label`,{className:`nav__search nav__search--desktop`,"aria-label":`Search`,children:[(0,D.jsx)(`input`,{type:`search`,placeholder:`Search…`,autoComplete:`off`,value:t,onChange:e=>{n(e.target.value),i(!0)},onFocus:()=>i(!0),"aria-autocomplete":`list`,"aria-controls":`nav-search-results`,"aria-expanded":f}),m]}),(0,D.jsx)(`button`,{type:`button`,className:`nav__search-btn`,"aria-label":`Open search`,onClick:p,children:(0,D.jsxs)(`svg`,{className:`nav__search-btn-icon`,width:18,height:18,viewBox:`0 0 24 24`,"aria-hidden":!0,children:[(0,D.jsx)(`circle`,{cx:`11`,cy:`11`,r:`6.5`,fill:`none`,stroke:`currentColor`,strokeWidth:`1.5`}),(0,D.jsx)(`path`,{d:`M16.2 16.2 20 20`,fill:`none`,stroke:`currentColor`,strokeWidth:`1.5`,strokeLinecap:`round`})]})})]})]})}),a?(0,D.jsxs)(`div`,{className:`nav__search-mobile`,role:`dialog`,"aria-modal":`true`,"aria-label":`Search notes`,children:[(0,D.jsx)(`button`,{type:`button`,className:`nav__search-mobile-backdrop`,"aria-label":`Close search`,onClick:()=>o(!1)}),(0,D.jsxs)(`div`,{className:`nav__search-mobile-panel`,children:[(0,D.jsx)(`label`,{className:`nav__search nav__search--mobile-field`,"aria-label":`Search`,children:(0,D.jsx)(`input`,{type:`search`,placeholder:`Search…`,autoComplete:`off`,value:t,onChange:e=>{n(e.target.value),i(!0)},onFocus:()=>i(!0),"aria-autocomplete":`list`,"aria-controls":`nav-search-results-mobile`,"aria-expanded":f,autoFocus:!0})}),(0,D.jsx)(`ul`,{className:`nav__search-results nav__search-results--mobile`,id:`nav-search-results-mobile`,role:`listbox`,"aria-label":`Search results`,children:d&&u.length===0?(0,D.jsx)(`li`,{className:`nav__search-empty`,role:`option`,children:`No notes match.`}):u.map(e=>(0,D.jsx)(`li`,{role:`option`,children:(0,D.jsxs)(Pn,{className:`nav__search-hit`,to:ca(e.categoryId,e.relativePath),onMouseDown:e=>e.preventDefault(),onClick:()=>{i(!1),o(!1)},children:[(0,D.jsx)(`span`,{className:`nav__search-hit-title`,children:e.title}),(0,D.jsx)(`span`,{className:`nav__search-hit-meta`,children:e.categoryName})]})},`m-${e.categoryId}::${e.relativePath}`))})]})]}):null,(0,D.jsxs)(`div`,{className:`shell`,children:[s?(0,D.jsx)(`button`,{type:`button`,className:`shell__backdrop`,"aria-label":`Close menu`,onClick:()=>c(!1)}):null,(0,D.jsx)(`aside`,{id:`site-sidebar`,className:`shell__sidebar${s?` shell__sidebar--open`:``}`,children:(0,D.jsx)(ga,{})}),(0,D.jsx)(`main`,{className:`shell__main`,children:(0,D.jsx)(Vt,{})})]}),(0,D.jsx)(`footer`,{className:`footer`,children:(0,D.jsx)(`p`,{children:`© 2026 Amelia Li`})})]})}var va=12,ya=new Intl.DateTimeFormat(void 0,{month:`short`,day:`numeric`,year:`numeric`});function ba(){let e=fa(va);return(0,D.jsxs)(`section`,{className:`recent`,"aria-labelledby":`recent-heading`,children:[(0,D.jsx)(`h2`,{id:`recent-heading`,className:`recent__heading`,children:`Recently added`}),(0,D.jsx)(`ul`,{className:`recent__list`,children:e.map(e=>(0,D.jsx)(`li`,{className:`recent__row`,children:(0,D.jsxs)(Pn,{to:ca(e.categoryId,e.relativePath),className:`recent__link`,children:[(0,D.jsx)(`span`,{className:`recent__title`,children:e.title}),(0,D.jsxs)(`span`,{className:`recent__meta`,children:[(0,D.jsx)(`span`,{children:e.categoryName}),(0,D.jsx)(`time`,{dateTime:e.added.toISOString(),children:ya.format(e.added)})]})]})},`${e.categoryId}::${e.relativePath}`))})]})}function xa(){let{categoryId:e}=gt(),t=e?Zi(e):void 0;if(!t)return(0,D.jsx)(Bt,{to:`/`,replace:!0});let n=la(t.vaultFolder);return(0,D.jsxs)(`section`,{className:`category-detail`,"aria-labelledby":`category-title`,children:[(0,D.jsxs)(`h1`,{id:`category-title`,className:`category-detail__title`,children:[`Category: `,t.name]}),(0,D.jsx)(`ul`,{className:`category-detail__list`,children:n.map(e=>(0,D.jsx)(`li`,{className:`category-detail__row`,children:(0,D.jsx)(Pn,{to:ca(t.id,e.relativePath),className:`category-detail__link`,children:e.title})},e.relativePath))})]})}function Sa(e){let t=[],n=String(e||``),r=n.indexOf(`,`),i=0,a=!1;for(;!a;){r===-1&&(r=n.length,a=!0);let e=n.slice(i,r).trim();(e||!a)&&t.push(e),i=r+1,r=n.indexOf(`,`,i)}return t}function Ca(e,t){let n=t||{};return(e[e.length-1]===``?[...e,``]:e).join((n.padRight?` `:``)+`,`+(n.padLeft===!1?``:` `)).trim()}var wa=/^[$_\p{ID_Start}][$_\u{200C}\u{200D}\p{ID_Continue}]*$/u,Ta=/^[$_\p{ID_Start}][-$_\u{200C}\u{200D}\p{ID_Continue}]*$/u,Ea={};function Da(e,t){return((t||Ea).jsx?Ta:wa).test(e)}var Oa=/[ \t\n\f\r]/g;function ka(e){return typeof e==`object`?e.type===`text`?Aa(e.value):!1:Aa(e)}function Aa(e){return e.replace(Oa,``)===``}var ja=class{constructor(e,t,n){this.normal=t,this.property=e,n&&(this.space=n)}};ja.prototype.normal={},ja.prototype.property={},ja.prototype.space=void 0;function Ma(e,t){let n={},r={};for(let t of e)Object.assign(n,t.property),Object.assign(r,t.normal);return new ja(n,r,t)}function Na(e){return e.toLowerCase()}var Pa=class{constructor(e,t){this.attribute=t,this.property=e}};Pa.prototype.attribute=``,Pa.prototype.booleanish=!1,Pa.prototype.boolean=!1,Pa.prototype.commaOrSpaceSeparated=!1,Pa.prototype.commaSeparated=!1,Pa.prototype.defined=!1,Pa.prototype.mustUseProperty=!1,Pa.prototype.number=!1,Pa.prototype.overloadedBoolean=!1,Pa.prototype.property=``,Pa.prototype.spaceSeparated=!1,Pa.prototype.space=void 0;var Fa=s({boolean:()=>La,booleanish:()=>Ra,commaOrSpaceSeparated:()=>Ha,commaSeparated:()=>Va,number:()=>O,overloadedBoolean:()=>za,spaceSeparated:()=>Ba}),Ia=0,La=Ua(),Ra=Ua(),za=Ua(),O=Ua(),Ba=Ua(),Va=Ua(),Ha=Ua();function Ua(){return 2**++Ia}var Wa=Object.keys(Fa),Ga=class extends Pa{constructor(e,t,n,r){let i=-1;if(super(e,t),Ka(this,`space`,r),typeof n==`number`)for(;++i<Wa.length;){let e=Wa[i];Ka(this,Wa[i],(n&Fa[e])===Fa[e])}}};Ga.prototype.defined=!0;function Ka(e,t,n){n&&(e[t]=n)}function qa(e){let t={},n={};for(let[r,i]of Object.entries(e.properties)){let a=new Ga(r,e.transform(e.attributes||{},r),i,e.space);e.mustUseProperty&&e.mustUseProperty.includes(r)&&(a.mustUseProperty=!0),t[r]=a,n[Na(r)]=r,n[Na(a.attribute)]=r}return new ja(t,n,e.space)}var Ja=qa({properties:{ariaActiveDescendant:null,ariaAtomic:Ra,ariaAutoComplete:null,ariaBusy:Ra,ariaChecked:Ra,ariaColCount:O,ariaColIndex:O,ariaColSpan:O,ariaControls:Ba,ariaCurrent:null,ariaDescribedBy:Ba,ariaDetails:null,ariaDisabled:Ra,ariaDropEffect:Ba,ariaErrorMessage:null,ariaExpanded:Ra,ariaFlowTo:Ba,ariaGrabbed:Ra,ariaHasPopup:null,ariaHidden:Ra,ariaInvalid:null,ariaKeyShortcuts:null,ariaLabel:null,ariaLabelledBy:Ba,ariaLevel:O,ariaLive:null,ariaModal:Ra,ariaMultiLine:Ra,ariaMultiSelectable:Ra,ariaOrientation:null,ariaOwns:Ba,ariaPlaceholder:null,ariaPosInSet:O,ariaPressed:Ra,ariaReadOnly:Ra,ariaRelevant:null,ariaRequired:Ra,ariaRoleDescription:Ba,ariaRowCount:O,ariaRowIndex:O,ariaRowSpan:O,ariaSelected:Ra,ariaSetSize:O,ariaSort:null,ariaValueMax:O,ariaValueMin:O,ariaValueNow:O,ariaValueText:null,role:null},transform(e,t){return t===`role`?t:`aria-`+t.slice(4).toLowerCase()}});function Ya(e,t){return t in e?e[t]:t}function Xa(e,t){return Ya(e,t.toLowerCase())}var Za=qa({attributes:{acceptcharset:`accept-charset`,classname:`class`,htmlfor:`for`,httpequiv:`http-equiv`},mustUseProperty:[`checked`,`multiple`,`muted`,`selected`],properties:{abbr:null,accept:Va,acceptCharset:Ba,accessKey:Ba,action:null,allow:null,allowFullScreen:La,allowPaymentRequest:La,allowUserMedia:La,alt:null,as:null,async:La,autoCapitalize:null,autoComplete:Ba,autoFocus:La,autoPlay:La,blocking:Ba,capture:null,charSet:null,checked:La,cite:null,className:Ba,cols:O,colSpan:null,content:null,contentEditable:Ra,controls:La,controlsList:Ba,coords:O|Va,crossOrigin:null,data:null,dateTime:null,decoding:null,default:La,defer:La,dir:null,dirName:null,disabled:La,download:za,draggable:Ra,encType:null,enterKeyHint:null,fetchPriority:null,form:null,formAction:null,formEncType:null,formMethod:null,formNoValidate:La,formTarget:null,headers:Ba,height:O,hidden:za,high:O,href:null,hrefLang:null,htmlFor:Ba,httpEquiv:Ba,id:null,imageSizes:null,imageSrcSet:null,inert:La,inputMode:null,integrity:null,is:null,isMap:La,itemId:null,itemProp:Ba,itemRef:Ba,itemScope:La,itemType:Ba,kind:null,label:null,lang:null,language:null,list:null,loading:null,loop:La,low:O,manifest:null,max:null,maxLength:O,media:null,method:null,min:null,minLength:O,multiple:La,muted:La,name:null,nonce:null,noModule:La,noValidate:La,onAbort:null,onAfterPrint:null,onAuxClick:null,onBeforeMatch:null,onBeforePrint:null,onBeforeToggle:null,onBeforeUnload:null,onBlur:null,onCancel:null,onCanPlay:null,onCanPlayThrough:null,onChange:null,onClick:null,onClose:null,onContextLost:null,onContextMenu:null,onContextRestored:null,onCopy:null,onCueChange:null,onCut:null,onDblClick:null,onDrag:null,onDragEnd:null,onDragEnter:null,onDragExit:null,onDragLeave:null,onDragOver:null,onDragStart:null,onDrop:null,onDurationChange:null,onEmptied:null,onEnded:null,onError:null,onFocus:null,onFormData:null,onHashChange:null,onInput:null,onInvalid:null,onKeyDown:null,onKeyPress:null,onKeyUp:null,onLanguageChange:null,onLoad:null,onLoadedData:null,onLoadedMetadata:null,onLoadEnd:null,onLoadStart:null,onMessage:null,onMessageError:null,onMouseDown:null,onMouseEnter:null,onMouseLeave:null,onMouseMove:null,onMouseOut:null,onMouseOver:null,onMouseUp:null,onOffline:null,onOnline:null,onPageHide:null,onPageShow:null,onPaste:null,onPause:null,onPlay:null,onPlaying:null,onPopState:null,onProgress:null,onRateChange:null,onRejectionHandled:null,onReset:null,onResize:null,onScroll:null,onScrollEnd:null,onSecurityPolicyViolation:null,onSeeked:null,onSeeking:null,onSelect:null,onSlotChange:null,onStalled:null,onStorage:null,onSubmit:null,onSuspend:null,onTimeUpdate:null,onToggle:null,onUnhandledRejection:null,onUnload:null,onVolumeChange:null,onWaiting:null,onWheel:null,open:La,optimum:O,pattern:null,ping:Ba,placeholder:null,playsInline:La,popover:null,popoverTarget:null,popoverTargetAction:null,poster:null,preload:null,readOnly:La,referrerPolicy:null,rel:Ba,required:La,reversed:La,rows:O,rowSpan:O,sandbox:Ba,scope:null,scoped:La,seamless:La,selected:La,shadowRootClonable:La,shadowRootDelegatesFocus:La,shadowRootMode:null,shape:null,size:O,sizes:null,slot:null,span:O,spellCheck:Ra,src:null,srcDoc:null,srcLang:null,srcSet:null,start:O,step:null,style:null,tabIndex:O,target:null,title:null,translate:null,type:null,typeMustMatch:La,useMap:null,value:Ra,width:O,wrap:null,writingSuggestions:null,align:null,aLink:null,archive:Ba,axis:null,background:null,bgColor:null,border:O,borderColor:null,bottomMargin:O,cellPadding:null,cellSpacing:null,char:null,charOff:null,classId:null,clear:null,code:null,codeBase:null,codeType:null,color:null,compact:La,declare:La,event:null,face:null,frame:null,frameBorder:null,hSpace:O,leftMargin:O,link:null,longDesc:null,lowSrc:null,marginHeight:O,marginWidth:O,noResize:La,noHref:La,noShade:La,noWrap:La,object:null,profile:null,prompt:null,rev:null,rightMargin:O,rules:null,scheme:null,scrolling:Ra,standby:null,summary:null,text:null,topMargin:O,valueType:null,version:null,vAlign:null,vLink:null,vSpace:O,allowTransparency:null,autoCorrect:null,autoSave:null,disablePictureInPicture:La,disableRemotePlayback:La,prefix:null,property:null,results:O,security:null,unselectable:null},space:`html`,transform:Xa}),Qa=qa({attributes:{accentHeight:`accent-height`,alignmentBaseline:`alignment-baseline`,arabicForm:`arabic-form`,baselineShift:`baseline-shift`,capHeight:`cap-height`,className:`class`,clipPath:`clip-path`,clipRule:`clip-rule`,colorInterpolation:`color-interpolation`,colorInterpolationFilters:`color-interpolation-filters`,colorProfile:`color-profile`,colorRendering:`color-rendering`,crossOrigin:`crossorigin`,dataType:`datatype`,dominantBaseline:`dominant-baseline`,enableBackground:`enable-background`,fillOpacity:`fill-opacity`,fillRule:`fill-rule`,floodColor:`flood-color`,floodOpacity:`flood-opacity`,fontFamily:`font-family`,fontSize:`font-size`,fontSizeAdjust:`font-size-adjust`,fontStretch:`font-stretch`,fontStyle:`font-style`,fontVariant:`font-variant`,fontWeight:`font-weight`,glyphName:`glyph-name`,glyphOrientationHorizontal:`glyph-orientation-horizontal`,glyphOrientationVertical:`glyph-orientation-vertical`,hrefLang:`hreflang`,horizAdvX:`horiz-adv-x`,horizOriginX:`horiz-origin-x`,horizOriginY:`horiz-origin-y`,imageRendering:`image-rendering`,letterSpacing:`letter-spacing`,lightingColor:`lighting-color`,markerEnd:`marker-end`,markerMid:`marker-mid`,markerStart:`marker-start`,navDown:`nav-down`,navDownLeft:`nav-down-left`,navDownRight:`nav-down-right`,navLeft:`nav-left`,navNext:`nav-next`,navPrev:`nav-prev`,navRight:`nav-right`,navUp:`nav-up`,navUpLeft:`nav-up-left`,navUpRight:`nav-up-right`,onAbort:`onabort`,onActivate:`onactivate`,onAfterPrint:`onafterprint`,onBeforePrint:`onbeforeprint`,onBegin:`onbegin`,onCancel:`oncancel`,onCanPlay:`oncanplay`,onCanPlayThrough:`oncanplaythrough`,onChange:`onchange`,onClick:`onclick`,onClose:`onclose`,onCopy:`oncopy`,onCueChange:`oncuechange`,onCut:`oncut`,onDblClick:`ondblclick`,onDrag:`ondrag`,onDragEnd:`ondragend`,onDragEnter:`ondragenter`,onDragExit:`ondragexit`,onDragLeave:`ondragleave`,onDragOver:`ondragover`,onDragStart:`ondragstart`,onDrop:`ondrop`,onDurationChange:`ondurationchange`,onEmptied:`onemptied`,onEnd:`onend`,onEnded:`onended`,onError:`onerror`,onFocus:`onfocus`,onFocusIn:`onfocusin`,onFocusOut:`onfocusout`,onHashChange:`onhashchange`,onInput:`oninput`,onInvalid:`oninvalid`,onKeyDown:`onkeydown`,onKeyPress:`onkeypress`,onKeyUp:`onkeyup`,onLoad:`onload`,onLoadedData:`onloadeddata`,onLoadedMetadata:`onloadedmetadata`,onLoadStart:`onloadstart`,onMessage:`onmessage`,onMouseDown:`onmousedown`,onMouseEnter:`onmouseenter`,onMouseLeave:`onmouseleave`,onMouseMove:`onmousemove`,onMouseOut:`onmouseout`,onMouseOver:`onmouseover`,onMouseUp:`onmouseup`,onMouseWheel:`onmousewheel`,onOffline:`onoffline`,onOnline:`ononline`,onPageHide:`onpagehide`,onPageShow:`onpageshow`,onPaste:`onpaste`,onPause:`onpause`,onPlay:`onplay`,onPlaying:`onplaying`,onPopState:`onpopstate`,onProgress:`onprogress`,onRateChange:`onratechange`,onRepeat:`onrepeat`,onReset:`onreset`,onResize:`onresize`,onScroll:`onscroll`,onSeeked:`onseeked`,onSeeking:`onseeking`,onSelect:`onselect`,onShow:`onshow`,onStalled:`onstalled`,onStorage:`onstorage`,onSubmit:`onsubmit`,onSuspend:`onsuspend`,onTimeUpdate:`ontimeupdate`,onToggle:`ontoggle`,onUnload:`onunload`,onVolumeChange:`onvolumechange`,onWaiting:`onwaiting`,onZoom:`onzoom`,overlinePosition:`overline-position`,overlineThickness:`overline-thickness`,paintOrder:`paint-order`,panose1:`panose-1`,pointerEvents:`pointer-events`,referrerPolicy:`referrerpolicy`,renderingIntent:`rendering-intent`,shapeRendering:`shape-rendering`,stopColor:`stop-color`,stopOpacity:`stop-opacity`,strikethroughPosition:`strikethrough-position`,strikethroughThickness:`strikethrough-thickness`,strokeDashArray:`stroke-dasharray`,strokeDashOffset:`stroke-dashoffset`,strokeLineCap:`stroke-linecap`,strokeLineJoin:`stroke-linejoin`,strokeMiterLimit:`stroke-miterlimit`,strokeOpacity:`stroke-opacity`,strokeWidth:`stroke-width`,tabIndex:`tabindex`,textAnchor:`text-anchor`,textDecoration:`text-decoration`,textRendering:`text-rendering`,transformOrigin:`transform-origin`,typeOf:`typeof`,underlinePosition:`underline-position`,underlineThickness:`underline-thickness`,unicodeBidi:`unicode-bidi`,unicodeRange:`unicode-range`,unitsPerEm:`units-per-em`,vAlphabetic:`v-alphabetic`,vHanging:`v-hanging`,vIdeographic:`v-ideographic`,vMathematical:`v-mathematical`,vectorEffect:`vector-effect`,vertAdvY:`vert-adv-y`,vertOriginX:`vert-origin-x`,vertOriginY:`vert-origin-y`,wordSpacing:`word-spacing`,writingMode:`writing-mode`,xHeight:`x-height`,playbackOrder:`playbackorder`,timelineBegin:`timelinebegin`},properties:{about:Ha,accentHeight:O,accumulate:null,additive:null,alignmentBaseline:null,alphabetic:O,amplitude:O,arabicForm:null,ascent:O,attributeName:null,attributeType:null,azimuth:O,bandwidth:null,baselineShift:null,baseFrequency:null,baseProfile:null,bbox:null,begin:null,bias:O,by:null,calcMode:null,capHeight:O,className:Ba,clip:null,clipPath:null,clipPathUnits:null,clipRule:null,color:null,colorInterpolation:null,colorInterpolationFilters:null,colorProfile:null,colorRendering:null,content:null,contentScriptType:null,contentStyleType:null,crossOrigin:null,cursor:null,cx:null,cy:null,d:null,dataType:null,defaultAction:null,descent:O,diffuseConstant:O,direction:null,display:null,dur:null,divisor:O,dominantBaseline:null,download:La,dx:null,dy:null,edgeMode:null,editable:null,elevation:O,enableBackground:null,end:null,event:null,exponent:O,externalResourcesRequired:null,fill:null,fillOpacity:O,fillRule:null,filter:null,filterRes:null,filterUnits:null,floodColor:null,floodOpacity:null,focusable:null,focusHighlight:null,fontFamily:null,fontSize:null,fontSizeAdjust:null,fontStretch:null,fontStyle:null,fontVariant:null,fontWeight:null,format:null,fr:null,from:null,fx:null,fy:null,g1:Va,g2:Va,glyphName:Va,glyphOrientationHorizontal:null,glyphOrientationVertical:null,glyphRef:null,gradientTransform:null,gradientUnits:null,handler:null,hanging:O,hatchContentUnits:null,hatchUnits:null,height:null,href:null,hrefLang:null,horizAdvX:O,horizOriginX:O,horizOriginY:O,id:null,ideographic:O,imageRendering:null,initialVisibility:null,in:null,in2:null,intercept:O,k:O,k1:O,k2:O,k3:O,k4:O,kernelMatrix:Ha,kernelUnitLength:null,keyPoints:null,keySplines:null,keyTimes:null,kerning:null,lang:null,lengthAdjust:null,letterSpacing:null,lightingColor:null,limitingConeAngle:O,local:null,markerEnd:null,markerMid:null,markerStart:null,markerHeight:null,markerUnits:null,markerWidth:null,mask:null,maskContentUnits:null,maskUnits:null,mathematical:null,max:null,media:null,mediaCharacterEncoding:null,mediaContentEncodings:null,mediaSize:O,mediaTime:null,method:null,min:null,mode:null,name:null,navDown:null,navDownLeft:null,navDownRight:null,navLeft:null,navNext:null,navPrev:null,navRight:null,navUp:null,navUpLeft:null,navUpRight:null,numOctaves:null,observer:null,offset:null,onAbort:null,onActivate:null,onAfterPrint:null,onBeforePrint:null,onBegin:null,onCancel:null,onCanPlay:null,onCanPlayThrough:null,onChange:null,onClick:null,onClose:null,onCopy:null,onCueChange:null,onCut:null,onDblClick:null,onDrag:null,onDragEnd:null,onDragEnter:null,onDragExit:null,onDragLeave:null,onDragOver:null,onDragStart:null,onDrop:null,onDurationChange:null,onEmptied:null,onEnd:null,onEnded:null,onError:null,onFocus:null,onFocusIn:null,onFocusOut:null,onHashChange:null,onInput:null,onInvalid:null,onKeyDown:null,onKeyPress:null,onKeyUp:null,onLoad:null,onLoadedData:null,onLoadedMetadata:null,onLoadStart:null,onMessage:null,onMouseDown:null,onMouseEnter:null,onMouseLeave:null,onMouseMove:null,onMouseOut:null,onMouseOver:null,onMouseUp:null,onMouseWheel:null,onOffline:null,onOnline:null,onPageHide:null,onPageShow:null,onPaste:null,onPause:null,onPlay:null,onPlaying:null,onPopState:null,onProgress:null,onRateChange:null,onRepeat:null,onReset:null,onResize:null,onScroll:null,onSeeked:null,onSeeking:null,onSelect:null,onShow:null,onStalled:null,onStorage:null,onSubmit:null,onSuspend:null,onTimeUpdate:null,onToggle:null,onUnload:null,onVolumeChange:null,onWaiting:null,onZoom:null,opacity:null,operator:null,order:null,orient:null,orientation:null,origin:null,overflow:null,overlay:null,overlinePosition:O,overlineThickness:O,paintOrder:null,panose1:null,path:null,pathLength:O,patternContentUnits:null,patternTransform:null,patternUnits:null,phase:null,ping:Ba,pitch:null,playbackOrder:null,pointerEvents:null,points:null,pointsAtX:O,pointsAtY:O,pointsAtZ:O,preserveAlpha:null,preserveAspectRatio:null,primitiveUnits:null,propagate:null,property:Ha,r:null,radius:null,referrerPolicy:null,refX:null,refY:null,rel:Ha,rev:Ha,renderingIntent:null,repeatCount:null,repeatDur:null,requiredExtensions:Ha,requiredFeatures:Ha,requiredFonts:Ha,requiredFormats:Ha,resource:null,restart:null,result:null,rotate:null,rx:null,ry:null,scale:null,seed:null,shapeRendering:null,side:null,slope:null,snapshotTime:null,specularConstant:O,specularExponent:O,spreadMethod:null,spacing:null,startOffset:null,stdDeviation:null,stemh:null,stemv:null,stitchTiles:null,stopColor:null,stopOpacity:null,strikethroughPosition:O,strikethroughThickness:O,string:null,stroke:null,strokeDashArray:Ha,strokeDashOffset:null,strokeLineCap:null,strokeLineJoin:null,strokeMiterLimit:O,strokeOpacity:O,strokeWidth:null,style:null,surfaceScale:O,syncBehavior:null,syncBehaviorDefault:null,syncMaster:null,syncTolerance:null,syncToleranceDefault:null,systemLanguage:Ha,tabIndex:O,tableValues:null,target:null,targetX:O,targetY:O,textAnchor:null,textDecoration:null,textRendering:null,textLength:null,timelineBegin:null,title:null,transformBehavior:null,type:null,typeOf:Ha,to:null,transform:null,transformOrigin:null,u1:null,u2:null,underlinePosition:O,underlineThickness:O,unicode:null,unicodeBidi:null,unicodeRange:null,unitsPerEm:O,values:null,vAlphabetic:O,vMathematical:O,vectorEffect:null,vHanging:O,vIdeographic:O,version:null,vertAdvY:O,vertOriginX:O,vertOriginY:O,viewBox:null,viewTarget:null,visibility:null,width:null,widths:null,wordSpacing:null,writingMode:null,x:null,x1:null,x2:null,xChannelSelector:null,xHeight:O,y:null,y1:null,y2:null,yChannelSelector:null,z:null,zoomAndPan:null},space:`svg`,transform:Ya}),$a=qa({properties:{xLinkActuate:null,xLinkArcRole:null,xLinkHref:null,xLinkRole:null,xLinkShow:null,xLinkTitle:null,xLinkType:null},space:`xlink`,transform(e,t){return`xlink:`+t.slice(5).toLowerCase()}}),eo=qa({attributes:{xmlnsxlink:`xmlns:xlink`},properties:{xmlnsXLink:null,xmlns:null},space:`xmlns`,transform:Xa}),to=qa({properties:{xmlBase:null,xmlLang:null,xmlSpace:null},space:`xml`,transform(e,t){return`xml:`+t.slice(3).toLowerCase()}}),no={classId:`classID`,dataType:`datatype`,itemId:`itemID`,strokeDashArray:`strokeDasharray`,strokeDashOffset:`strokeDashoffset`,strokeLineCap:`strokeLinecap`,strokeLineJoin:`strokeLinejoin`,strokeMiterLimit:`strokeMiterlimit`,typeOf:`typeof`,xLinkActuate:`xlinkActuate`,xLinkArcRole:`xlinkArcrole`,xLinkHref:`xlinkHref`,xLinkRole:`xlinkRole`,xLinkShow:`xlinkShow`,xLinkTitle:`xlinkTitle`,xLinkType:`xlinkType`,xmlnsXLink:`xmlnsXlink`},ro=/[A-Z]/g,io=/-[a-z]/g,ao=/^data[-\w.:]+$/i;function oo(e,t){let n=Na(t),r=t,i=Pa;if(n in e.normal)return e.property[e.normal[n]];if(n.length>4&&n.slice(0,4)===`data`&&ao.test(t)){if(t.charAt(4)===`-`){let e=t.slice(5).replace(io,co);r=`data`+e.charAt(0).toUpperCase()+e.slice(1)}else{let e=t.slice(4);if(!io.test(e)){let n=e.replace(ro,so);n.charAt(0)!==`-`&&(n=`-`+n),t=`data`+n}}i=Ga}return new i(r,t)}function so(e){return`-`+e.toLowerCase()}function co(e){return e.charAt(1).toUpperCase()}var lo=Ma([Ja,Za,$a,eo,to],`html`),uo=Ma([Ja,Qa,$a,eo,to],`svg`);function fo(e){let t=String(e||``).trim();return t?t.split(/[ \t\n\r\f]+/g):[]}function po(e){return e.join(` `).trim()}var mo=o(((e,t)=>{var n=/\/\*[^*]*\*+([^/*][^*]*\*+)*\//g,r=/\n/g,i=/^\s*/,a=/^(\*?[-#/*\\\w]+(\[[0-9a-z_-]+\])?)\s*/,o=/^:\s*/,s=/^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};])+)/,c=/^[;\s]*/,l=/^\s+|\s+$/g,u=`
+	- agents love shortcuts, so make the shortcut the correct path. strict boundaries`,Yi={"CSE 333/Style checklist.md":`2026-10-20T12:32:00-07:00`,"CSE 333/week 1-2/Intro.md":`2026-10-01T00:10:11-07:00`,"CSE 333/week 1-2/Memory, Data, Parameters.md":`2026-10-03T18:48:59-07:00`,"CSE 333/week 1-2/Modules, C Preprocessor.md":`2026-10-12T17:15:25-07:00`,"CSE 333/week 1-2/Pointers.md":`2026-10-05T20:08:57-07:00`,"CSE 333/week 1-2/Structs, Heap.md":`2026-10-07T15:09:32-07:00`,"CSE 333/week 3-4/Buffering, POSIX I／O, System Calls.md":`2026-10-17T01:29:38-07:00`,"CSE 333/week 3-4/C++ Classes, Constructors, and Copies.md":`2026-10-23T23:08:37-07:00`,"CSE 333/week 3-4/C++ References, Const, Classes.md":`2026-10-21T14:12:13-07:00`,"CSE 333/week 3-4/C++ intro.md":`2026-10-19T17:13:40-07:00`,"CSE 333/week 3-4/Linking, File I／O.md":`2026-10-12T17:15:25-07:00`,"CSE 333/week 3-4/Makefiles, C++ Preview.md":`2026-10-17T01:29:38-07:00`,"CSE 333/week 5-6/C++ Class Details, Heap.md":`2026-10-26T14:16:44-07:00`,"CSE 333/week 5-6/C++ STL, Smart Pointer.md":`2026-11-06T01:47:38-08:00`,"CSE 333/week 5-6/C++ Smart Pointers.md":`2026-11-07T17:01:55-08:00`,"CSE 333/week 5-6/C++ Standard Template Library.md":`2026-10-30T17:30:14-07:00`,"CSE 333/week 5-6/C++ Templates.md":`2026-10-28T16:59:34-07:00`,"CSE 444/week 1-2/DBMS architecture.md":`2026-04-03T23:55:21-07:00`,"CSE 444/week 1-2/Indexing.md":`2026-04-10T03:11:09-07:00`,"CSE 444/week 1-2/Relational Model Review.md":`2026-04-01T13:30:22-07:00`,"CSE 444/week 1-2/Review.md":`2026-03-30T13:36:00-07:00`,"CSE 444/week 1-2/Storage.md":`2026-04-06T18:38:59-07:00`,"CSE 444/week 3-4/Query Optimization.md":`2026-04-25T21:11:47-07:00`,"CSE 444/week 3-4/Query execution and operator algorithms.md":`2026-04-18T03:03:03-07:00`,"CSE 444/week 3-4/Query plan costs.md":`2026-04-25T21:11:47-07:00`,"CSE 444/week 5-6/Concurrency Control.md":`2026-04-30T03:14:32-07:00`,"CSE 444/week 5-6/Optimistic Concurrency Control.md":`2026-05-04T16:21:19-07:00`,"CSE 444/week 7-8/Parallel DBMSs.md":`2026-05-18T13:21:26-07:00`,"CSE 444/week 7-8/Transactions Recovery.md":`2026-05-13T03:03:41-07:00`,"CSE 444/week 9-10/Column Stores.md":`2026-06-06T20:44:35-07:00`,"CSE 444/week 9-10/MapReduce.md":`2026-05-27T13:26:15-07:00`,"CSE 444/week 9-10/Replication.md":`2026-06-06T20:44:35-07:00`,"CSE 444/week 9-10/Spark.md":`2026-05-30T16:45:53-07:00`,"CSE 444/week 9-10/Two-Phase Commit.md":`2026-06-01T13:28:06-07:00`,"DSA/Algo review.md":`2026-08-29T03:09:35-05:00`,"DSA/Big-O Notation.md":`2026-03-21T22:23:56-07:00`,"DSA/DP.md":`2026-03-21T22:23:56-07:00`,"DSA/DSA Patterns - I.md":`2026-03-21T22:23:56-07:00`,"DSA/DSA Patterns - II.md":`2026-03-21T22:23:56-07:00`,"INFO 441/00_Imports.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/00_node project with express server.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/AJAX.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/Simple server template.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/audit img tags.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/checkTime.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 1-2/pluralize.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/JSON File Data Flow.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/MVC.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/Middleware.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/MongoDB connection.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/Pterosaurs.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/SQL Injection.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/User Data Demo (MongoDB).md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 3-4/XSS (Cross Site Scripting Attacks).md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 5-6/Session (authentication).md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 5-6/User Actions Part 2.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 5-6/User Actions.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 5-6/Websockets.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 7-8/Caching.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 7-8/Carts & Payments.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 7-8/Microservices and Proxies.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 7-8/Testing.md":`2026-03-21T22:23:56-07:00`,"INFO 441/week 9-10/Docker.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 1-2/Intro.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 1-2/Macros.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 1-2/Object-orientated Swift.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Dynamic Swft.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Key-Value Coding.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Object-orientated Swift Part 2.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Protocols.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Selectors.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Simple controls.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/UIKit.md":`2026-03-21T22:23:56-07:00`,"INFO 449/week 3-4/Unit Testing.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/01_basic sql/JOINs.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/01_basic sql/Relations and datatypes.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/02_relational model/Create table.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/02_relational model/First normal form.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/02_relational model/INSERT, UPDATE, DELETE.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/02_relational model/Keys.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/02_relational model/NULL.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/02_relational model/Physical data dependence.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/03_intermediate SQL/GROUP BY.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/03_intermediate SQL/HAVING.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/03_intermediate SQL/Simple Aggregation.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/03_intermediate SQL/WITH.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/03_intermediate SQL/Witnesses.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/04_conceptual modeling/Conceptual Database Design.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/04_conceptual modeling/Entity Relationship Diagram.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/04_conceptual modeling/Relationship.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/04_conceptual modeling/SELF JOIN Practice.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/04_conceptual modeling/Weak Entity Sets.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/05_relational schema/CHECK Constraint.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/05_relational schema/FK Constraints.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/05_relational schema/From ERD to relational schema.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/06_logical db design review/Nested Queries.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/07_window functions/Row Number, Rank, Dense Rank.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/07_window functions/Window Functions.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/08_functional dependencies, normalization, views/BCNF Decomposition.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/08_functional dependencies, normalization, views/Functional dependencies.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/08_functional dependencies, normalization, views/Normalization.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/08_functional dependencies, normalization, views/Views & Temp Tables.md":`2026-03-21T22:23:56-07:00`,"Introduction to Database Systems/09_relational algebra/Relational Algebra.md":`2026-10-21T10:51:42-07:00`,"Introduction to Database Systems/10_transactions/Transactions.md":`2026-11-02T13:10:13-08:00`,"dump/agents.md":`2026-10-18T21:31:48-07:00`,"sync.md":`2026-06-06T20:44:35-07:00`},Xi=[{id:`sql-notes`,name:`SQL notes`,subtitle:`About SQL and databases`,vaultFolder:`Introduction to Database Systems`},{id:`systems-programming`,name:`Systems Programming`,subtitle:`CSE 333`,vaultFolder:`CSE 333`},{id:`database-systems-internals`,name:`Database Systems Internals`,subtitle:`CSE 444; About databases, more advanced`,vaultFolder:`CSE 444`},{id:`server-side-development`,name:`Server-side Development`,subtitle:`Notes about server from INFO 441`,vaultFolder:`INFO 441`},{id:`ios-development`,name:`iOS Development`,subtitle:`Notes about iOS from INFO 449`,vaultFolder:`INFO 449`},{id:`dump`,name:`dump`,subtitle:`my brain dump`,vaultFolder:`dump`},{id:`dsa`,name:`DSA`,subtitle:``,vaultFolder:`DSA`}];function Zi(e){return Xi.find(t=>t.id===e)}var Qi=/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/;function $i(e){let t=e.match(Qi);if(!t)return;let n=/^order:\s*(\d+)\s*$/m.exec(t[1]);if(n)return Number.parseInt(n[1],10)}function ea(e){return(e.split(/[/\\]/).pop()??e).replace(/\.md$/i,``)}function ta(e){let t=e.match(Qi);return t?e.slice(t[0].length):e}function na(e){return e.replace(/\\/g,`/`).replace(/\/+/g,`/`)}var ra=Object.assign({"../../../milynotes vault/CSE 333/Style checklist.md":Qn,"../../../milynotes vault/CSE 333/week 1-2/Intro.md":$n,"../../../milynotes vault/CSE 333/week 1-2/Memory, Data, Parameters.md":er,"../../../milynotes vault/CSE 333/week 1-2/Modules, C Preprocessor.md":tr,"../../../milynotes vault/CSE 333/week 1-2/Pointers.md":nr,"../../../milynotes vault/CSE 333/week 1-2/Structs, Heap.md":rr,"../../../milynotes vault/CSE 333/week 3-4/Buffering, POSIX I／O, System Calls.md":ir,"../../../milynotes vault/CSE 333/week 3-4/C++ Classes, Constructors, and Copies.md":ar,"../../../milynotes vault/CSE 333/week 3-4/C++ References, Const, Classes.md":or,"../../../milynotes vault/CSE 333/week 3-4/C++ intro.md":sr,"../../../milynotes vault/CSE 333/week 3-4/Linking, File I／O.md":cr,"../../../milynotes vault/CSE 333/week 3-4/Makefiles, C++ Preview.md":lr,"../../../milynotes vault/CSE 333/week 5-6/C++ Class Details, Heap.md":ur,"../../../milynotes vault/CSE 333/week 5-6/C++ STL, Smart Pointer.md":dr,"../../../milynotes vault/CSE 333/week 5-6/C++ Smart Pointers.md":fr,"../../../milynotes vault/CSE 333/week 5-6/C++ Standard Template Library.md":pr,"../../../milynotes vault/CSE 333/week 5-6/C++ Templates.md":mr,"../../../milynotes vault/CSE 444/week 1-2/DBMS architecture.md":hr,"../../../milynotes vault/CSE 444/week 1-2/Indexing.md":gr,"../../../milynotes vault/CSE 444/week 1-2/Relational Model Review.md":_r,"../../../milynotes vault/CSE 444/week 1-2/Review.md":vr,"../../../milynotes vault/CSE 444/week 1-2/Storage.md":yr,"../../../milynotes vault/CSE 444/week 3-4/Query Optimization.md":br,"../../../milynotes vault/CSE 444/week 3-4/Query execution and operator algorithms.md":xr,"../../../milynotes vault/CSE 444/week 3-4/Query plan costs.md":Sr,"../../../milynotes vault/CSE 444/week 5-6/Concurrency Control.md":Cr,"../../../milynotes vault/CSE 444/week 5-6/Optimistic Concurrency Control.md":wr,"../../../milynotes vault/CSE 444/week 7-8/Parallel DBMSs.md":Tr,"../../../milynotes vault/CSE 444/week 7-8/Transactions Recovery.md":Er,"../../../milynotes vault/CSE 444/week 9-10/Column Stores.md":Dr,"../../../milynotes vault/CSE 444/week 9-10/MapReduce.md":Or,"../../../milynotes vault/CSE 444/week 9-10/Replication.md":kr,"../../../milynotes vault/CSE 444/week 9-10/Spark.md":Ar,"../../../milynotes vault/CSE 444/week 9-10/Two-Phase Commit.md":jr,"../../../milynotes vault/DSA/Algo review.md":Mr,"../../../milynotes vault/DSA/Big-O Notation.md":Nr,"../../../milynotes vault/DSA/DP.md":Pr,"../../../milynotes vault/DSA/DSA Patterns - I.md":Fr,"../../../milynotes vault/DSA/DSA Patterns - II.md":Ir,"../../../milynotes vault/INFO 441/00_Imports.md":Lr,"../../../milynotes vault/INFO 441/week 1-2/00_node project with express server.md":Rr,"../../../milynotes vault/INFO 441/week 1-2/AJAX.md":zr,"../../../milynotes vault/INFO 441/week 1-2/Simple server template.md":Br,"../../../milynotes vault/INFO 441/week 1-2/audit img tags.md":Vr,"../../../milynotes vault/INFO 441/week 1-2/checkTime.md":Hr,"../../../milynotes vault/INFO 441/week 1-2/pluralize.md":Ur,"../../../milynotes vault/INFO 441/week 3-4/JSON File Data Flow.md":Wr,"../../../milynotes vault/INFO 441/week 3-4/MVC.md":Gr,"../../../milynotes vault/INFO 441/week 3-4/Middleware.md":Kr,"../../../milynotes vault/INFO 441/week 3-4/MongoDB connection.md":qr,"../../../milynotes vault/INFO 441/week 3-4/Pterosaurs.md":Jr,"../../../milynotes vault/INFO 441/week 3-4/SQL Injection.md":Yr,"../../../milynotes vault/INFO 441/week 3-4/User Data Demo (MongoDB).md":Xr,"../../../milynotes vault/INFO 441/week 3-4/XSS (Cross Site Scripting Attacks).md":Zr,"../../../milynotes vault/INFO 441/week 5-6/Session (authentication).md":Qr,"../../../milynotes vault/INFO 441/week 5-6/User Actions Part 2.md":$r,"../../../milynotes vault/INFO 441/week 5-6/User Actions.md":ei,"../../../milynotes vault/INFO 441/week 5-6/Websockets.md":ti,"../../../milynotes vault/INFO 441/week 7-8/Caching.md":ni,"../../../milynotes vault/INFO 441/week 7-8/Carts & Payments.md":ri,"../../../milynotes vault/INFO 441/week 7-8/Microservices and Proxies.md":ii,"../../../milynotes vault/INFO 441/week 7-8/Testing.md":ai,"../../../milynotes vault/INFO 441/week 9-10/Docker.md":oi,"../../../milynotes vault/INFO 449/week 1-2/Intro.md":si,"../../../milynotes vault/INFO 449/week 1-2/Macros.md":ci,"../../../milynotes vault/INFO 449/week 1-2/Object-orientated Swift.md":li,"../../../milynotes vault/INFO 449/week 3-4/Dynamic Swft.md":ui,"../../../milynotes vault/INFO 449/week 3-4/Key-Value Coding.md":di,"../../../milynotes vault/INFO 449/week 3-4/Object-orientated Swift Part 2.md":fi,"../../../milynotes vault/INFO 449/week 3-4/Protocols.md":pi,"../../../milynotes vault/INFO 449/week 3-4/Selectors.md":mi,"../../../milynotes vault/INFO 449/week 3-4/Simple controls.md":hi,"../../../milynotes vault/INFO 449/week 3-4/UIKit.md":gi,"../../../milynotes vault/INFO 449/week 3-4/Unit Testing.md":_i,"../../../milynotes vault/Introduction to Database Systems/01_basic sql/JOINs.md":vi,"../../../milynotes vault/Introduction to Database Systems/01_basic sql/Relations and datatypes.md":yi,"../../../milynotes vault/Introduction to Database Systems/02_relational model/Create table.md":bi,"../../../milynotes vault/Introduction to Database Systems/02_relational model/First normal form.md":xi,"../../../milynotes vault/Introduction to Database Systems/02_relational model/INSERT, UPDATE, DELETE.md":Si,"../../../milynotes vault/Introduction to Database Systems/02_relational model/Keys.md":Ci,"../../../milynotes vault/Introduction to Database Systems/02_relational model/NULL.md":wi,"../../../milynotes vault/Introduction to Database Systems/02_relational model/Physical data dependence.md":Ti,"../../../milynotes vault/Introduction to Database Systems/03_intermediate SQL/GROUP BY.md":Ei,"../../../milynotes vault/Introduction to Database Systems/03_intermediate SQL/HAVING.md":Di,"../../../milynotes vault/Introduction to Database Systems/03_intermediate SQL/Simple Aggregation.md":Oi,"../../../milynotes vault/Introduction to Database Systems/03_intermediate SQL/WITH.md":ki,"../../../milynotes vault/Introduction to Database Systems/03_intermediate SQL/Witnesses.md":Ai,"../../../milynotes vault/Introduction to Database Systems/04_conceptual modeling/Conceptual Database Design.md":ji,"../../../milynotes vault/Introduction to Database Systems/04_conceptual modeling/Entity Relationship Diagram.md":Mi,"../../../milynotes vault/Introduction to Database Systems/04_conceptual modeling/Relationship.md":Ni,"../../../milynotes vault/Introduction to Database Systems/04_conceptual modeling/SELF JOIN Practice.md":Pi,"../../../milynotes vault/Introduction to Database Systems/04_conceptual modeling/Weak Entity Sets.md":Fi,"../../../milynotes vault/Introduction to Database Systems/05_relational schema/CHECK Constraint.md":Ii,"../../../milynotes vault/Introduction to Database Systems/05_relational schema/FK Constraints.md":Li,"../../../milynotes vault/Introduction to Database Systems/05_relational schema/From ERD to relational schema.md":Ri,"../../../milynotes vault/Introduction to Database Systems/06_logical db design review/Nested Queries.md":zi,"../../../milynotes vault/Introduction to Database Systems/07_window functions/Row Number, Rank, Dense Rank.md":Bi,"../../../milynotes vault/Introduction to Database Systems/07_window functions/Window Functions.md":Vi,"../../../milynotes vault/Introduction to Database Systems/08_functional dependencies, normalization, views/BCNF Decomposition.md":Hi,"../../../milynotes vault/Introduction to Database Systems/08_functional dependencies, normalization, views/Functional dependencies.md":Ui,"../../../milynotes vault/Introduction to Database Systems/08_functional dependencies, normalization, views/Normalization.md":Wi,"../../../milynotes vault/Introduction to Database Systems/08_functional dependencies, normalization, views/Views & Temp Tables.md":Gi,"../../../milynotes vault/Introduction to Database Systems/09_relational algebra/Relational Algebra.md":Ki,"../../../milynotes vault/Introduction to Database Systems/10_transactions/Transactions.md":qi,"../../../milynotes vault/dump/agents.md":Ji,"../../../milynotes vault/sync.md":``}),ia=Xi.map(e=>e.vaultFolder);function aa(e,t){let n=e.replace(/\\/g,`/`),r=`milynotes vault/${t}/`,i=n.lastIndexOf(r);return i===-1?null:n.slice(i+r.length)}var oa=new Map;for(let[e,t]of Object.entries(ra))for(let n of ia){let r=aa(e,n);if(r){oa.set(`${n}::${na(r)}`,t);break}}function sa(e,t){let n=`${e}::${na(t)}`;return oa.get(n)??null}function ca(e,t){return`/category/${encodeURIComponent(e)}/note/${encodeURIComponent(t)}`}function la(e){let t=[];for(let[n,r]of Object.entries(ra)){let i=aa(n,e);if(i===null)continue;let a=$i(r);a!==void 0&&t.push({title:ea(i),order:a,relativePath:i})}return t.sort((e,t)=>e.order-t.order),t}var ua=new Map(Xi.map(e=>[e.vaultFolder,e]));function da(e,t=40){let n=e.trim().toLowerCase();if(n.length<2)return[];let r=n.split(/\s+/).filter(Boolean);if(r.length===0)return[];let i=[];outer:for(let[e,n]of Object.entries(ra)){let a=null,o=null;for(let t of ia){let n=aa(e,t);if(n!==null){a=t,o=n;break}}if(!a||o===null)continue;let s=ua.get(a);if(!s||$i(n)===void 0)continue;let c=ea(o),l=na(o),u=`${c}\n${l}\n${ta(n)}`.toLowerCase();if(r.every(e=>u.includes(e))&&(i.push({categoryId:s.id,categoryName:s.name,relativePath:l,title:c}),i.length>=t))break outer}return i.sort((e,t)=>e.title.localeCompare(t.title,void 0,{sensitivity:`base`})),i}function fa(e=12){let t=[];for(let e of Xi)for(let n of la(e.vaultFolder)){let r=Yi[`${e.vaultFolder}/${na(n.relativePath)}`];r&&t.push({categoryId:e.id,categoryName:e.name,relativePath:na(n.relativePath),title:n.title,added:new Date(r)})}return t.sort((e,t)=>t.added.getTime()-e.added.getTime()),t.slice(0,e)}var pa=o((e=>{var t=Symbol.for(`react.transitional.element`),n=Symbol.for(`react.fragment`);function r(e,n,r){var i=null;if(r!==void 0&&(i=``+r),n.key!==void 0&&(i=``+n.key),`key`in n)for(var a in r={},n)a!==`key`&&(r[a]=n[a]);else r=n;return n=r.ref,{$$typeof:t,type:e,key:i,ref:n===void 0?null:n,props:r}}e.Fragment=n,e.jsx=r,e.jsxs=r})),D=o(((e,t)=>{t.exports=pa()}))(),ma=new Map(Xi.map(e=>[e.id,la(e.vaultFolder)]));function ha(e){let t=/^\/category\/([^/]+)/.exec(e);return t?decodeURIComponent(t[1]):void 0}function ga(){let{pathname:e}=lt(),t=ha(e),[n,r]=(0,v.useState)({}),i=e=>n[e]??e===t,a=e=>r(t=>({...t,[e]:!i(e)}));return(0,D.jsxs)(`nav`,{className:`sidebar`,"aria-label":`Notes`,children:[(0,D.jsx)(`p`,{className:`sidebar__heading`,children:`Categories`}),(0,D.jsx)(`ul`,{className:`sidebar__list`,children:Xi.map(t=>{let n=ma.get(t.id)??[],r=i(t.id);return(0,D.jsxs)(`li`,{className:`sidebar__group`,children:[(0,D.jsxs)(`div`,{className:`sidebar__group-row`,children:[(0,D.jsx)(Fn,{to:`/category/${t.id}`,end:!0,className:`sidebar__category`,children:t.name}),n.length>0?(0,D.jsx)(`button`,{type:`button`,className:`sidebar__toggle`,"aria-expanded":r,"aria-label":`${r?`Collapse`:`Expand`} ${t.name}`,onClick:()=>a(t.id),children:(0,D.jsx)(`svg`,{width:12,height:12,viewBox:`0 0 12 12`,"aria-hidden":!0,children:(0,D.jsx)(`path`,{d:`M4.5 2.5 8 6l-3.5 3.5`,fill:`none`,stroke:`currentColor`,strokeWidth:`1.4`,strokeLinecap:`round`,strokeLinejoin:`round`})})}):null]}),r?(0,D.jsx)(`ul`,{className:`sidebar__notes`,children:n.map(n=>{let r=ca(t.id,n.relativePath);return(0,D.jsx)(`li`,{children:(0,D.jsx)(Pn,{to:r,className:`sidebar__note`,"aria-current":e===r?`page`:void 0,children:n.title})},n.relativePath)})}):null]},t.id)})})]})}function _a(){let{pathname:e}=lt(),[t,n]=(0,v.useState)(``),[r,i]=(0,v.useState)(!1),[a,o]=(0,v.useState)(!1),[s,c]=(0,v.useState)(!1),l=(0,v.useRef)(null),u=(0,v.useMemo)(()=>da(t),[t]),d=t.trim().length>=2,f=r&&d;(0,v.useLayoutEffect)(()=>{window.scrollTo(0,0)},[e]),(0,v.useEffect)(()=>{o(!1),i(!1),c(!1)},[e]),(0,v.useEffect)(()=>{let e=e=>{l.current?.contains(e.target)||i(!1)};return document.addEventListener(`mousedown`,e),()=>document.removeEventListener(`mousedown`,e)},[]),(0,v.useEffect)(()=>{if(!a&&!s)return;let e=e=>{e.key===`Escape`&&(o(!1),c(!1))};return window.addEventListener(`keydown`,e),()=>window.removeEventListener(`keydown`,e)},[a,s]);let p=()=>{o(!0),i(!0)},m=(0,D.jsx)(`ul`,{className:`nav__search-results`,id:`nav-search-results`,role:`listbox`,"aria-label":`Search results`,hidden:!f,children:d&&u.length===0?(0,D.jsx)(`li`,{className:`nav__search-empty`,role:`option`,children:`No notes match.`}):u.map(e=>(0,D.jsx)(`li`,{role:`option`,children:(0,D.jsxs)(Pn,{className:`nav__search-hit`,to:ca(e.categoryId,e.relativePath),onMouseDown:e=>e.preventDefault(),onClick:()=>{i(!1),o(!1)},children:[(0,D.jsx)(`span`,{className:`nav__search-hit-title`,children:e.title}),(0,D.jsx)(`span`,{className:`nav__search-hit-meta`,children:e.categoryName})]})},`${e.categoryId}::${e.relativePath}`))});return(0,D.jsxs)(`div`,{className:`layout`,children:[(0,D.jsx)(`header`,{className:`nav`,children:(0,D.jsxs)(`div`,{className:`nav__inner`,children:[(0,D.jsxs)(`div`,{className:`nav__title-group`,children:[(0,D.jsx)(`button`,{type:`button`,className:`nav__menu-btn`,"aria-label":s?`Close menu`:`Open menu`,"aria-expanded":s,"aria-controls":`site-sidebar`,onClick:()=>c(e=>!e),children:(0,D.jsx)(`svg`,{width:18,height:18,viewBox:`0 0 24 24`,"aria-hidden":!0,children:(0,D.jsx)(`path`,{d:`M4 7h16M4 12h16M4 17h16`,fill:`none`,stroke:`currentColor`,strokeWidth:`1.5`,strokeLinecap:`round`})})}),(0,D.jsx)(`img`,{className:`nav__portrait`,src:`/portrait.svg`,width:40,height:40,alt:``}),(0,D.jsx)(`h1`,{className:`nav__brand`,children:(0,D.jsx)(Pn,{to:`/`,className:`nav__brand-link`,children:`Amelia's Notes & Brain Dump.`})})]}),(0,D.jsxs)(`div`,{className:`nav__search-wrap`,ref:l,children:[(0,D.jsxs)(`label`,{className:`nav__search nav__search--desktop`,"aria-label":`Search`,children:[(0,D.jsx)(`input`,{type:`search`,placeholder:`Search…`,autoComplete:`off`,value:t,onChange:e=>{n(e.target.value),i(!0)},onFocus:()=>i(!0),"aria-autocomplete":`list`,"aria-controls":`nav-search-results`,"aria-expanded":f}),m]}),(0,D.jsx)(`button`,{type:`button`,className:`nav__search-btn`,"aria-label":`Open search`,onClick:p,children:(0,D.jsxs)(`svg`,{className:`nav__search-btn-icon`,width:18,height:18,viewBox:`0 0 24 24`,"aria-hidden":!0,children:[(0,D.jsx)(`circle`,{cx:`11`,cy:`11`,r:`6.5`,fill:`none`,stroke:`currentColor`,strokeWidth:`1.5`}),(0,D.jsx)(`path`,{d:`M16.2 16.2 20 20`,fill:`none`,stroke:`currentColor`,strokeWidth:`1.5`,strokeLinecap:`round`})]})})]})]})}),a?(0,D.jsxs)(`div`,{className:`nav__search-mobile`,role:`dialog`,"aria-modal":`true`,"aria-label":`Search notes`,children:[(0,D.jsx)(`button`,{type:`button`,className:`nav__search-mobile-backdrop`,"aria-label":`Close search`,onClick:()=>o(!1)}),(0,D.jsxs)(`div`,{className:`nav__search-mobile-panel`,children:[(0,D.jsx)(`label`,{className:`nav__search nav__search--mobile-field`,"aria-label":`Search`,children:(0,D.jsx)(`input`,{type:`search`,placeholder:`Search…`,autoComplete:`off`,value:t,onChange:e=>{n(e.target.value),i(!0)},onFocus:()=>i(!0),"aria-autocomplete":`list`,"aria-controls":`nav-search-results-mobile`,"aria-expanded":f,autoFocus:!0})}),(0,D.jsx)(`ul`,{className:`nav__search-results nav__search-results--mobile`,id:`nav-search-results-mobile`,role:`listbox`,"aria-label":`Search results`,children:d&&u.length===0?(0,D.jsx)(`li`,{className:`nav__search-empty`,role:`option`,children:`No notes match.`}):u.map(e=>(0,D.jsx)(`li`,{role:`option`,children:(0,D.jsxs)(Pn,{className:`nav__search-hit`,to:ca(e.categoryId,e.relativePath),onMouseDown:e=>e.preventDefault(),onClick:()=>{i(!1),o(!1)},children:[(0,D.jsx)(`span`,{className:`nav__search-hit-title`,children:e.title}),(0,D.jsx)(`span`,{className:`nav__search-hit-meta`,children:e.categoryName})]})},`m-${e.categoryId}::${e.relativePath}`))})]})]}):null,(0,D.jsxs)(`div`,{className:`shell`,children:[s?(0,D.jsx)(`button`,{type:`button`,className:`shell__backdrop`,"aria-label":`Close menu`,onClick:()=>c(!1)}):null,(0,D.jsx)(`aside`,{id:`site-sidebar`,className:`shell__sidebar${s?` shell__sidebar--open`:``}`,children:(0,D.jsx)(ga,{})}),(0,D.jsx)(`main`,{className:`shell__main`,children:(0,D.jsx)(Vt,{})})]}),(0,D.jsx)(`footer`,{className:`footer`,children:(0,D.jsx)(`p`,{children:`© 2026 Amelia Li`})})]})}var va=12,ya=new Intl.DateTimeFormat(void 0,{month:`short`,day:`numeric`,year:`numeric`});function ba(){let e=fa(va);return(0,D.jsxs)(`section`,{className:`recent`,"aria-labelledby":`recent-heading`,children:[(0,D.jsx)(`h2`,{id:`recent-heading`,className:`recent__heading`,children:`Recently added`}),(0,D.jsx)(`ul`,{className:`recent__list`,children:e.map(e=>(0,D.jsx)(`li`,{className:`recent__row`,children:(0,D.jsxs)(Pn,{to:ca(e.categoryId,e.relativePath),className:`recent__link`,children:[(0,D.jsx)(`span`,{className:`recent__title`,children:e.title}),(0,D.jsxs)(`span`,{className:`recent__meta`,children:[(0,D.jsx)(`span`,{children:e.categoryName}),(0,D.jsx)(`time`,{dateTime:e.added.toISOString(),children:ya.format(e.added)})]})]})},`${e.categoryId}::${e.relativePath}`))})]})}function xa(){let{categoryId:e}=gt(),t=e?Zi(e):void 0;if(!t)return(0,D.jsx)(Bt,{to:`/`,replace:!0});let n=la(t.vaultFolder);return(0,D.jsxs)(`section`,{className:`category-detail`,"aria-labelledby":`category-title`,children:[(0,D.jsxs)(`h1`,{id:`category-title`,className:`category-detail__title`,children:[`Category: `,t.name]}),(0,D.jsx)(`ul`,{className:`category-detail__list`,children:n.map(e=>(0,D.jsx)(`li`,{className:`category-detail__row`,children:(0,D.jsx)(Pn,{to:ca(t.id,e.relativePath),className:`category-detail__link`,children:e.title})},e.relativePath))})]})}function Sa(e){let t=[],n=String(e||``),r=n.indexOf(`,`),i=0,a=!1;for(;!a;){r===-1&&(r=n.length,a=!0);let e=n.slice(i,r).trim();(e||!a)&&t.push(e),i=r+1,r=n.indexOf(`,`,i)}return t}function Ca(e,t){let n=t||{};return(e[e.length-1]===``?[...e,``]:e).join((n.padRight?` `:``)+`,`+(n.padLeft===!1?``:` `)).trim()}var wa=/^[$_\p{ID_Start}][$_\u{200C}\u{200D}\p{ID_Continue}]*$/u,Ta=/^[$_\p{ID_Start}][-$_\u{200C}\u{200D}\p{ID_Continue}]*$/u,Ea={};function Da(e,t){return((t||Ea).jsx?Ta:wa).test(e)}var Oa=/[ \t\n\f\r]/g;function ka(e){return typeof e==`object`?e.type===`text`?Aa(e.value):!1:Aa(e)}function Aa(e){return e.replace(Oa,``)===``}var ja=class{constructor(e,t,n){this.normal=t,this.property=e,n&&(this.space=n)}};ja.prototype.normal={},ja.prototype.property={},ja.prototype.space=void 0;function Ma(e,t){let n={},r={};for(let t of e)Object.assign(n,t.property),Object.assign(r,t.normal);return new ja(n,r,t)}function Na(e){return e.toLowerCase()}var Pa=class{constructor(e,t){this.attribute=t,this.property=e}};Pa.prototype.attribute=``,Pa.prototype.booleanish=!1,Pa.prototype.boolean=!1,Pa.prototype.commaOrSpaceSeparated=!1,Pa.prototype.commaSeparated=!1,Pa.prototype.defined=!1,Pa.prototype.mustUseProperty=!1,Pa.prototype.number=!1,Pa.prototype.overloadedBoolean=!1,Pa.prototype.property=``,Pa.prototype.spaceSeparated=!1,Pa.prototype.space=void 0;var Fa=s({boolean:()=>La,booleanish:()=>Ra,commaOrSpaceSeparated:()=>Ha,commaSeparated:()=>Va,number:()=>O,overloadedBoolean:()=>za,spaceSeparated:()=>Ba}),Ia=0,La=Ua(),Ra=Ua(),za=Ua(),O=Ua(),Ba=Ua(),Va=Ua(),Ha=Ua();function Ua(){return 2**++Ia}var Wa=Object.keys(Fa),Ga=class extends Pa{constructor(e,t,n,r){let i=-1;if(super(e,t),Ka(this,`space`,r),typeof n==`number`)for(;++i<Wa.length;){let e=Wa[i];Ka(this,Wa[i],(n&Fa[e])===Fa[e])}}};Ga.prototype.defined=!0;function Ka(e,t,n){n&&(e[t]=n)}function qa(e){let t={},n={};for(let[r,i]of Object.entries(e.properties)){let a=new Ga(r,e.transform(e.attributes||{},r),i,e.space);e.mustUseProperty&&e.mustUseProperty.includes(r)&&(a.mustUseProperty=!0),t[r]=a,n[Na(r)]=r,n[Na(a.attribute)]=r}return new ja(t,n,e.space)}var Ja=qa({properties:{ariaActiveDescendant:null,ariaAtomic:Ra,ariaAutoComplete:null,ariaBusy:Ra,ariaChecked:Ra,ariaColCount:O,ariaColIndex:O,ariaColSpan:O,ariaControls:Ba,ariaCurrent:null,ariaDescribedBy:Ba,ariaDetails:null,ariaDisabled:Ra,ariaDropEffect:Ba,ariaErrorMessage:null,ariaExpanded:Ra,ariaFlowTo:Ba,ariaGrabbed:Ra,ariaHasPopup:null,ariaHidden:Ra,ariaInvalid:null,ariaKeyShortcuts:null,ariaLabel:null,ariaLabelledBy:Ba,ariaLevel:O,ariaLive:null,ariaModal:Ra,ariaMultiLine:Ra,ariaMultiSelectable:Ra,ariaOrientation:null,ariaOwns:Ba,ariaPlaceholder:null,ariaPosInSet:O,ariaPressed:Ra,ariaReadOnly:Ra,ariaRelevant:null,ariaRequired:Ra,ariaRoleDescription:Ba,ariaRowCount:O,ariaRowIndex:O,ariaRowSpan:O,ariaSelected:Ra,ariaSetSize:O,ariaSort:null,ariaValueMax:O,ariaValueMin:O,ariaValueNow:O,ariaValueText:null,role:null},transform(e,t){return t===`role`?t:`aria-`+t.slice(4).toLowerCase()}});function Ya(e,t){return t in e?e[t]:t}function Xa(e,t){return Ya(e,t.toLowerCase())}var Za=qa({attributes:{acceptcharset:`accept-charset`,classname:`class`,htmlfor:`for`,httpequiv:`http-equiv`},mustUseProperty:[`checked`,`multiple`,`muted`,`selected`],properties:{abbr:null,accept:Va,acceptCharset:Ba,accessKey:Ba,action:null,allow:null,allowFullScreen:La,allowPaymentRequest:La,allowUserMedia:La,alt:null,as:null,async:La,autoCapitalize:null,autoComplete:Ba,autoFocus:La,autoPlay:La,blocking:Ba,capture:null,charSet:null,checked:La,cite:null,className:Ba,cols:O,colSpan:null,content:null,contentEditable:Ra,controls:La,controlsList:Ba,coords:O|Va,crossOrigin:null,data:null,dateTime:null,decoding:null,default:La,defer:La,dir:null,dirName:null,disabled:La,download:za,draggable:Ra,encType:null,enterKeyHint:null,fetchPriority:null,form:null,formAction:null,formEncType:null,formMethod:null,formNoValidate:La,formTarget:null,headers:Ba,height:O,hidden:za,high:O,href:null,hrefLang:null,htmlFor:Ba,httpEquiv:Ba,id:null,imageSizes:null,imageSrcSet:null,inert:La,inputMode:null,integrity:null,is:null,isMap:La,itemId:null,itemProp:Ba,itemRef:Ba,itemScope:La,itemType:Ba,kind:null,label:null,lang:null,language:null,list:null,loading:null,loop:La,low:O,manifest:null,max:null,maxLength:O,media:null,method:null,min:null,minLength:O,multiple:La,muted:La,name:null,nonce:null,noModule:La,noValidate:La,onAbort:null,onAfterPrint:null,onAuxClick:null,onBeforeMatch:null,onBeforePrint:null,onBeforeToggle:null,onBeforeUnload:null,onBlur:null,onCancel:null,onCanPlay:null,onCanPlayThrough:null,onChange:null,onClick:null,onClose:null,onContextLost:null,onContextMenu:null,onContextRestored:null,onCopy:null,onCueChange:null,onCut:null,onDblClick:null,onDrag:null,onDragEnd:null,onDragEnter:null,onDragExit:null,onDragLeave:null,onDragOver:null,onDragStart:null,onDrop:null,onDurationChange:null,onEmptied:null,onEnded:null,onError:null,onFocus:null,onFormData:null,onHashChange:null,onInput:null,onInvalid:null,onKeyDown:null,onKeyPress:null,onKeyUp:null,onLanguageChange:null,onLoad:null,onLoadedData:null,onLoadedMetadata:null,onLoadEnd:null,onLoadStart:null,onMessage:null,onMessageError:null,onMouseDown:null,onMouseEnter:null,onMouseLeave:null,onMouseMove:null,onMouseOut:null,onMouseOver:null,onMouseUp:null,onOffline:null,onOnline:null,onPageHide:null,onPageShow:null,onPaste:null,onPause:null,onPlay:null,onPlaying:null,onPopState:null,onProgress:null,onRateChange:null,onRejectionHandled:null,onReset:null,onResize:null,onScroll:null,onScrollEnd:null,onSecurityPolicyViolation:null,onSeeked:null,onSeeking:null,onSelect:null,onSlotChange:null,onStalled:null,onStorage:null,onSubmit:null,onSuspend:null,onTimeUpdate:null,onToggle:null,onUnhandledRejection:null,onUnload:null,onVolumeChange:null,onWaiting:null,onWheel:null,open:La,optimum:O,pattern:null,ping:Ba,placeholder:null,playsInline:La,popover:null,popoverTarget:null,popoverTargetAction:null,poster:null,preload:null,readOnly:La,referrerPolicy:null,rel:Ba,required:La,reversed:La,rows:O,rowSpan:O,sandbox:Ba,scope:null,scoped:La,seamless:La,selected:La,shadowRootClonable:La,shadowRootDelegatesFocus:La,shadowRootMode:null,shape:null,size:O,sizes:null,slot:null,span:O,spellCheck:Ra,src:null,srcDoc:null,srcLang:null,srcSet:null,start:O,step:null,style:null,tabIndex:O,target:null,title:null,translate:null,type:null,typeMustMatch:La,useMap:null,value:Ra,width:O,wrap:null,writingSuggestions:null,align:null,aLink:null,archive:Ba,axis:null,background:null,bgColor:null,border:O,borderColor:null,bottomMargin:O,cellPadding:null,cellSpacing:null,char:null,charOff:null,classId:null,clear:null,code:null,codeBase:null,codeType:null,color:null,compact:La,declare:La,event:null,face:null,frame:null,frameBorder:null,hSpace:O,leftMargin:O,link:null,longDesc:null,lowSrc:null,marginHeight:O,marginWidth:O,noResize:La,noHref:La,noShade:La,noWrap:La,object:null,profile:null,prompt:null,rev:null,rightMargin:O,rules:null,scheme:null,scrolling:Ra,standby:null,summary:null,text:null,topMargin:O,valueType:null,version:null,vAlign:null,vLink:null,vSpace:O,allowTransparency:null,autoCorrect:null,autoSave:null,disablePictureInPicture:La,disableRemotePlayback:La,prefix:null,property:null,results:O,security:null,unselectable:null},space:`html`,transform:Xa}),Qa=qa({attributes:{accentHeight:`accent-height`,alignmentBaseline:`alignment-baseline`,arabicForm:`arabic-form`,baselineShift:`baseline-shift`,capHeight:`cap-height`,className:`class`,clipPath:`clip-path`,clipRule:`clip-rule`,colorInterpolation:`color-interpolation`,colorInterpolationFilters:`color-interpolation-filters`,colorProfile:`color-profile`,colorRendering:`color-rendering`,crossOrigin:`crossorigin`,dataType:`datatype`,dominantBaseline:`dominant-baseline`,enableBackground:`enable-background`,fillOpacity:`fill-opacity`,fillRule:`fill-rule`,floodColor:`flood-color`,floodOpacity:`flood-opacity`,fontFamily:`font-family`,fontSize:`font-size`,fontSizeAdjust:`font-size-adjust`,fontStretch:`font-stretch`,fontStyle:`font-style`,fontVariant:`font-variant`,fontWeight:`font-weight`,glyphName:`glyph-name`,glyphOrientationHorizontal:`glyph-orientation-horizontal`,glyphOrientationVertical:`glyph-orientation-vertical`,hrefLang:`hreflang`,horizAdvX:`horiz-adv-x`,horizOriginX:`horiz-origin-x`,horizOriginY:`horiz-origin-y`,imageRendering:`image-rendering`,letterSpacing:`letter-spacing`,lightingColor:`lighting-color`,markerEnd:`marker-end`,markerMid:`marker-mid`,markerStart:`marker-start`,navDown:`nav-down`,navDownLeft:`nav-down-left`,navDownRight:`nav-down-right`,navLeft:`nav-left`,navNext:`nav-next`,navPrev:`nav-prev`,navRight:`nav-right`,navUp:`nav-up`,navUpLeft:`nav-up-left`,navUpRight:`nav-up-right`,onAbort:`onabort`,onActivate:`onactivate`,onAfterPrint:`onafterprint`,onBeforePrint:`onbeforeprint`,onBegin:`onbegin`,onCancel:`oncancel`,onCanPlay:`oncanplay`,onCanPlayThrough:`oncanplaythrough`,onChange:`onchange`,onClick:`onclick`,onClose:`onclose`,onCopy:`oncopy`,onCueChange:`oncuechange`,onCut:`oncut`,onDblClick:`ondblclick`,onDrag:`ondrag`,onDragEnd:`ondragend`,onDragEnter:`ondragenter`,onDragExit:`ondragexit`,onDragLeave:`ondragleave`,onDragOver:`ondragover`,onDragStart:`ondragstart`,onDrop:`ondrop`,onDurationChange:`ondurationchange`,onEmptied:`onemptied`,onEnd:`onend`,onEnded:`onended`,onError:`onerror`,onFocus:`onfocus`,onFocusIn:`onfocusin`,onFocusOut:`onfocusout`,onHashChange:`onhashchange`,onInput:`oninput`,onInvalid:`oninvalid`,onKeyDown:`onkeydown`,onKeyPress:`onkeypress`,onKeyUp:`onkeyup`,onLoad:`onload`,onLoadedData:`onloadeddata`,onLoadedMetadata:`onloadedmetadata`,onLoadStart:`onloadstart`,onMessage:`onmessage`,onMouseDown:`onmousedown`,onMouseEnter:`onmouseenter`,onMouseLeave:`onmouseleave`,onMouseMove:`onmousemove`,onMouseOut:`onmouseout`,onMouseOver:`onmouseover`,onMouseUp:`onmouseup`,onMouseWheel:`onmousewheel`,onOffline:`onoffline`,onOnline:`ononline`,onPageHide:`onpagehide`,onPageShow:`onpageshow`,onPaste:`onpaste`,onPause:`onpause`,onPlay:`onplay`,onPlaying:`onplaying`,onPopState:`onpopstate`,onProgress:`onprogress`,onRateChange:`onratechange`,onRepeat:`onrepeat`,onReset:`onreset`,onResize:`onresize`,onScroll:`onscroll`,onSeeked:`onseeked`,onSeeking:`onseeking`,onSelect:`onselect`,onShow:`onshow`,onStalled:`onstalled`,onStorage:`onstorage`,onSubmit:`onsubmit`,onSuspend:`onsuspend`,onTimeUpdate:`ontimeupdate`,onToggle:`ontoggle`,onUnload:`onunload`,onVolumeChange:`onvolumechange`,onWaiting:`onwaiting`,onZoom:`onzoom`,overlinePosition:`overline-position`,overlineThickness:`overline-thickness`,paintOrder:`paint-order`,panose1:`panose-1`,pointerEvents:`pointer-events`,referrerPolicy:`referrerpolicy`,renderingIntent:`rendering-intent`,shapeRendering:`shape-rendering`,stopColor:`stop-color`,stopOpacity:`stop-opacity`,strikethroughPosition:`strikethrough-position`,strikethroughThickness:`strikethrough-thickness`,strokeDashArray:`stroke-dasharray`,strokeDashOffset:`stroke-dashoffset`,strokeLineCap:`stroke-linecap`,strokeLineJoin:`stroke-linejoin`,strokeMiterLimit:`stroke-miterlimit`,strokeOpacity:`stroke-opacity`,strokeWidth:`stroke-width`,tabIndex:`tabindex`,textAnchor:`text-anchor`,textDecoration:`text-decoration`,textRendering:`text-rendering`,transformOrigin:`transform-origin`,typeOf:`typeof`,underlinePosition:`underline-position`,underlineThickness:`underline-thickness`,unicodeBidi:`unicode-bidi`,unicodeRange:`unicode-range`,unitsPerEm:`units-per-em`,vAlphabetic:`v-alphabetic`,vHanging:`v-hanging`,vIdeographic:`v-ideographic`,vMathematical:`v-mathematical`,vectorEffect:`vector-effect`,vertAdvY:`vert-adv-y`,vertOriginX:`vert-origin-x`,vertOriginY:`vert-origin-y`,wordSpacing:`word-spacing`,writingMode:`writing-mode`,xHeight:`x-height`,playbackOrder:`playbackorder`,timelineBegin:`timelinebegin`},properties:{about:Ha,accentHeight:O,accumulate:null,additive:null,alignmentBaseline:null,alphabetic:O,amplitude:O,arabicForm:null,ascent:O,attributeName:null,attributeType:null,azimuth:O,bandwidth:null,baselineShift:null,baseFrequency:null,baseProfile:null,bbox:null,begin:null,bias:O,by:null,calcMode:null,capHeight:O,className:Ba,clip:null,clipPath:null,clipPathUnits:null,clipRule:null,color:null,colorInterpolation:null,colorInterpolationFilters:null,colorProfile:null,colorRendering:null,content:null,contentScriptType:null,contentStyleType:null,crossOrigin:null,cursor:null,cx:null,cy:null,d:null,dataType:null,defaultAction:null,descent:O,diffuseConstant:O,direction:null,display:null,dur:null,divisor:O,dominantBaseline:null,download:La,dx:null,dy:null,edgeMode:null,editable:null,elevation:O,enableBackground:null,end:null,event:null,exponent:O,externalResourcesRequired:null,fill:null,fillOpacity:O,fillRule:null,filter:null,filterRes:null,filterUnits:null,floodColor:null,floodOpacity:null,focusable:null,focusHighlight:null,fontFamily:null,fontSize:null,fontSizeAdjust:null,fontStretch:null,fontStyle:null,fontVariant:null,fontWeight:null,format:null,fr:null,from:null,fx:null,fy:null,g1:Va,g2:Va,glyphName:Va,glyphOrientationHorizontal:null,glyphOrientationVertical:null,glyphRef:null,gradientTransform:null,gradientUnits:null,handler:null,hanging:O,hatchContentUnits:null,hatchUnits:null,height:null,href:null,hrefLang:null,horizAdvX:O,horizOriginX:O,horizOriginY:O,id:null,ideographic:O,imageRendering:null,initialVisibility:null,in:null,in2:null,intercept:O,k:O,k1:O,k2:O,k3:O,k4:O,kernelMatrix:Ha,kernelUnitLength:null,keyPoints:null,keySplines:null,keyTimes:null,kerning:null,lang:null,lengthAdjust:null,letterSpacing:null,lightingColor:null,limitingConeAngle:O,local:null,markerEnd:null,markerMid:null,markerStart:null,markerHeight:null,markerUnits:null,markerWidth:null,mask:null,maskContentUnits:null,maskUnits:null,mathematical:null,max:null,media:null,mediaCharacterEncoding:null,mediaContentEncodings:null,mediaSize:O,mediaTime:null,method:null,min:null,mode:null,name:null,navDown:null,navDownLeft:null,navDownRight:null,navLeft:null,navNext:null,navPrev:null,navRight:null,navUp:null,navUpLeft:null,navUpRight:null,numOctaves:null,observer:null,offset:null,onAbort:null,onActivate:null,onAfterPrint:null,onBeforePrint:null,onBegin:null,onCancel:null,onCanPlay:null,onCanPlayThrough:null,onChange:null,onClick:null,onClose:null,onCopy:null,onCueChange:null,onCut:null,onDblClick:null,onDrag:null,onDragEnd:null,onDragEnter:null,onDragExit:null,onDragLeave:null,onDragOver:null,onDragStart:null,onDrop:null,onDurationChange:null,onEmptied:null,onEnd:null,onEnded:null,onError:null,onFocus:null,onFocusIn:null,onFocusOut:null,onHashChange:null,onInput:null,onInvalid:null,onKeyDown:null,onKeyPress:null,onKeyUp:null,onLoad:null,onLoadedData:null,onLoadedMetadata:null,onLoadStart:null,onMessage:null,onMouseDown:null,onMouseEnter:null,onMouseLeave:null,onMouseMove:null,onMouseOut:null,onMouseOver:null,onMouseUp:null,onMouseWheel:null,onOffline:null,onOnline:null,onPageHide:null,onPageShow:null,onPaste:null,onPause:null,onPlay:null,onPlaying:null,onPopState:null,onProgress:null,onRateChange:null,onRepeat:null,onReset:null,onResize:null,onScroll:null,onSeeked:null,onSeeking:null,onSelect:null,onShow:null,onStalled:null,onStorage:null,onSubmit:null,onSuspend:null,onTimeUpdate:null,onToggle:null,onUnload:null,onVolumeChange:null,onWaiting:null,onZoom:null,opacity:null,operator:null,order:null,orient:null,orientation:null,origin:null,overflow:null,overlay:null,overlinePosition:O,overlineThickness:O,paintOrder:null,panose1:null,path:null,pathLength:O,patternContentUnits:null,patternTransform:null,patternUnits:null,phase:null,ping:Ba,pitch:null,playbackOrder:null,pointerEvents:null,points:null,pointsAtX:O,pointsAtY:O,pointsAtZ:O,preserveAlpha:null,preserveAspectRatio:null,primitiveUnits:null,propagate:null,property:Ha,r:null,radius:null,referrerPolicy:null,refX:null,refY:null,rel:Ha,rev:Ha,renderingIntent:null,repeatCount:null,repeatDur:null,requiredExtensions:Ha,requiredFeatures:Ha,requiredFonts:Ha,requiredFormats:Ha,resource:null,restart:null,result:null,rotate:null,rx:null,ry:null,scale:null,seed:null,shapeRendering:null,side:null,slope:null,snapshotTime:null,specularConstant:O,specularExponent:O,spreadMethod:null,spacing:null,startOffset:null,stdDeviation:null,stemh:null,stemv:null,stitchTiles:null,stopColor:null,stopOpacity:null,strikethroughPosition:O,strikethroughThickness:O,string:null,stroke:null,strokeDashArray:Ha,strokeDashOffset:null,strokeLineCap:null,strokeLineJoin:null,strokeMiterLimit:O,strokeOpacity:O,strokeWidth:null,style:null,surfaceScale:O,syncBehavior:null,syncBehaviorDefault:null,syncMaster:null,syncTolerance:null,syncToleranceDefault:null,systemLanguage:Ha,tabIndex:O,tableValues:null,target:null,targetX:O,targetY:O,textAnchor:null,textDecoration:null,textRendering:null,textLength:null,timelineBegin:null,title:null,transformBehavior:null,type:null,typeOf:Ha,to:null,transform:null,transformOrigin:null,u1:null,u2:null,underlinePosition:O,underlineThickness:O,unicode:null,unicodeBidi:null,unicodeRange:null,unitsPerEm:O,values:null,vAlphabetic:O,vMathematical:O,vectorEffect:null,vHanging:O,vIdeographic:O,version:null,vertAdvY:O,vertOriginX:O,vertOriginY:O,viewBox:null,viewTarget:null,visibility:null,width:null,widths:null,wordSpacing:null,writingMode:null,x:null,x1:null,x2:null,xChannelSelector:null,xHeight:O,y:null,y1:null,y2:null,yChannelSelector:null,z:null,zoomAndPan:null},space:`svg`,transform:Ya}),$a=qa({properties:{xLinkActuate:null,xLinkArcRole:null,xLinkHref:null,xLinkRole:null,xLinkShow:null,xLinkTitle:null,xLinkType:null},space:`xlink`,transform(e,t){return`xlink:`+t.slice(5).toLowerCase()}}),eo=qa({attributes:{xmlnsxlink:`xmlns:xlink`},properties:{xmlnsXLink:null,xmlns:null},space:`xmlns`,transform:Xa}),to=qa({properties:{xmlBase:null,xmlLang:null,xmlSpace:null},space:`xml`,transform(e,t){return`xml:`+t.slice(3).toLowerCase()}}),no={classId:`classID`,dataType:`datatype`,itemId:`itemID`,strokeDashArray:`strokeDasharray`,strokeDashOffset:`strokeDashoffset`,strokeLineCap:`strokeLinecap`,strokeLineJoin:`strokeLinejoin`,strokeMiterLimit:`strokeMiterlimit`,typeOf:`typeof`,xLinkActuate:`xlinkActuate`,xLinkArcRole:`xlinkArcrole`,xLinkHref:`xlinkHref`,xLinkRole:`xlinkRole`,xLinkShow:`xlinkShow`,xLinkTitle:`xlinkTitle`,xLinkType:`xlinkType`,xmlnsXLink:`xmlnsXlink`},ro=/[A-Z]/g,io=/-[a-z]/g,ao=/^data[-\w.:]+$/i;function oo(e,t){let n=Na(t),r=t,i=Pa;if(n in e.normal)return e.property[e.normal[n]];if(n.length>4&&n.slice(0,4)===`data`&&ao.test(t)){if(t.charAt(4)===`-`){let e=t.slice(5).replace(io,co);r=`data`+e.charAt(0).toUpperCase()+e.slice(1)}else{let e=t.slice(4);if(!io.test(e)){let n=e.replace(ro,so);n.charAt(0)!==`-`&&(n=`-`+n),t=`data`+n}}i=Ga}return new i(r,t)}function so(e){return`-`+e.toLowerCase()}function co(e){return e.charAt(1).toUpperCase()}var lo=Ma([Ja,Za,$a,eo,to],`html`),uo=Ma([Ja,Qa,$a,eo,to],`svg`);function fo(e){let t=String(e||``).trim();return t?t.split(/[ \t\n\r\f]+/g):[]}function po(e){return e.join(` `).trim()}var mo=o(((e,t)=>{var n=/\/\*[^*]*\*+([^/*][^*]*\*+)*\//g,r=/\n/g,i=/^\s*/,a=/^(\*?[-#/*\\\w]+(\[[0-9a-z_-]+\])?)\s*/,o=/^:\s*/,s=/^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};])+)/,c=/^[;\s]*/,l=/^\s+|\s+$/g,u=`
 `,d=`/`,f=`*`,p=``,m=`comment`,h=`declaration`;function g(e,t){if(typeof e!=`string`)throw TypeError(`First argument must be a string`);if(!e)return[];t||={};var l=1,g=1;function v(e){var t=e.match(r);t&&(l+=t.length);var n=e.lastIndexOf(u);g=~n?e.length-n:g+e.length}function y(){var e={line:l,column:g};return function(t){return t.position=new b(e),C(),t}}function b(e){this.start=e,this.end={line:l,column:g},this.source=t.source}b.prototype.content=e;function x(n){var r=Error(t.source+`:`+l+`:`+g+`: `+n);if(r.reason=n,r.filename=t.source,r.line=l,r.column=g,r.source=e,!t.silent)throw r}function S(t){var n=t.exec(e);if(n){var r=n[0];return v(r),e=e.slice(r.length),n}}function C(){S(i)}function w(e){var t;for(e||=[];t=ee();)t!==!1&&e.push(t);return e}function ee(){var t=y();if(!(d!=e.charAt(0)||f!=e.charAt(1))){for(var n=2;p!=e.charAt(n)&&(f!=e.charAt(n)||d!=e.charAt(n+1));)++n;if(n+=2,p===e.charAt(n-1))return x(`End of comment missing`);var r=e.slice(2,n-2);return g+=2,v(r),e=e.slice(n),g+=2,t({type:m,comment:r})}}function T(){var e=y(),t=S(a);if(t){if(ee(),!S(o))return x(`property missing ':'`);var r=S(s),i=e({type:h,property:_(t[0].replace(n,p)),value:r?_(r[0].replace(n,p)):p});return S(c),i}}function te(){var e=[];w(e);for(var t;t=T();)t!==!1&&(e.push(t),w(e));return e}return C(),te()}function _(e){return e?e.replace(l,p):p}t.exports=g})),ho=o((e=>{var t=e&&e.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(e,`__esModule`,{value:!0}),e.default=r;var n=t(mo());function r(e,t){let r=null;if(!e||typeof e!=`string`)return r;let i=(0,n.default)(e),a=typeof t==`function`;return i.forEach(e=>{if(e.type!==`declaration`)return;let{property:n,value:i}=e;a?t(n,i,e):i&&(r||={},r[n]=i)}),r}})),go=o((e=>{Object.defineProperty(e,`__esModule`,{value:!0}),e.camelCase=void 0;var t=/^--[a-zA-Z0-9_-]+$/,n=/-([a-z])/g,r=/^[^-]+$/,i=/^-(webkit|moz|ms|o|khtml)-/,a=/^-(ms)-/,o=function(e){return!e||r.test(e)||t.test(e)},s=function(e,t){return t.toUpperCase()},c=function(e,t){return`${t}-`};e.camelCase=function(e,t){return t===void 0&&(t={}),o(e)?e:(e=e.toLowerCase(),e=t.reactCompat?e.replace(a,c):e.replace(i,c),e.replace(n,s))}})),_o=o(((e,t)=>{var n=(e&&e.__importDefault||function(e){return e&&e.__esModule?e:{default:e}})(ho()),r=go();function i(e,t){var i={};return!e||typeof e!=`string`||(0,n.default)(e,function(e,n){e&&n&&(i[(0,r.camelCase)(e,t)]=n)}),i}i.default=i,t.exports=i})),vo=bo(`end`),yo=bo(`start`);function bo(e){return t;function t(t){let n=t&&t.position&&t.position[e]||{};if(typeof n.line==`number`&&n.line>0&&typeof n.column==`number`&&n.column>0)return{line:n.line,column:n.column,offset:typeof n.offset==`number`&&n.offset>-1?n.offset:void 0}}}function xo(e){let t=yo(e),n=vo(e);if(t&&n)return{start:t,end:n}}function So(e){return!e||typeof e!=`object`?``:`position`in e||`type`in e?wo(e.position):`start`in e||`end`in e?wo(e):`line`in e||`column`in e?Co(e):``}function Co(e){return To(e&&e.line)+`:`+To(e&&e.column)}function wo(e){return Co(e&&e.start)+`-`+Co(e&&e.end)}function To(e){return e&&typeof e==`number`?e:1}var Eo=class extends Error{constructor(e,t,n){super(),typeof t==`string`&&(n=t,t=void 0);let r=``,i={},a=!1;if(t&&(i=`line`in t&&`column`in t||`start`in t&&`end`in t?{place:t}:`type`in t?{ancestors:[t],place:t.position}:{...t}),typeof e==`string`?r=e:!i.cause&&e&&(a=!0,r=e.message,i.cause=e),!i.ruleId&&!i.source&&typeof n==`string`){let e=n.indexOf(`:`);e===-1?i.ruleId=n:(i.source=n.slice(0,e),i.ruleId=n.slice(e+1))}if(!i.place&&i.ancestors&&i.ancestors){let e=i.ancestors[i.ancestors.length-1];e&&(i.place=e.position)}let o=i.place&&`start`in i.place?i.place.start:i.place;this.ancestors=i.ancestors||void 0,this.cause=i.cause||void 0,this.column=o?o.column:void 0,this.fatal=void 0,this.file=``,this.message=r,this.line=o?o.line:void 0,this.name=So(i.place)||`1:1`,this.place=i.place||void 0,this.reason=this.message,this.ruleId=i.ruleId||void 0,this.source=i.source||void 0,this.stack=a&&i.cause&&typeof i.cause.stack==`string`?i.cause.stack:``,this.actual=void 0,this.expected=void 0,this.note=void 0,this.url=void 0}};Eo.prototype.file=``,Eo.prototype.name=``,Eo.prototype.reason=``,Eo.prototype.message=``,Eo.prototype.stack=``,Eo.prototype.column=void 0,Eo.prototype.line=void 0,Eo.prototype.ancestors=void 0,Eo.prototype.cause=void 0,Eo.prototype.fatal=void 0,Eo.prototype.place=void 0,Eo.prototype.ruleId=void 0,Eo.prototype.source=void 0;var Do=l(_o(),1),Oo={}.hasOwnProperty,ko=new Map,Ao=/[A-Z]/g,jo=new Set([`table`,`tbody`,`thead`,`tfoot`,`tr`]),Mo=new Set([`td`,`th`]),No=`https://github.com/syntax-tree/hast-util-to-jsx-runtime`;function Po(e,t){if(!t||t.Fragment===void 0)throw TypeError("Expected `Fragment` in options");let n=t.filePath||void 0,r;if(t.development){if(typeof t.jsxDEV!=`function`)throw TypeError("Expected `jsxDEV` in options when `development: true`");r=Go(n,t.jsxDEV)}else{if(typeof t.jsx!=`function`)throw TypeError("Expected `jsx` in production options");if(typeof t.jsxs!=`function`)throw TypeError("Expected `jsxs` in production options");r=Wo(n,t.jsx,t.jsxs)}let i={Fragment:t.Fragment,ancestors:[],components:t.components||{},create:r,elementAttributeNameCase:t.elementAttributeNameCase||`react`,evaluater:t.createEvaluater?t.createEvaluater():void 0,filePath:n,ignoreInvalidStyle:t.ignoreInvalidStyle||!1,passKeys:t.passKeys!==!1,passNode:t.passNode||!1,schema:t.space===`svg`?uo:lo,stylePropertyNameCase:t.stylePropertyNameCase||`dom`,tableCellAlignToStyle:t.tableCellAlignToStyle!==!1},a=Fo(i,e,void 0);return a&&typeof a!=`string`?a:i.create(e,i.Fragment,{children:a||void 0},void 0)}function Fo(e,t,n){if(t.type===`element`)return Io(e,t,n);if(t.type===`mdxFlowExpression`||t.type===`mdxTextExpression`)return Lo(e,t);if(t.type===`mdxJsxFlowElement`||t.type===`mdxJsxTextElement`)return zo(e,t,n);if(t.type===`mdxjsEsm`)return Ro(e,t);if(t.type===`root`)return Bo(e,t,n);if(t.type===`text`)return Vo(e,t)}function Io(e,t,n){let r=e.schema,i=r;t.tagName.toLowerCase()===`svg`&&r.space===`html`&&(i=uo,e.schema=i),e.ancestors.push(t);let a=Zo(e,t.tagName,!1),o=Ko(e,t),s=Jo(e,t);return jo.has(t.tagName)&&(s=s.filter(function(e){return typeof e==`string`?!ka(e):!0})),Ho(e,o,a,t),Uo(o,s),e.ancestors.pop(),e.schema=r,e.create(t,a,o,n)}function Lo(e,t){if(t.data&&t.data.estree&&e.evaluater){let n=t.data.estree.body[0];return n.type,e.evaluater.evaluateExpression(n.expression)}Qo(e,t.position)}function Ro(e,t){if(t.data&&t.data.estree&&e.evaluater)return e.evaluater.evaluateProgram(t.data.estree);Qo(e,t.position)}function zo(e,t,n){let r=e.schema,i=r;t.name===`svg`&&r.space===`html`&&(i=uo,e.schema=i),e.ancestors.push(t);let a=t.name===null?e.Fragment:Zo(e,t.name,!0),o=qo(e,t),s=Jo(e,t);return Ho(e,o,a,t),Uo(o,s),e.ancestors.pop(),e.schema=r,e.create(t,a,o,n)}function Bo(e,t,n){let r={};return Uo(r,Jo(e,t)),e.create(t,e.Fragment,r,n)}function Vo(e,t){return t.value}function Ho(e,t,n,r){typeof n!=`string`&&n!==e.Fragment&&e.passNode&&(t.node=r)}function Uo(e,t){if(t.length>0){let n=t.length>1?t:t[0];n&&(e.children=n)}}function Wo(e,t,n){return r;function r(e,r,i,a){let o=Array.isArray(i.children)?n:t;return a?o(r,i,a):o(r,i)}}function Go(e,t){return n;function n(n,r,i,a){let o=Array.isArray(i.children),s=yo(n);return t(r,i,a,o,{columnNumber:s?s.column-1:void 0,fileName:e,lineNumber:s?s.line:void 0},void 0)}}function Ko(e,t){let n={},r,i;for(i in t.properties)if(i!==`children`&&Oo.call(t.properties,i)){let a=Yo(e,i,t.properties[i]);if(a){let[i,o]=a;e.tableCellAlignToStyle&&i===`align`&&typeof o==`string`&&Mo.has(t.tagName)?r=o:n[i]=o}}if(r){let t=n.style||={};t[e.stylePropertyNameCase===`css`?`text-align`:`textAlign`]=r}return n}function qo(e,t){let n={};for(let r of t.attributes)if(r.type===`mdxJsxExpressionAttribute`)if(r.data&&r.data.estree&&e.evaluater){let t=r.data.estree.body[0];t.type;let i=t.expression;i.type;let a=i.properties[0];a.type,Object.assign(n,e.evaluater.evaluateExpression(a.argument))}else Qo(e,t.position);else{let i=r.name,a;if(r.value&&typeof r.value==`object`)if(r.value.data&&r.value.data.estree&&e.evaluater){let t=r.value.data.estree.body[0];t.type,a=e.evaluater.evaluateExpression(t.expression)}else Qo(e,t.position);else a=r.value===null?!0:r.value;n[i]=a}return n}function Jo(e,t){let n=[],r=-1,i=e.passKeys?new Map:ko;for(;++r<t.children.length;){let a=t.children[r],o;if(e.passKeys){let e=a.type===`element`?a.tagName:a.type===`mdxJsxFlowElement`||a.type===`mdxJsxTextElement`?a.name:void 0;if(e){let t=i.get(e)||0;o=e+`-`+t,i.set(e,t+1)}}let s=Fo(e,a,o);s!==void 0&&n.push(s)}return n}function Yo(e,t,n){let r=oo(e.schema,t);if(!(n==null||typeof n==`number`&&Number.isNaN(n))){if(Array.isArray(n)&&(n=r.commaSeparated?Ca(n):po(n)),r.property===`style`){let t=typeof n==`object`?n:Xo(e,String(n));return e.stylePropertyNameCase===`css`&&(t=$o(t)),[`style`,t]}return[e.elementAttributeNameCase===`react`&&r.space?no[r.property]||r.property:r.attribute,n]}}function Xo(e,t){try{return(0,Do.default)(t,{reactCompat:!0})}catch(t){if(e.ignoreInvalidStyle)return{};let n=t,r=new Eo("Cannot parse `style` attribute",{ancestors:e.ancestors,cause:n,ruleId:`style`,source:`hast-util-to-jsx-runtime`});throw r.file=e.filePath||void 0,r.url=No+`#cannot-parse-style-attribute`,r}}function Zo(e,t,n){let r;if(!n)r={type:`Literal`,value:t};else if(t.includes(`.`)){let e=t.split(`.`),n=-1,i;for(;++n<e.length;){let t=Da(e[n])?{type:`Identifier`,name:e[n]}:{type:`Literal`,value:e[n]};i=i?{type:`MemberExpression`,object:i,property:t,computed:!!(n&&t.type===`Literal`),optional:!1}:t}r=i}else r=Da(t)&&!/^[a-z]/.test(t)?{type:`Identifier`,name:t}:{type:`Literal`,value:t};if(r.type===`Literal`){let t=r.value;return Oo.call(e.components,t)?e.components[t]:t}if(e.evaluater)return e.evaluater.evaluateExpression(r);Qo(e)}function Qo(e,t){let n=new Eo("Cannot handle MDX estrees without `createEvaluater`",{ancestors:e.ancestors,place:t,ruleId:`mdx-estree`,source:`hast-util-to-jsx-runtime`});throw n.file=e.filePath||void 0,n.url=No+`#cannot-handle-mdx-estrees-without-createevaluater`,n}function $o(e){let t={},n;for(n in e)Oo.call(e,n)&&(t[es(n)]=e[n]);return t}function es(e){let t=e.replace(Ao,ts);return t.slice(0,3)===`ms-`&&(t=`-`+t),t}function ts(e){return`-`+e.toLowerCase()}var ns={action:[`form`],cite:[`blockquote`,`del`,`ins`,`q`],data:[`object`],formAction:[`button`,`input`],href:[`a`,`area`,`base`,`link`],icon:[`menuitem`],itemId:null,manifest:[`html`],ping:[`a`,`area`],poster:[`video`],src:[`audio`,`embed`,`iframe`,`img`,`input`,`script`,`source`,`track`,`video`]},rs={};function is(e,t){let n=t||rs;return as(e,typeof n.includeImageAlt==`boolean`?n.includeImageAlt:!0,typeof n.includeHtml==`boolean`?n.includeHtml:!0)}function as(e,t,n){if(ss(e)){if(`value`in e)return e.type===`html`&&!n?``:e.value;if(t&&`alt`in e&&e.alt)return e.alt;if(`children`in e)return os(e.children,t,n)}return Array.isArray(e)?os(e,t,n):``}function os(e,t,n){let r=[],i=-1;for(;++i<e.length;)r[i]=as(e[i],t,n);return r.join(``)}function ss(e){return!!(e&&typeof e==`object`)}var cs=document.createElement(`i`);function ls(e){let t=`&`+e+`;`;cs.innerHTML=t;let n=cs.textContent;return n.charCodeAt(n.length-1)===59&&e!==`semi`||n===t?!1:n}function us(e,t,n,r){let i=e.length,a=0,o;if(t=t<0?-t>i?0:i+t:t>i?i:t,n=n>0?n:0,r.length<1e4)o=Array.from(r),o.unshift(t,n),e.splice(...o);else for(n&&e.splice(t,n);a<r.length;)o=r.slice(a,a+1e4),o.unshift(t,0),e.splice(...o),a+=1e4,t+=1e4}function ds(e,t){return e.length>0?(us(e,e.length,0,t),e):t}var fs={}.hasOwnProperty;function ps(e){let t={},n=-1;for(;++n<e.length;)ms(t,e[n]);return t}function ms(e,t){let n;for(n in t){let r=(fs.call(e,n)?e[n]:void 0)||(e[n]={}),i=t[n],a;if(i)for(a in i){fs.call(r,a)||(r[a]=[]);let e=i[a];hs(r[a],Array.isArray(e)?e:e?[e]:[])}}}function hs(e,t){let n=-1,r=[];for(;++n<t.length;)(t[n].add===`after`?e:r).push(t[n]);us(e,0,0,r)}function gs(e,t){let n=Number.parseInt(e,t);return n<9||n===11||n>13&&n<32||n>126&&n<160||n>55295&&n<57344||n>64975&&n<65008||(n&65535)==65535||(n&65535)==65534||n>1114111?`�`:String.fromCodePoint(n)}function _s(e){return e.replace(/[\t\n\r ]+/g,` `).replace(/^ | $/g,``).toLowerCase().toUpperCase()}var vs=ks(/[A-Za-z]/),ys=ks(/[\dA-Za-z]/),bs=ks(/[#-'*+\--9=?A-Z^-~]/);function xs(e){return e!==null&&(e<32||e===127)}var Ss=ks(/\d/),Cs=ks(/[\dA-Fa-f]/),ws=ks(/[!-/:-@[-`{-~]/);function k(e){return e!==null&&e<-2}function Ts(e){return e!==null&&(e<0||e===32)}function Es(e){return e===-2||e===-1||e===32}var Ds=ks(/\p{P}|\p{S}/u),Os=ks(/\s/);function ks(e){return t;function t(t){return t!==null&&t>-1&&e.test(String.fromCharCode(t))}}function As(e){let t=[],n=-1,r=0,i=0;for(;++n<e.length;){let a=e.charCodeAt(n),o=``;if(a===37&&ys(e.charCodeAt(n+1))&&ys(e.charCodeAt(n+2)))i=2;else if(a<128)/[!#$&-;=?-Z_a-z~]/.test(String.fromCharCode(a))||(o=String.fromCharCode(a));else if(a>55295&&a<57344){let t=e.charCodeAt(n+1);a<56320&&t>56319&&t<57344?(o=String.fromCharCode(a,t),i=1):o=`�`}else o=String.fromCharCode(a);o&&=(t.push(e.slice(r,n),encodeURIComponent(o)),r=n+i+1,``),i&&=(n+=i,0)}return t.join(``)+e.slice(r)}function js(e,t,n,r){let i=r?r-1:1/0,a=0;return o;function o(r){return Es(r)?(e.enter(n),s(r)):t(r)}function s(r){return Es(r)&&a++<i?(e.consume(r),s):(e.exit(n),t(r))}}var Ms={tokenize:Ns};function Ns(e){let t=e.attempt(this.parser.constructs.contentInitial,r,i),n;return t;function r(n){if(n===null){e.consume(n);return}return e.enter(`lineEnding`),e.consume(n),e.exit(`lineEnding`),js(e,t,`linePrefix`)}function i(t){return e.enter(`paragraph`),a(t)}function a(t){let r=e.enter(`chunkText`,{contentType:`text`,previous:n});return n&&(n.next=r),n=r,o(t)}function o(t){if(t===null){e.exit(`chunkText`),e.exit(`paragraph`),e.consume(t);return}return k(t)?(e.consume(t),e.exit(`chunkText`),a):(e.consume(t),o)}}var Ps={tokenize:Is},Fs={tokenize:Ls};function Is(e){let t=this,n=[],r=0,i,a,o;return s;function s(i){if(r<n.length){let a=n[r];return t.containerState=a[1],e.attempt(a[0].continuation,c,l)(i)}return l(i)}function c(e){if(r++,t.containerState._closeFlow){t.containerState._closeFlow=void 0,i&&v();let n=t.events.length,a=n,o;for(;a--;)if(t.events[a][0]===`exit`&&t.events[a][1].type===`chunkFlow`){o=t.events[a][1].end;break}_(r);let s=n;for(;s<t.events.length;)t.events[s][1].end={...o},s++;return us(t.events,a+1,0,t.events.slice(n)),t.events.length=s,l(e)}return s(e)}function l(a){if(r===n.length){if(!i)return f(a);if(i.currentConstruct&&i.currentConstruct.concrete)return m(a);t.interrupt=!!(i.currentConstruct&&!i._gfmTableDynamicInterruptHack)}return t.containerState={},e.check(Fs,u,d)(a)}function u(e){return i&&v(),_(r),f(e)}function d(e){return t.parser.lazy[t.now().line]=r!==n.length,o=t.now().offset,m(e)}function f(n){return t.containerState={},e.attempt(Fs,p,m)(n)}function p(e){return r++,n.push([t.currentConstruct,t.containerState]),f(e)}function m(n){if(n===null){i&&v(),_(0),e.consume(n);return}return i||=t.parser.flow(t.now()),e.enter(`chunkFlow`,{_tokenizer:i,contentType:`flow`,previous:a}),h(n)}function h(n){if(n===null){g(e.exit(`chunkFlow`),!0),_(0),e.consume(n);return}return k(n)?(e.consume(n),g(e.exit(`chunkFlow`)),r=0,t.interrupt=void 0,s):(e.consume(n),h)}function g(e,n){let s=t.sliceStream(e);if(n&&s.push(null),e.previous=a,a&&(a.next=e),a=e,i.defineSkip(e.start),i.write(s),t.parser.lazy[e.start.line]){let e=i.events.length;for(;e--;)if(i.events[e][1].start.offset<o&&(!i.events[e][1].end||i.events[e][1].end.offset>o))return;let n=t.events.length,a=n,s,c;for(;a--;)if(t.events[a][0]===`exit`&&t.events[a][1].type===`chunkFlow`){if(s){c=t.events[a][1].end;break}s=!0}for(_(r),e=n;e<t.events.length;)t.events[e][1].end={...c},e++;us(t.events,a+1,0,t.events.slice(n)),t.events.length=e}}function _(r){let i=n.length;for(;i-- >r;){let r=n[i];t.containerState=r[1],r[0].exit.call(t,e)}n.length=r}function v(){i.write([null]),a=void 0,i=void 0,t.containerState._closeFlow=void 0}}function Ls(e,t,n){return js(e,e.attempt(this.parser.constructs.document,t,n),`linePrefix`,this.parser.constructs.disable.null.includes(`codeIndented`)?void 0:4)}function Rs(e){if(e===null||Ts(e)||Os(e))return 1;if(Ds(e))return 2}function zs(e,t,n){let r=[],i=-1;for(;++i<e.length;){let a=e[i].resolveAll;a&&!r.includes(a)&&(t=a(t,n),r.push(a))}return t}var Bs={name:`attention`,resolveAll:Vs,tokenize:Hs};function Vs(e,t){let n=-1,r,i,a,o,s,c,l,u;for(;++n<e.length;)if(e[n][0]===`enter`&&e[n][1].type===`attentionSequence`&&e[n][1]._close){for(r=n;r--;)if(e[r][0]===`exit`&&e[r][1].type===`attentionSequence`&&e[r][1]._open&&t.sliceSerialize(e[r][1]).charCodeAt(0)===t.sliceSerialize(e[n][1]).charCodeAt(0)){if((e[r][1]._close||e[n][1]._open)&&(e[n][1].end.offset-e[n][1].start.offset)%3&&!((e[r][1].end.offset-e[r][1].start.offset+e[n][1].end.offset-e[n][1].start.offset)%3))continue;c=e[r][1].end.offset-e[r][1].start.offset>1&&e[n][1].end.offset-e[n][1].start.offset>1?2:1;let d={...e[r][1].end},f={...e[n][1].start};Us(d,-c),Us(f,c),o={type:c>1?`strongSequence`:`emphasisSequence`,start:d,end:{...e[r][1].end}},s={type:c>1?`strongSequence`:`emphasisSequence`,start:{...e[n][1].start},end:f},a={type:c>1?`strongText`:`emphasisText`,start:{...e[r][1].end},end:{...e[n][1].start}},i={type:c>1?`strong`:`emphasis`,start:{...o.start},end:{...s.end}},e[r][1].end={...o.start},e[n][1].start={...s.end},l=[],e[r][1].end.offset-e[r][1].start.offset&&(l=ds(l,[[`enter`,e[r][1],t],[`exit`,e[r][1],t]])),l=ds(l,[[`enter`,i,t],[`enter`,o,t],[`exit`,o,t],[`enter`,a,t]]),l=ds(l,zs(t.parser.constructs.insideSpan.null,e.slice(r+1,n),t)),l=ds(l,[[`exit`,a,t],[`enter`,s,t],[`exit`,s,t],[`exit`,i,t]]),e[n][1].end.offset-e[n][1].start.offset?(u=2,l=ds(l,[[`enter`,e[n][1],t],[`exit`,e[n][1],t]])):u=0,us(e,r-1,n-r+3,l),n=r+l.length-u-2;break}}for(n=-1;++n<e.length;)e[n][1].type===`attentionSequence`&&(e[n][1].type=`data`);return e}function Hs(e,t){let n=this.parser.constructs.attentionMarkers.null,r=this.previous,i=Rs(r),a;return o;function o(t){return a=t,e.enter(`attentionSequence`),s(t)}function s(o){if(o===a)return e.consume(o),s;let c=e.exit(`attentionSequence`),l=Rs(o),u=!l||l===2&&i||n.includes(o),d=!i||i===2&&l||n.includes(r);return c._open=!!(a===42?u:u&&(i||!d)),c._close=!!(a===42?d:d&&(l||!u)),t(o)}}function Us(e,t){e.column+=t,e.offset+=t,e._bufferIndex+=t}var Ws={name:`autolink`,tokenize:Gs};function Gs(e,t,n){let r=0;return i;function i(t){return e.enter(`autolink`),e.enter(`autolinkMarker`),e.consume(t),e.exit(`autolinkMarker`),e.enter(`autolinkProtocol`),a}function a(t){return vs(t)?(e.consume(t),o):t===64?n(t):l(t)}function o(e){return e===43||e===45||e===46||ys(e)?(r=1,s(e)):l(e)}function s(t){return t===58?(e.consume(t),r=0,c):(t===43||t===45||t===46||ys(t))&&r++<32?(e.consume(t),s):(r=0,l(t))}function c(r){return r===62?(e.exit(`autolinkProtocol`),e.enter(`autolinkMarker`),e.consume(r),e.exit(`autolinkMarker`),e.exit(`autolink`),t):r===null||r===32||r===60||xs(r)?n(r):(e.consume(r),c)}function l(t){return t===64?(e.consume(t),u):bs(t)?(e.consume(t),l):n(t)}function u(e){return ys(e)?d(e):n(e)}function d(n){return n===46?(e.consume(n),r=0,u):n===62?(e.exit(`autolinkProtocol`).type=`autolinkEmail`,e.enter(`autolinkMarker`),e.consume(n),e.exit(`autolinkMarker`),e.exit(`autolink`),t):f(n)}function f(t){if((t===45||ys(t))&&r++<63){let n=t===45?f:d;return e.consume(t),n}return n(t)}}var Ks={partial:!0,tokenize:qs};function qs(e,t,n){return r;function r(t){return Es(t)?js(e,i,`linePrefix`)(t):i(t)}function i(e){return e===null||k(e)?t(e):n(e)}}var Js={continuation:{tokenize:Xs},exit:Zs,name:`blockQuote`,tokenize:Ys};function Ys(e,t,n){let r=this;return i;function i(t){if(t===62){let n=r.containerState;return n.open||=(e.enter(`blockQuote`,{_container:!0}),!0),e.enter(`blockQuotePrefix`),e.enter(`blockQuoteMarker`),e.consume(t),e.exit(`blockQuoteMarker`),a}return n(t)}function a(n){return Es(n)?(e.enter(`blockQuotePrefixWhitespace`),e.consume(n),e.exit(`blockQuotePrefixWhitespace`),e.exit(`blockQuotePrefix`),t):(e.exit(`blockQuotePrefix`),t(n))}}function Xs(e,t,n){let r=this;return i;function i(t){return Es(t)?js(e,a,`linePrefix`,r.parser.constructs.disable.null.includes(`codeIndented`)?void 0:4)(t):a(t)}function a(r){return e.attempt(Js,t,n)(r)}}function Zs(e){e.exit(`blockQuote`)}var Qs={name:`characterEscape`,tokenize:$s};function $s(e,t,n){return r;function r(t){return e.enter(`characterEscape`),e.enter(`escapeMarker`),e.consume(t),e.exit(`escapeMarker`),i}function i(r){return ws(r)?(e.enter(`characterEscapeValue`),e.consume(r),e.exit(`characterEscapeValue`),e.exit(`characterEscape`),t):n(r)}}var ec={name:`characterReference`,tokenize:tc};function tc(e,t,n){let r=this,i=0,a,o;return s;function s(t){return e.enter(`characterReference`),e.enter(`characterReferenceMarker`),e.consume(t),e.exit(`characterReferenceMarker`),c}function c(t){return t===35?(e.enter(`characterReferenceMarkerNumeric`),e.consume(t),e.exit(`characterReferenceMarkerNumeric`),l):(e.enter(`characterReferenceValue`),a=31,o=ys,u(t))}function l(t){return t===88||t===120?(e.enter(`characterReferenceMarkerHexadecimal`),e.consume(t),e.exit(`characterReferenceMarkerHexadecimal`),e.enter(`characterReferenceValue`),a=6,o=Cs,u):(e.enter(`characterReferenceValue`),a=7,o=Ss,u(t))}function u(s){if(s===59&&i){let i=e.exit(`characterReferenceValue`);return o===ys&&!ls(r.sliceSerialize(i))?n(s):(e.enter(`characterReferenceMarker`),e.consume(s),e.exit(`characterReferenceMarker`),e.exit(`characterReference`),t)}return o(s)&&i++<a?(e.consume(s),u):n(s)}}var nc={partial:!0,tokenize:ac},rc={concrete:!0,name:`codeFenced`,tokenize:ic};function ic(e,t,n){let r=this,i={partial:!0,tokenize:x},a=0,o=0,s;return c;function c(e){return l(e)}function l(t){let n=r.events[r.events.length-1];return a=n&&n[1].type===`linePrefix`?n[2].sliceSerialize(n[1],!0).length:0,s=t,e.enter(`codeFenced`),e.enter(`codeFencedFence`),e.enter(`codeFencedFenceSequence`),u(t)}function u(t){return t===s?(o++,e.consume(t),u):o<3?n(t):(e.exit(`codeFencedFenceSequence`),Es(t)?js(e,d,`whitespace`)(t):d(t))}function d(n){return n===null||k(n)?(e.exit(`codeFencedFence`),r.interrupt?t(n):e.check(nc,h,b)(n)):(e.enter(`codeFencedFenceInfo`),e.enter(`chunkString`,{contentType:`string`}),f(n))}function f(t){return t===null||k(t)?(e.exit(`chunkString`),e.exit(`codeFencedFenceInfo`),d(t)):Es(t)?(e.exit(`chunkString`),e.exit(`codeFencedFenceInfo`),js(e,p,`whitespace`)(t)):t===96&&t===s?n(t):(e.consume(t),f)}function p(t){return t===null||k(t)?d(t):(e.enter(`codeFencedFenceMeta`),e.enter(`chunkString`,{contentType:`string`}),m(t))}function m(t){return t===null||k(t)?(e.exit(`chunkString`),e.exit(`codeFencedFenceMeta`),d(t)):t===96&&t===s?n(t):(e.consume(t),m)}function h(t){return e.attempt(i,b,g)(t)}function g(t){return e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),_}function _(t){return a>0&&Es(t)?js(e,v,`linePrefix`,a+1)(t):v(t)}function v(t){return t===null||k(t)?e.check(nc,h,b)(t):(e.enter(`codeFlowValue`),y(t))}function y(t){return t===null||k(t)?(e.exit(`codeFlowValue`),v(t)):(e.consume(t),y)}function b(n){return e.exit(`codeFenced`),t(n)}function x(e,t,n){let i=0;return a;function a(t){return e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),c}function c(t){return e.enter(`codeFencedFence`),Es(t)?js(e,l,`linePrefix`,r.parser.constructs.disable.null.includes(`codeIndented`)?void 0:4)(t):l(t)}function l(t){return t===s?(e.enter(`codeFencedFenceSequence`),u(t)):n(t)}function u(t){return t===s?(i++,e.consume(t),u):i>=o?(e.exit(`codeFencedFenceSequence`),Es(t)?js(e,d,`whitespace`)(t):d(t)):n(t)}function d(r){return r===null||k(r)?(e.exit(`codeFencedFence`),t(r)):n(r)}}}function ac(e,t,n){let r=this;return i;function i(t){return t===null?n(t):(e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),a)}function a(e){return r.parser.lazy[r.now().line]?n(e):t(e)}}var oc={name:`codeIndented`,tokenize:cc},sc={partial:!0,tokenize:lc};function cc(e,t,n){let r=this;return i;function i(t){return e.enter(`codeIndented`),js(e,a,`linePrefix`,5)(t)}function a(e){let t=r.events[r.events.length-1];return t&&t[1].type===`linePrefix`&&t[2].sliceSerialize(t[1],!0).length>=4?o(e):n(e)}function o(t){return t===null?c(t):k(t)?e.attempt(sc,o,c)(t):(e.enter(`codeFlowValue`),s(t))}function s(t){return t===null||k(t)?(e.exit(`codeFlowValue`),o(t)):(e.consume(t),s)}function c(n){return e.exit(`codeIndented`),t(n)}}function lc(e,t,n){let r=this;return i;function i(t){return r.parser.lazy[r.now().line]?n(t):k(t)?(e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),i):js(e,a,`linePrefix`,5)(t)}function a(e){let a=r.events[r.events.length-1];return a&&a[1].type===`linePrefix`&&a[2].sliceSerialize(a[1],!0).length>=4?t(e):k(e)?i(e):n(e)}}var uc={name:`codeText`,previous:fc,resolve:dc,tokenize:pc};function dc(e){let t=e.length-4,n=3,r,i;if((e[n][1].type===`lineEnding`||e[n][1].type===`space`)&&(e[t][1].type===`lineEnding`||e[t][1].type===`space`)){for(r=n;++r<t;)if(e[r][1].type===`codeTextData`){e[n][1].type=`codeTextPadding`,e[t][1].type=`codeTextPadding`,n+=2,t-=2;break}}for(r=n-1,t++;++r<=t;)i===void 0?r!==t&&e[r][1].type!==`lineEnding`&&(i=r):(r===t||e[r][1].type===`lineEnding`)&&(e[i][1].type=`codeTextData`,r!==i+2&&(e[i][1].end=e[r-1][1].end,e.splice(i+2,r-i-2),t-=r-i-2,r=i+2),i=void 0);return e}function fc(e){return e!==96||this.events[this.events.length-1][1].type===`characterEscape`}function pc(e,t,n){let r=0,i,a;return o;function o(t){return e.enter(`codeText`),e.enter(`codeTextSequence`),s(t)}function s(t){return t===96?(e.consume(t),r++,s):(e.exit(`codeTextSequence`),c(t))}function c(t){return t===null?n(t):t===32?(e.enter(`space`),e.consume(t),e.exit(`space`),c):t===96?(a=e.enter(`codeTextSequence`),i=0,u(t)):k(t)?(e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),c):(e.enter(`codeTextData`),l(t))}function l(t){return t===null||t===32||t===96||k(t)?(e.exit(`codeTextData`),c(t)):(e.consume(t),l)}function u(n){return n===96?(e.consume(n),i++,u):i===r?(e.exit(`codeTextSequence`),e.exit(`codeText`),t(n)):(a.type=`codeTextData`,l(n))}}var mc=class{constructor(e){this.left=e?[...e]:[],this.right=[]}get(e){if(e<0||e>=this.left.length+this.right.length)throw RangeError("Cannot access index `"+e+"` in a splice buffer of size `"+(this.left.length+this.right.length)+"`");return e<this.left.length?this.left[e]:this.right[this.right.length-e+this.left.length-1]}get length(){return this.left.length+this.right.length}shift(){return this.setCursor(0),this.right.pop()}slice(e,t){let n=t??1/0;return n<this.left.length?this.left.slice(e,n):e>this.left.length?this.right.slice(this.right.length-n+this.left.length,this.right.length-e+this.left.length).reverse():this.left.slice(e).concat(this.right.slice(this.right.length-n+this.left.length).reverse())}splice(e,t,n){let r=t||0;this.setCursor(Math.trunc(e));let i=this.right.splice(this.right.length-r,1/0);return n&&hc(this.left,n),i.reverse()}pop(){return this.setCursor(1/0),this.left.pop()}push(e){this.setCursor(1/0),this.left.push(e)}pushMany(e){this.setCursor(1/0),hc(this.left,e)}unshift(e){this.setCursor(0),this.right.push(e)}unshiftMany(e){this.setCursor(0),hc(this.right,e.reverse())}setCursor(e){if(!(e===this.left.length||e>this.left.length&&this.right.length===0||e<0&&this.left.length===0))if(e<this.left.length){let t=this.left.splice(e,1/0);hc(this.right,t.reverse())}else{let t=this.right.splice(this.left.length+this.right.length-e,1/0);hc(this.left,t.reverse())}}};function hc(e,t){let n=0;if(t.length<1e4)e.push(...t);else for(;n<t.length;)e.push(...t.slice(n,n+1e4)),n+=1e4}function gc(e){let t={},n=-1,r,i,a,o,s,c,l,u=new mc(e);for(;++n<u.length;){for(;n in t;)n=t[n];if(r=u.get(n),n&&r[1].type===`chunkFlow`&&u.get(n-1)[1].type===`listItemPrefix`&&(c=r[1]._tokenizer.events,a=0,a<c.length&&c[a][1].type===`lineEndingBlank`&&(a+=2),a<c.length&&c[a][1].type===`content`))for(;++a<c.length&&c[a][1].type!==`content`;)c[a][1].type===`chunkText`&&(c[a][1]._isInFirstContentOfListItem=!0,a++);if(r[0]===`enter`)r[1].contentType&&(Object.assign(t,_c(u,n)),n=t[n],l=!0);else if(r[1]._container){for(a=n,i=void 0;a--;)if(o=u.get(a),o[1].type===`lineEnding`||o[1].type===`lineEndingBlank`)o[0]===`enter`&&(i&&(u.get(i)[1].type=`lineEndingBlank`),o[1].type=`lineEnding`,i=a);else if(!(o[1].type===`linePrefix`||o[1].type===`listItemIndent`))break;i&&(r[1].end={...u.get(i)[1].start},s=u.slice(i,n),s.unshift(r),u.splice(i,n-i+1,s))}}return us(e,0,1/0,u.slice(0)),!l}function _c(e,t){let n=e.get(t)[1],r=e.get(t)[2],i=t-1,a=[],o=n._tokenizer;o||(o=r.parser[n.contentType](n.start),n._contentTypeTextTrailing&&(o._contentTypeTextTrailing=!0));let s=o.events,c=[],l={},u,d,f=-1,p=n,m=0,h=0,g=[h];for(;p;){for(;e.get(++i)[1]!==p;);a.push(i),p._tokenizer||(u=r.sliceStream(p),p.next||u.push(null),d&&o.defineSkip(p.start),p._isInFirstContentOfListItem&&(o._gfmTasklistFirstContentOfListItem=!0),o.write(u),p._isInFirstContentOfListItem&&(o._gfmTasklistFirstContentOfListItem=void 0)),d=p,p=p.next}for(p=n;++f<s.length;)s[f][0]===`exit`&&s[f-1][0]===`enter`&&s[f][1].type===s[f-1][1].type&&s[f][1].start.line!==s[f][1].end.line&&(h=f+1,g.push(h),p._tokenizer=void 0,p.previous=void 0,p=p.next);for(o.events=[],p?(p._tokenizer=void 0,p.previous=void 0):g.pop(),f=g.length;f--;){let t=s.slice(g[f],g[f+1]),n=a.pop();c.push([n,n+t.length-1]),e.splice(n,2,t)}for(c.reverse(),f=-1;++f<c.length;)l[m+c[f][0]]=m+c[f][1],m+=c[f][1]-c[f][0]-1;return l}var vc={resolve:bc,tokenize:xc},yc={partial:!0,tokenize:Sc};function bc(e){return gc(e),e}function xc(e,t){let n;return r;function r(t){return e.enter(`content`),n=e.enter(`chunkContent`,{contentType:`content`}),i(t)}function i(t){return t===null?a(t):k(t)?e.check(yc,o,a)(t):(e.consume(t),i)}function a(n){return e.exit(`chunkContent`),e.exit(`content`),t(n)}function o(t){return e.consume(t),e.exit(`chunkContent`),n.next=e.enter(`chunkContent`,{contentType:`content`,previous:n}),n=n.next,i}}function Sc(e,t,n){let r=this;return i;function i(t){return e.exit(`chunkContent`),e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),js(e,a,`linePrefix`)}function a(i){if(i===null||k(i))return n(i);let a=r.events[r.events.length-1];return!r.parser.constructs.disable.null.includes(`codeIndented`)&&a&&a[1].type===`linePrefix`&&a[2].sliceSerialize(a[1],!0).length>=4?t(i):e.interrupt(r.parser.constructs.flow,n,t)(i)}}function Cc(e,t,n,r,i,a,o,s,c){let l=c||1/0,u=0;return d;function d(t){return t===60?(e.enter(r),e.enter(i),e.enter(a),e.consume(t),e.exit(a),f):t===null||t===32||t===41||xs(t)?n(t):(e.enter(r),e.enter(o),e.enter(s),e.enter(`chunkString`,{contentType:`string`}),h(t))}function f(n){return n===62?(e.enter(a),e.consume(n),e.exit(a),e.exit(i),e.exit(r),t):(e.enter(s),e.enter(`chunkString`,{contentType:`string`}),p(n))}function p(t){return t===62?(e.exit(`chunkString`),e.exit(s),f(t)):t===null||t===60||k(t)?n(t):(e.consume(t),t===92?m:p)}function m(t){return t===60||t===62||t===92?(e.consume(t),p):p(t)}function h(i){return!u&&(i===null||i===41||Ts(i))?(e.exit(`chunkString`),e.exit(s),e.exit(o),e.exit(r),t(i)):u<l&&i===40?(e.consume(i),u++,h):i===41?(e.consume(i),u--,h):i===null||i===32||i===40||xs(i)?n(i):(e.consume(i),i===92?g:h)}function g(t){return t===40||t===41||t===92?(e.consume(t),h):h(t)}}function wc(e,t,n,r,i,a){let o=this,s=0,c;return l;function l(t){return e.enter(r),e.enter(i),e.consume(t),e.exit(i),e.enter(a),u}function u(l){return s>999||l===null||l===91||l===93&&!c||l===94&&!s&&`_hiddenFootnoteSupport`in o.parser.constructs?n(l):l===93?(e.exit(a),e.enter(i),e.consume(l),e.exit(i),e.exit(r),t):k(l)?(e.enter(`lineEnding`),e.consume(l),e.exit(`lineEnding`),u):(e.enter(`chunkString`,{contentType:`string`}),d(l))}function d(t){return t===null||t===91||t===93||k(t)||s++>999?(e.exit(`chunkString`),u(t)):(e.consume(t),c||=!Es(t),t===92?f:d)}function f(t){return t===91||t===92||t===93?(e.consume(t),s++,d):d(t)}}function Tc(e,t,n,r,i,a){let o;return s;function s(t){return t===34||t===39||t===40?(e.enter(r),e.enter(i),e.consume(t),e.exit(i),o=t===40?41:t,c):n(t)}function c(n){return n===o?(e.enter(i),e.consume(n),e.exit(i),e.exit(r),t):(e.enter(a),l(n))}function l(t){return t===o?(e.exit(a),c(o)):t===null?n(t):k(t)?(e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),js(e,l,`linePrefix`)):(e.enter(`chunkString`,{contentType:`string`}),u(t))}function u(t){return t===o||t===null||k(t)?(e.exit(`chunkString`),l(t)):(e.consume(t),t===92?d:u)}function d(t){return t===o||t===92?(e.consume(t),u):u(t)}}function Ec(e,t){let n;return r;function r(i){return k(i)?(e.enter(`lineEnding`),e.consume(i),e.exit(`lineEnding`),n=!0,r):Es(i)?js(e,r,n?`linePrefix`:`lineSuffix`)(i):t(i)}}var Dc={name:`definition`,tokenize:kc},Oc={partial:!0,tokenize:Ac};function kc(e,t,n){let r=this,i;return a;function a(t){return e.enter(`definition`),o(t)}function o(t){return wc.call(r,e,s,n,`definitionLabel`,`definitionLabelMarker`,`definitionLabelString`)(t)}function s(t){return i=_s(r.sliceSerialize(r.events[r.events.length-1][1]).slice(1,-1)),t===58?(e.enter(`definitionMarker`),e.consume(t),e.exit(`definitionMarker`),c):n(t)}function c(t){return Ts(t)?Ec(e,l)(t):l(t)}function l(t){return Cc(e,u,n,`definitionDestination`,`definitionDestinationLiteral`,`definitionDestinationLiteralMarker`,`definitionDestinationRaw`,`definitionDestinationString`)(t)}function u(t){return e.attempt(Oc,d,d)(t)}function d(t){return Es(t)?js(e,f,`whitespace`)(t):f(t)}function f(a){return a===null||k(a)?(e.exit(`definition`),r.parser.defined.push(i),t(a)):n(a)}}function Ac(e,t,n){return r;function r(t){return Ts(t)?Ec(e,i)(t):n(t)}function i(t){return Tc(e,a,n,`definitionTitle`,`definitionTitleMarker`,`definitionTitleString`)(t)}function a(t){return Es(t)?js(e,o,`whitespace`)(t):o(t)}function o(e){return e===null||k(e)?t(e):n(e)}}var jc={name:`hardBreakEscape`,tokenize:Mc};function Mc(e,t,n){return r;function r(t){return e.enter(`hardBreakEscape`),e.consume(t),i}function i(r){return k(r)?(e.exit(`hardBreakEscape`),t(r)):n(r)}}var Nc={name:`headingAtx`,resolve:Pc,tokenize:Fc};function Pc(e,t){let n=e.length-2,r=3,i,a;return e[r][1].type===`whitespace`&&(r+=2),n-2>r&&e[n][1].type===`whitespace`&&(n-=2),e[n][1].type===`atxHeadingSequence`&&(r===n-1||n-4>r&&e[n-2][1].type===`whitespace`)&&(n-=r+1===n?2:4),n>r&&(i={type:`atxHeadingText`,start:e[r][1].start,end:e[n][1].end},a={type:`chunkText`,start:e[r][1].start,end:e[n][1].end,contentType:`text`},us(e,r,n-r+1,[[`enter`,i,t],[`enter`,a,t],[`exit`,a,t],[`exit`,i,t]])),e}function Fc(e,t,n){let r=0;return i;function i(t){return e.enter(`atxHeading`),a(t)}function a(t){return e.enter(`atxHeadingSequence`),o(t)}function o(t){return t===35&&r++<6?(e.consume(t),o):t===null||Ts(t)?(e.exit(`atxHeadingSequence`),s(t)):n(t)}function s(n){return n===35?(e.enter(`atxHeadingSequence`),c(n)):n===null||k(n)?(e.exit(`atxHeading`),t(n)):Es(n)?js(e,s,`whitespace`)(n):(e.enter(`atxHeadingText`),l(n))}function c(t){return t===35?(e.consume(t),c):(e.exit(`atxHeadingSequence`),s(t))}function l(t){return t===null||t===35||Ts(t)?(e.exit(`atxHeadingText`),s(t)):(e.consume(t),l)}}var Ic=`address.article.aside.base.basefont.blockquote.body.caption.center.col.colgroup.dd.details.dialog.dir.div.dl.dt.fieldset.figcaption.figure.footer.form.frame.frameset.h1.h2.h3.h4.h5.h6.head.header.hr.html.iframe.legend.li.link.main.menu.menuitem.nav.noframes.ol.optgroup.option.p.param.search.section.summary.table.tbody.td.tfoot.th.thead.title.tr.track.ul`.split(`.`),Lc=[`pre`,`script`,`style`,`textarea`],Rc={concrete:!0,name:`htmlFlow`,resolveTo:Vc,tokenize:Hc},zc={partial:!0,tokenize:Wc},Bc={partial:!0,tokenize:Uc};function Vc(e){let t=e.length;for(;t--&&!(e[t][0]===`enter`&&e[t][1].type===`htmlFlow`););return t>1&&e[t-2][1].type===`linePrefix`&&(e[t][1].start=e[t-2][1].start,e[t+1][1].start=e[t-2][1].start,e.splice(t-2,2)),e}function Hc(e,t,n){let r=this,i,a,o,s,c;return l;function l(e){return u(e)}function u(t){return e.enter(`htmlFlow`),e.enter(`htmlFlowData`),e.consume(t),d}function d(s){return s===33?(e.consume(s),f):s===47?(e.consume(s),a=!0,h):s===63?(e.consume(s),i=3,r.interrupt?t:E):vs(s)?(e.consume(s),o=String.fromCharCode(s),g):n(s)}function f(a){return a===45?(e.consume(a),i=2,p):a===91?(e.consume(a),i=5,s=0,m):vs(a)?(e.consume(a),i=4,r.interrupt?t:E):n(a)}function p(i){return i===45?(e.consume(i),r.interrupt?t:E):n(i)}function m(i){return i===`CDATA[`.charCodeAt(s++)?(e.consume(i),s===6?r.interrupt?t:ne:m):n(i)}function h(t){return vs(t)?(e.consume(t),o=String.fromCharCode(t),g):n(t)}function g(s){if(s===null||s===47||s===62||Ts(s)){let c=s===47,l=o.toLowerCase();return!c&&!a&&Lc.includes(l)?(i=1,r.interrupt?t(s):ne(s)):Ic.includes(o.toLowerCase())?(i=6,c?(e.consume(s),_):r.interrupt?t(s):ne(s)):(i=7,r.interrupt&&!r.parser.lazy[r.now().line]?n(s):a?v(s):y(s))}return s===45||ys(s)?(e.consume(s),o+=String.fromCharCode(s),g):n(s)}function _(i){return i===62?(e.consume(i),r.interrupt?t:ne):n(i)}function v(t){return Es(t)?(e.consume(t),v):T(t)}function y(t){return t===47?(e.consume(t),T):t===58||t===95||vs(t)?(e.consume(t),b):Es(t)?(e.consume(t),y):T(t)}function b(t){return t===45||t===46||t===58||t===95||ys(t)?(e.consume(t),b):x(t)}function x(t){return t===61?(e.consume(t),S):Es(t)?(e.consume(t),x):y(t)}function S(t){return t===null||t===60||t===61||t===62||t===96?n(t):t===34||t===39?(e.consume(t),c=t,C):Es(t)?(e.consume(t),S):w(t)}function C(t){return t===c?(e.consume(t),c=null,ee):t===null||k(t)?n(t):(e.consume(t),C)}function w(t){return t===null||t===34||t===39||t===47||t===60||t===61||t===62||t===96||Ts(t)?x(t):(e.consume(t),w)}function ee(e){return e===47||e===62||Es(e)?y(e):n(e)}function T(t){return t===62?(e.consume(t),te):n(t)}function te(t){return t===null||k(t)?ne(t):Es(t)?(e.consume(t),te):n(t)}function ne(t){return t===45&&i===2?(e.consume(t),oe):t===60&&i===1?(e.consume(t),se):t===62&&i===4?(e.consume(t),ue):t===63&&i===3?(e.consume(t),E):t===93&&i===5?(e.consume(t),le):k(t)&&(i===6||i===7)?(e.exit(`htmlFlowData`),e.check(zc,de,re)(t)):t===null||k(t)?(e.exit(`htmlFlowData`),re(t)):(e.consume(t),ne)}function re(t){return e.check(Bc,ie,de)(t)}function ie(t){return e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),ae}function ae(t){return t===null||k(t)?re(t):(e.enter(`htmlFlowData`),ne(t))}function oe(t){return t===45?(e.consume(t),E):ne(t)}function se(t){return t===47?(e.consume(t),o=``,ce):ne(t)}function ce(t){if(t===62){let n=o.toLowerCase();return Lc.includes(n)?(e.consume(t),ue):ne(t)}return vs(t)&&o.length<8?(e.consume(t),o+=String.fromCharCode(t),ce):ne(t)}function le(t){return t===93?(e.consume(t),E):ne(t)}function E(t){return t===62?(e.consume(t),ue):t===45&&i===2?(e.consume(t),E):ne(t)}function ue(t){return t===null||k(t)?(e.exit(`htmlFlowData`),de(t)):(e.consume(t),ue)}function de(n){return e.exit(`htmlFlow`),t(n)}}function Uc(e,t,n){let r=this;return i;function i(t){return k(t)?(e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),a):n(t)}function a(e){return r.parser.lazy[r.now().line]?n(e):t(e)}}function Wc(e,t,n){return r;function r(r){return e.enter(`lineEnding`),e.consume(r),e.exit(`lineEnding`),e.attempt(Ks,t,n)}}var Gc={name:`htmlText`,tokenize:Kc};function Kc(e,t,n){let r=this,i,a,o;return s;function s(t){return e.enter(`htmlText`),e.enter(`htmlTextData`),e.consume(t),c}function c(t){return t===33?(e.consume(t),l):t===47?(e.consume(t),x):t===63?(e.consume(t),y):vs(t)?(e.consume(t),w):n(t)}function l(t){return t===45?(e.consume(t),u):t===91?(e.consume(t),a=0,m):vs(t)?(e.consume(t),v):n(t)}function u(t){return t===45?(e.consume(t),p):n(t)}function d(t){return t===null?n(t):t===45?(e.consume(t),f):k(t)?(o=d,se(t)):(e.consume(t),d)}function f(t){return t===45?(e.consume(t),p):d(t)}function p(e){return e===62?oe(e):e===45?f(e):d(e)}function m(t){return t===`CDATA[`.charCodeAt(a++)?(e.consume(t),a===6?h:m):n(t)}function h(t){return t===null?n(t):t===93?(e.consume(t),g):k(t)?(o=h,se(t)):(e.consume(t),h)}function g(t){return t===93?(e.consume(t),_):h(t)}function _(t){return t===62?oe(t):t===93?(e.consume(t),_):h(t)}function v(t){return t===null||t===62?oe(t):k(t)?(o=v,se(t)):(e.consume(t),v)}function y(t){return t===null?n(t):t===63?(e.consume(t),b):k(t)?(o=y,se(t)):(e.consume(t),y)}function b(e){return e===62?oe(e):y(e)}function x(t){return vs(t)?(e.consume(t),S):n(t)}function S(t){return t===45||ys(t)?(e.consume(t),S):C(t)}function C(t){return k(t)?(o=C,se(t)):Es(t)?(e.consume(t),C):oe(t)}function w(t){return t===45||ys(t)?(e.consume(t),w):t===47||t===62||Ts(t)?ee(t):n(t)}function ee(t){return t===47?(e.consume(t),oe):t===58||t===95||vs(t)?(e.consume(t),T):k(t)?(o=ee,se(t)):Es(t)?(e.consume(t),ee):oe(t)}function T(t){return t===45||t===46||t===58||t===95||ys(t)?(e.consume(t),T):te(t)}function te(t){return t===61?(e.consume(t),ne):k(t)?(o=te,se(t)):Es(t)?(e.consume(t),te):ee(t)}function ne(t){return t===null||t===60||t===61||t===62||t===96?n(t):t===34||t===39?(e.consume(t),i=t,re):k(t)?(o=ne,se(t)):Es(t)?(e.consume(t),ne):(e.consume(t),ie)}function re(t){return t===i?(e.consume(t),i=void 0,ae):t===null?n(t):k(t)?(o=re,se(t)):(e.consume(t),re)}function ie(t){return t===null||t===34||t===39||t===60||t===61||t===96?n(t):t===47||t===62||Ts(t)?ee(t):(e.consume(t),ie)}function ae(e){return e===47||e===62||Ts(e)?ee(e):n(e)}function oe(r){return r===62?(e.consume(r),e.exit(`htmlTextData`),e.exit(`htmlText`),t):n(r)}function se(t){return e.exit(`htmlTextData`),e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),ce}function ce(t){return Es(t)?js(e,le,`linePrefix`,r.parser.constructs.disable.null.includes(`codeIndented`)?void 0:4)(t):le(t)}function le(t){return e.enter(`htmlTextData`),o(t)}}var qc={name:`labelEnd`,resolveAll:Zc,resolveTo:Qc,tokenize:$c},Jc={tokenize:el},Yc={tokenize:tl},Xc={tokenize:nl};function Zc(e){let t=-1,n=[];for(;++t<e.length;){let r=e[t][1];if(n.push(e[t]),r.type===`labelImage`||r.type===`labelLink`||r.type===`labelEnd`){let e=r.type===`labelImage`?4:2;r.type=`data`,t+=e}}return e.length!==n.length&&us(e,0,e.length,n),e}function Qc(e,t){let n=e.length,r=0,i,a,o,s;for(;n--;)if(i=e[n][1],a){if(i.type===`link`||i.type===`labelLink`&&i._inactive)break;e[n][0]===`enter`&&i.type===`labelLink`&&(i._inactive=!0)}else if(o){if(e[n][0]===`enter`&&(i.type===`labelImage`||i.type===`labelLink`)&&!i._balanced&&(a=n,i.type!==`labelLink`)){r=2;break}}else i.type===`labelEnd`&&(o=n);let c={type:e[a][1].type===`labelLink`?`link`:`image`,start:{...e[a][1].start},end:{...e[e.length-1][1].end}},l={type:`label`,start:{...e[a][1].start},end:{...e[o][1].end}},u={type:`labelText`,start:{...e[a+r+2][1].end},end:{...e[o-2][1].start}};return s=[[`enter`,c,t],[`enter`,l,t]],s=ds(s,e.slice(a+1,a+r+3)),s=ds(s,[[`enter`,u,t]]),s=ds(s,zs(t.parser.constructs.insideSpan.null,e.slice(a+r+4,o-3),t)),s=ds(s,[[`exit`,u,t],e[o-2],e[o-1],[`exit`,l,t]]),s=ds(s,e.slice(o+1)),s=ds(s,[[`exit`,c,t]]),us(e,a,e.length,s),e}function $c(e,t,n){let r=this,i=r.events.length,a,o;for(;i--;)if((r.events[i][1].type===`labelImage`||r.events[i][1].type===`labelLink`)&&!r.events[i][1]._balanced){a=r.events[i][1];break}return s;function s(t){return a?a._inactive?d(t):(o=r.parser.defined.includes(_s(r.sliceSerialize({start:a.end,end:r.now()}))),e.enter(`labelEnd`),e.enter(`labelMarker`),e.consume(t),e.exit(`labelMarker`),e.exit(`labelEnd`),c):n(t)}function c(t){return t===40?e.attempt(Jc,u,o?u:d)(t):t===91?e.attempt(Yc,u,o?l:d)(t):o?u(t):d(t)}function l(t){return e.attempt(Xc,u,d)(t)}function u(e){return t(e)}function d(e){return a._balanced=!0,n(e)}}function el(e,t,n){return r;function r(t){return e.enter(`resource`),e.enter(`resourceMarker`),e.consume(t),e.exit(`resourceMarker`),i}function i(t){return Ts(t)?Ec(e,a)(t):a(t)}function a(t){return t===41?u(t):Cc(e,o,s,`resourceDestination`,`resourceDestinationLiteral`,`resourceDestinationLiteralMarker`,`resourceDestinationRaw`,`resourceDestinationString`,32)(t)}function o(t){return Ts(t)?Ec(e,c)(t):u(t)}function s(e){return n(e)}function c(t){return t===34||t===39||t===40?Tc(e,l,n,`resourceTitle`,`resourceTitleMarker`,`resourceTitleString`)(t):u(t)}function l(t){return Ts(t)?Ec(e,u)(t):u(t)}function u(r){return r===41?(e.enter(`resourceMarker`),e.consume(r),e.exit(`resourceMarker`),e.exit(`resource`),t):n(r)}}function tl(e,t,n){let r=this;return i;function i(t){return wc.call(r,e,a,o,`reference`,`referenceMarker`,`referenceString`)(t)}function a(e){return r.parser.defined.includes(_s(r.sliceSerialize(r.events[r.events.length-1][1]).slice(1,-1)))?t(e):n(e)}function o(e){return n(e)}}function nl(e,t,n){return r;function r(t){return e.enter(`reference`),e.enter(`referenceMarker`),e.consume(t),e.exit(`referenceMarker`),i}function i(r){return r===93?(e.enter(`referenceMarker`),e.consume(r),e.exit(`referenceMarker`),e.exit(`reference`),t):n(r)}}var rl={name:`labelStartImage`,resolveAll:qc.resolveAll,tokenize:il};function il(e,t,n){let r=this;return i;function i(t){return e.enter(`labelImage`),e.enter(`labelImageMarker`),e.consume(t),e.exit(`labelImageMarker`),a}function a(t){return t===91?(e.enter(`labelMarker`),e.consume(t),e.exit(`labelMarker`),e.exit(`labelImage`),o):n(t)}function o(e){return e===94&&`_hiddenFootnoteSupport`in r.parser.constructs?n(e):t(e)}}var al={name:`labelStartLink`,resolveAll:qc.resolveAll,tokenize:ol};function ol(e,t,n){let r=this;return i;function i(t){return e.enter(`labelLink`),e.enter(`labelMarker`),e.consume(t),e.exit(`labelMarker`),e.exit(`labelLink`),a}function a(e){return e===94&&`_hiddenFootnoteSupport`in r.parser.constructs?n(e):t(e)}}var sl={name:`lineEnding`,tokenize:cl};function cl(e,t){return n;function n(n){return e.enter(`lineEnding`),e.consume(n),e.exit(`lineEnding`),js(e,t,`linePrefix`)}}var ll={name:`thematicBreak`,tokenize:ul};function ul(e,t,n){let r=0,i;return a;function a(t){return e.enter(`thematicBreak`),o(t)}function o(e){return i=e,s(e)}function s(a){return a===i?(e.enter(`thematicBreakSequence`),c(a)):r>=3&&(a===null||k(a))?(e.exit(`thematicBreak`),t(a)):n(a)}function c(t){return t===i?(e.consume(t),r++,c):(e.exit(`thematicBreakSequence`),Es(t)?js(e,s,`whitespace`)(t):s(t))}}var dl={continuation:{tokenize:hl},exit:_l,name:`list`,tokenize:ml},fl={partial:!0,tokenize:vl},pl={partial:!0,tokenize:gl};function ml(e,t,n){let r=this,i=r.events[r.events.length-1],a=i&&i[1].type===`linePrefix`?i[2].sliceSerialize(i[1],!0).length:0,o=0;return s;function s(t){let i=r.containerState.type||(t===42||t===43||t===45?`listUnordered`:`listOrdered`);if(i===`listUnordered`?!r.containerState.marker||t===r.containerState.marker:Ss(t)){if(r.containerState.type||(r.containerState.type=i,e.enter(i,{_container:!0})),i===`listUnordered`)return e.enter(`listItemPrefix`),t===42||t===45?e.check(ll,n,l)(t):l(t);if(!r.interrupt||t===49)return e.enter(`listItemPrefix`),e.enter(`listItemValue`),c(t)}return n(t)}function c(t){return Ss(t)&&++o<10?(e.consume(t),c):(!r.interrupt||o<2)&&(r.containerState.marker?t===r.containerState.marker:t===41||t===46)?(e.exit(`listItemValue`),l(t)):n(t)}function l(t){return e.enter(`listItemMarker`),e.consume(t),e.exit(`listItemMarker`),r.containerState.marker=r.containerState.marker||t,e.check(Ks,r.interrupt?n:u,e.attempt(fl,f,d))}function u(e){return r.containerState.initialBlankLine=!0,a++,f(e)}function d(t){return Es(t)?(e.enter(`listItemPrefixWhitespace`),e.consume(t),e.exit(`listItemPrefixWhitespace`),f):n(t)}function f(n){return r.containerState.size=a+r.sliceSerialize(e.exit(`listItemPrefix`),!0).length,t(n)}}function hl(e,t,n){let r=this;return r.containerState._closeFlow=void 0,e.check(Ks,i,a);function i(n){return r.containerState.furtherBlankLines=r.containerState.furtherBlankLines||r.containerState.initialBlankLine,js(e,t,`listItemIndent`,r.containerState.size+1)(n)}function a(n){return r.containerState.furtherBlankLines||!Es(n)?(r.containerState.furtherBlankLines=void 0,r.containerState.initialBlankLine=void 0,o(n)):(r.containerState.furtherBlankLines=void 0,r.containerState.initialBlankLine=void 0,e.attempt(pl,t,o)(n))}function o(i){return r.containerState._closeFlow=!0,r.interrupt=void 0,js(e,e.attempt(dl,t,n),`linePrefix`,r.parser.constructs.disable.null.includes(`codeIndented`)?void 0:4)(i)}}function gl(e,t,n){let r=this;return js(e,i,`listItemIndent`,r.containerState.size+1);function i(e){let i=r.events[r.events.length-1];return i&&i[1].type===`listItemIndent`&&i[2].sliceSerialize(i[1],!0).length===r.containerState.size?t(e):n(e)}}function _l(e){e.exit(this.containerState.type)}function vl(e,t,n){let r=this;return js(e,i,`listItemPrefixWhitespace`,r.parser.constructs.disable.null.includes(`codeIndented`)?void 0:5);function i(e){let i=r.events[r.events.length-1];return!Es(e)&&i&&i[1].type===`listItemPrefixWhitespace`?t(e):n(e)}}var yl={name:`setextUnderline`,resolveTo:bl,tokenize:xl};function bl(e,t){let n=e.length,r,i,a;for(;n--;)if(e[n][0]===`enter`){if(e[n][1].type===`content`){r=n;break}e[n][1].type===`paragraph`&&(i=n)}else e[n][1].type===`content`&&e.splice(n,1),!a&&e[n][1].type===`definition`&&(a=n);let o={type:`setextHeading`,start:{...e[r][1].start},end:{...e[e.length-1][1].end}};return e[i][1].type=`setextHeadingText`,a?(e.splice(i,0,[`enter`,o,t]),e.splice(a+1,0,[`exit`,e[r][1],t]),e[r][1].end={...e[a][1].end}):e[r][1]=o,e.push([`exit`,o,t]),e}function xl(e,t,n){let r=this,i;return a;function a(t){let a=r.events.length,s;for(;a--;)if(r.events[a][1].type!==`lineEnding`&&r.events[a][1].type!==`linePrefix`&&r.events[a][1].type!==`content`){s=r.events[a][1].type===`paragraph`;break}return!r.parser.lazy[r.now().line]&&(r.interrupt||s)?(e.enter(`setextHeadingLine`),i=t,o(t)):n(t)}function o(t){return e.enter(`setextHeadingLineSequence`),s(t)}function s(t){return t===i?(e.consume(t),s):(e.exit(`setextHeadingLineSequence`),Es(t)?js(e,c,`lineSuffix`)(t):c(t))}function c(r){return r===null||k(r)?(e.exit(`setextHeadingLine`),t(r)):n(r)}}var Sl={tokenize:Cl};function Cl(e){let t=this,n=e.attempt(Ks,r,e.attempt(this.parser.constructs.flowInitial,i,js(e,e.attempt(this.parser.constructs.flow,i,e.attempt(vc,i)),`linePrefix`)));return n;function r(r){if(r===null){e.consume(r);return}return e.enter(`lineEndingBlank`),e.consume(r),e.exit(`lineEndingBlank`),t.currentConstruct=void 0,n}function i(r){if(r===null){e.consume(r);return}return e.enter(`lineEnding`),e.consume(r),e.exit(`lineEnding`),t.currentConstruct=void 0,n}}var wl={resolveAll:Ol()},Tl=Dl(`string`),El=Dl(`text`);function Dl(e){return{resolveAll:Ol(e===`text`?kl:void 0),tokenize:t};function t(t){let n=this,r=this.parser.constructs[e],i=t.attempt(r,a,o);return a;function a(e){return c(e)?i(e):o(e)}function o(e){if(e===null){t.consume(e);return}return t.enter(`data`),t.consume(e),s}function s(e){return c(e)?(t.exit(`data`),i(e)):(t.consume(e),s)}function c(e){if(e===null)return!0;let t=r[e],i=-1;if(t)for(;++i<t.length;){let e=t[i];if(!e.previous||e.previous.call(n,n.previous))return!0}return!1}}}function Ol(e){return t;function t(t,n){let r=-1,i;for(;++r<=t.length;)i===void 0?t[r]&&t[r][1].type===`data`&&(i=r,r++):(!t[r]||t[r][1].type!==`data`)&&(r!==i+2&&(t[i][1].end=t[r-1][1].end,t.splice(i+2,r-i-2),r=i+2),i=void 0);return e?e(t,n):t}}function kl(e,t){let n=0;for(;++n<=e.length;)if((n===e.length||e[n][1].type===`lineEnding`)&&e[n-1][1].type===`data`){let r=e[n-1][1],i=t.sliceStream(r),a=i.length,o=-1,s=0,c;for(;a--;){let e=i[a];if(typeof e==`string`){for(o=e.length;e.charCodeAt(o-1)===32;)s++,o--;if(o)break;o=-1}else if(e===-2)c=!0,s++;else if(e!==-1){a++;break}}if(t._contentTypeTextTrailing&&n===e.length&&(s=0),s){let i={type:n===e.length||c||s<2?`lineSuffix`:`hardBreakTrailing`,start:{_bufferIndex:a?o:r.start._bufferIndex+o,_index:r.start._index+a,line:r.end.line,column:r.end.column-s,offset:r.end.offset-s},end:{...r.end}};r.end={...i.start},r.start.offset===r.end.offset?Object.assign(r,i):(e.splice(n,0,[`enter`,i,t],[`exit`,i,t]),n+=2)}n++}return e}var Al=s({attentionMarkers:()=>Rl,contentInitial:()=>Ml,disable:()=>zl,document:()=>jl,flow:()=>Pl,flowInitial:()=>Nl,insideSpan:()=>Ll,string:()=>Fl,text:()=>Il}),jl={42:dl,43:dl,45:dl,48:dl,49:dl,50:dl,51:dl,52:dl,53:dl,54:dl,55:dl,56:dl,57:dl,62:Js},Ml={91:Dc},Nl={[-2]:oc,[-1]:oc,32:oc},Pl={35:Nc,42:ll,45:[yl,ll],60:Rc,61:yl,95:ll,96:rc,126:rc},Fl={38:ec,92:Qs},Il={[-5]:sl,[-4]:sl,[-3]:sl,33:rl,38:ec,42:Bs,60:[Ws,Gc],91:al,92:[jc,Qs],93:qc,95:Bs,96:uc},Ll={null:[Bs,wl]},Rl={null:[42,95]},zl={null:[]};function Bl(e,t,n){let r={_bufferIndex:-1,_index:0,line:n&&n.line||1,column:n&&n.column||1,offset:n&&n.offset||0},i={},a=[],o=[],s=[],c={attempt:C(x),check:C(S),consume:v,enter:y,exit:b,interrupt:C(S,{interrupt:!0})},l={code:null,containerState:{},defineSkip:h,events:[],now:m,parser:e,previous:null,sliceSerialize:f,sliceStream:p,write:d},u=t.tokenize.call(l,c);return t.resolveAll&&a.push(t),l;function d(e){return o=ds(o,e),g(),o[o.length-1]===null?(w(t,0),l.events=zs(a,l.events,l),l.events):[]}function f(e,t){return Hl(p(e),t)}function p(e){return Vl(o,e)}function m(){let{_bufferIndex:e,_index:t,line:n,column:i,offset:a}=r;return{_bufferIndex:e,_index:t,line:n,column:i,offset:a}}function h(e){i[e.line]=e.column,T()}function g(){let e;for(;r._index<o.length;){let t=o[r._index];if(typeof t==`string`)for(e=r._index,r._bufferIndex<0&&(r._bufferIndex=0);r._index===e&&r._bufferIndex<t.length;)_(t.charCodeAt(r._bufferIndex));else _(t)}}function _(e){u=u(e)}function v(e){k(e)?(r.line++,r.column=1,r.offset+=e===-3?2:1,T()):e!==-1&&(r.column++,r.offset++),r._bufferIndex<0?r._index++:(r._bufferIndex++,r._bufferIndex===o[r._index].length&&(r._bufferIndex=-1,r._index++)),l.previous=e}function y(e,t){let n=t||{};return n.type=e,n.start=m(),l.events.push([`enter`,n,l]),s.push(n),n}function b(e){let t=s.pop();return t.end=m(),l.events.push([`exit`,t,l]),t}function x(e,t){w(e,t.from)}function S(e,t){t.restore()}function C(e,t){return n;function n(n,r,i){let a,o,s,u;return Array.isArray(n)?f(n):`tokenize`in n?f([n]):d(n);function d(e){return t;function t(t){let n=t!==null&&e[t],r=t!==null&&e.null;return f([...Array.isArray(n)?n:n?[n]:[],...Array.isArray(r)?r:r?[r]:[]])(t)}}function f(e){return a=e,o=0,e.length===0?i:p(e[o])}function p(e){return n;function n(n){return u=ee(),s=e,e.partial||(l.currentConstruct=e),e.name&&l.parser.constructs.disable.null.includes(e.name)?h(n):e.tokenize.call(t?Object.assign(Object.create(l),t):l,c,m,h)(n)}}function m(t){return e(s,u),r}function h(e){return u.restore(),++o<a.length?p(a[o]):i}}}function w(e,t){e.resolveAll&&!a.includes(e)&&a.push(e),e.resolve&&us(l.events,t,l.events.length-t,e.resolve(l.events.slice(t),l)),e.resolveTo&&(l.events=e.resolveTo(l.events,l))}function ee(){let e=m(),t=l.previous,n=l.currentConstruct,i=l.events.length,a=Array.from(s);return{from:i,restore:o};function o(){r=e,l.previous=t,l.currentConstruct=n,l.events.length=i,s=a,T()}}function T(){r.line in i&&r.column<2&&(r.column=i[r.line],r.offset+=i[r.line]-1)}}function Vl(e,t){let n=t.start._index,r=t.start._bufferIndex,i=t.end._index,a=t.end._bufferIndex,o;if(n===i)o=[e[n].slice(r,a)];else{if(o=e.slice(n,i),r>-1){let e=o[0];typeof e==`string`?o[0]=e.slice(r):o.shift()}a>0&&o.push(e[i].slice(0,a))}return o}function Hl(e,t){let n=-1,r=[],i;for(;++n<e.length;){let a=e[n],o;if(typeof a==`string`)o=a;else switch(a){case-5:o=`\r`;break;case-4:o=`
 `;break;case-3:o=`\r
 `;break;case-2:o=t?` `:`	`;break;case-1:if(!t&&i)continue;o=` `;break;default:o=String.fromCharCode(a)}i=a===-2,r.push(o)}return r.join(``)}function Ul(e){let t={constructs:ps([Al,...(e||{}).extensions||[]]),content:n(Ms),defined:[],document:n(Ps),flow:n(Sl),lazy:{},string:n(Tl),text:n(El)};return t;function n(e){return n;function n(n){return Bl(t,e,n)}}}function Wl(e){for(;!gc(e););return e}var Gl=/[\0\t\n\r]/g;function Kl(){let e=1,t=``,n=!0,r;return i;function i(i,a,o){let s=[],c,l,u,d,f;for(i=t+(typeof i==`string`?i.toString():new TextDecoder(a||void 0).decode(i)),u=0,t=``,n&&=(i.charCodeAt(0)===65279&&u++,void 0);u<i.length;){if(Gl.lastIndex=u,c=Gl.exec(i),d=c&&c.index!==void 0?c.index:i.length,f=i.charCodeAt(d),!c){t=i.slice(u);break}if(f===10&&u===d&&r)s.push(-3),r=void 0;else switch(r&&=(s.push(-5),void 0),u<d&&(s.push(i.slice(u,d)),e+=d-u),f){case 0:s.push(65533),e++;break;case 9:for(l=Math.ceil(e/4)*4,s.push(-2);e++<l;)s.push(-1);break;case 10:s.push(-4),e=1;break;default:r=!0,e=1}u=d+1}return o&&(r&&s.push(-5),t&&s.push(t),s.push(null)),s}}var ql=/\\([!-/:-@[-`{-~])|&(#(?:\d{1,7}|x[\da-f]{1,6})|[\da-z]{1,31});/gi;function Jl(e){return e.replace(ql,Yl)}function Yl(e,t,n){if(t)return t;if(n.charCodeAt(0)===35){let e=n.charCodeAt(1),t=e===120||e===88;return gs(n.slice(t?2:1),t?16:10)}return ls(n)||e}var Xl={}.hasOwnProperty;function Zl(e,t,n){return t&&typeof t==`object`&&(n=t,t=void 0),Ql(n)(Wl(Ul(n).document().write(Kl()(e,t,!0))))}function Ql(e){let t={transforms:[],canContainEols:[`emphasis`,`fragment`,`heading`,`paragraph`,`strong`],enter:{autolink:a(Oe),autolinkProtocol:ee,autolinkEmail:ee,atxHeading:a(we),blockQuote:a(ye),characterEscape:ee,characterReference:ee,codeFenced:a(be),codeFencedFenceInfo:o,codeFencedFenceMeta:o,codeIndented:a(be,o),codeText:a(xe,o),codeTextData:ee,data:ee,codeFlowValue:ee,definition:a(Se),definitionDestinationString:o,definitionLabelString:o,definitionTitleString:o,emphasis:a(Ce),hardBreakEscape:a(Te),hardBreakTrailing:a(Te),htmlFlow:a(Ee,o),htmlFlowData:ee,htmlText:a(Ee,o),htmlTextData:ee,image:a(De),label:o,link:a(Oe),listItem:a(Ae),listItemValue:f,listOrdered:a(ke,d),listUnordered:a(ke),paragraph:a(je),reference:fe,referenceString:o,resourceDestinationString:o,resourceTitleString:o,setextHeading:a(we),strong:a(Me),thematicBreak:a(Pe)},exit:{atxHeading:c(),atxHeadingSequence:x,autolink:c(),autolinkEmail:ve,autolinkProtocol:_e,blockQuote:c(),characterEscapeValue:T,characterReferenceMarkerHexadecimal:me,characterReferenceMarkerNumeric:me,characterReferenceValue:he,characterReference:ge,codeFenced:c(g),codeFencedFence:h,codeFencedFenceInfo:p,codeFencedFenceMeta:m,codeFlowValue:T,codeIndented:c(_),codeText:c(ae),codeTextData:T,data:T,definition:c(),definitionDestinationString:b,definitionLabelString:v,definitionTitleString:y,emphasis:c(),hardBreakEscape:c(ne),hardBreakTrailing:c(ne),htmlFlow:c(re),htmlFlowData:T,htmlText:c(ie),htmlTextData:T,image:c(se),label:le,labelText:ce,lineEnding:te,link:c(oe),listItem:c(),listOrdered:c(),listUnordered:c(),paragraph:c(),referenceString:pe,resourceDestinationString:E,resourceTitleString:ue,resource:de,setextHeading:c(w),setextHeadingLineSequence:C,setextHeadingText:S,strong:c(),thematicBreak:c()}};eu(t,(e||{}).mdastExtensions||[]);let n={};return r;function r(e){let r={type:`root`,children:[]},a={stack:[r],tokenStack:[],config:t,enter:s,exit:l,buffer:o,resume:u,data:n},c=[],d=-1;for(;++d<e.length;)(e[d][1].type===`listOrdered`||e[d][1].type===`listUnordered`)&&(e[d][0]===`enter`?c.push(d):d=i(e,c.pop(),d));for(d=-1;++d<e.length;){let n=t[e[d][0]];Xl.call(n,e[d][1].type)&&n[e[d][1].type].call(Object.assign({sliceSerialize:e[d][2].sliceSerialize},a),e[d][1])}if(a.tokenStack.length>0){let e=a.tokenStack[a.tokenStack.length-1];(e[1]||nu).call(a,void 0,e[0])}for(r.position={start:$l(e.length>0?e[0][1].start:{line:1,column:1,offset:0}),end:$l(e.length>0?e[e.length-2][1].end:{line:1,column:1,offset:0})},d=-1;++d<t.transforms.length;)r=t.transforms[d](r)||r;return r}function i(e,t,n){let r=t-1,i=-1,a=!1,o,s,c,l;for(;++r<=n;){let t=e[r];switch(t[1].type){case`listUnordered`:case`listOrdered`:case`blockQuote`:t[0]===`enter`?i++:i--,l=void 0;break;case`lineEndingBlank`:t[0]===`enter`&&(o&&!l&&!i&&!c&&(c=r),l=void 0);break;case`linePrefix`:case`listItemValue`:case`listItemMarker`:case`listItemPrefix`:case`listItemPrefixWhitespace`:break;default:l=void 0}if(!i&&t[0]===`enter`&&t[1].type===`listItemPrefix`||i===-1&&t[0]===`exit`&&(t[1].type===`listUnordered`||t[1].type===`listOrdered`)){if(o){let i=r;for(s=void 0;i--;){let t=e[i];if(t[1].type===`lineEnding`||t[1].type===`lineEndingBlank`){if(t[0]===`exit`)continue;s&&(e[s][1].type=`lineEndingBlank`,a=!0),t[1].type=`lineEnding`,s=i}else if(!(t[1].type===`linePrefix`||t[1].type===`blockQuotePrefix`||t[1].type===`blockQuotePrefixWhitespace`||t[1].type===`blockQuoteMarker`||t[1].type===`listItemIndent`))break}c&&(!s||c<s)&&(o._spread=!0),o.end=Object.assign({},s?e[s][1].start:t[1].end),e.splice(s||r,0,[`exit`,o,t[2]]),r++,n++}if(t[1].type===`listItemPrefix`){let i={type:`listItem`,_spread:!1,start:Object.assign({},t[1].start),end:void 0};o=i,e.splice(r,0,[`enter`,i,t[2]]),r++,n++,c=void 0,l=!0}}}return e[t][1]._spread=a,n}function a(e,t){return n;function n(n){s.call(this,e(n),n),t&&t.call(this,n)}}function o(){this.stack.push({type:`fragment`,children:[]})}function s(e,t,n){this.stack[this.stack.length-1].children.push(e),this.stack.push(e),this.tokenStack.push([t,n||void 0]),e.position={start:$l(t.start),end:void 0}}function c(e){return t;function t(t){e&&e.call(this,t),l.call(this,t)}}function l(e,t){let n=this.stack.pop(),r=this.tokenStack.pop();if(r)r[0].type!==e.type&&(t?t.call(this,e,r[0]):(r[1]||nu).call(this,e,r[0]));else throw Error("Cannot close `"+e.type+"` ("+So({start:e.start,end:e.end})+`): it’s not open`);n.position.end=$l(e.end)}function u(){return is(this.stack.pop())}function d(){this.data.expectingFirstListItemValue=!0}function f(e){if(this.data.expectingFirstListItemValue){let t=this.stack[this.stack.length-2];t.start=Number.parseInt(this.sliceSerialize(e),10),this.data.expectingFirstListItemValue=void 0}}function p(){let e=this.resume(),t=this.stack[this.stack.length-1];t.lang=e}function m(){let e=this.resume(),t=this.stack[this.stack.length-1];t.meta=e}function h(){this.data.flowCodeInside||(this.buffer(),this.data.flowCodeInside=!0)}function g(){let e=this.resume(),t=this.stack[this.stack.length-1];t.value=e.replace(/^(\r?\n|\r)|(\r?\n|\r)$/g,``),this.data.flowCodeInside=void 0}function _(){let e=this.resume(),t=this.stack[this.stack.length-1];t.value=e.replace(/(\r?\n|\r)$/g,``)}function v(e){let t=this.resume(),n=this.stack[this.stack.length-1];n.label=t,n.identifier=_s(this.sliceSerialize(e)).toLowerCase()}function y(){let e=this.resume(),t=this.stack[this.stack.length-1];t.title=e}function b(){let e=this.resume(),t=this.stack[this.stack.length-1];t.url=e}function x(e){let t=this.stack[this.stack.length-1];t.depth||=this.sliceSerialize(e).length}function S(){this.data.setextHeadingSlurpLineEnding=!0}function C(e){let t=this.stack[this.stack.length-1];t.depth=this.sliceSerialize(e).codePointAt(0)===61?1:2}function w(){this.data.setextHeadingSlurpLineEnding=void 0}function ee(e){let t=this.stack[this.stack.length-1].children,n=t[t.length-1];(!n||n.type!==`text`)&&(n=Ne(),n.position={start:$l(e.start),end:void 0},t.push(n)),this.stack.push(n)}function T(e){let t=this.stack.pop();t.value+=this.sliceSerialize(e),t.position.end=$l(e.end)}function te(e){let n=this.stack[this.stack.length-1];if(this.data.atHardBreak){let t=n.children[n.children.length-1];t.position.end=$l(e.end),this.data.atHardBreak=void 0;return}!this.data.setextHeadingSlurpLineEnding&&t.canContainEols.includes(n.type)&&(ee.call(this,e),T.call(this,e))}function ne(){this.data.atHardBreak=!0}function re(){let e=this.resume(),t=this.stack[this.stack.length-1];t.value=e}function ie(){let e=this.resume(),t=this.stack[this.stack.length-1];t.value=e}function ae(){let e=this.resume(),t=this.stack[this.stack.length-1];t.value=e}function oe(){let e=this.stack[this.stack.length-1];if(this.data.inReference){let t=this.data.referenceType||`shortcut`;e.type+=`Reference`,e.referenceType=t,delete e.url,delete e.title}else delete e.identifier,delete e.label;this.data.referenceType=void 0}function se(){let e=this.stack[this.stack.length-1];if(this.data.inReference){let t=this.data.referenceType||`shortcut`;e.type+=`Reference`,e.referenceType=t,delete e.url,delete e.title}else delete e.identifier,delete e.label;this.data.referenceType=void 0}function ce(e){let t=this.sliceSerialize(e),n=this.stack[this.stack.length-2];n.label=Jl(t),n.identifier=_s(t).toLowerCase()}function le(){let e=this.stack[this.stack.length-1],t=this.resume(),n=this.stack[this.stack.length-1];this.data.inReference=!0,n.type===`link`?n.children=e.children:n.alt=t}function E(){let e=this.resume(),t=this.stack[this.stack.length-1];t.url=e}function ue(){let e=this.resume(),t=this.stack[this.stack.length-1];t.title=e}function de(){this.data.inReference=void 0}function fe(){this.data.referenceType=`collapsed`}function pe(e){let t=this.resume(),n=this.stack[this.stack.length-1];n.label=t,n.identifier=_s(this.sliceSerialize(e)).toLowerCase(),this.data.referenceType=`full`}function me(e){this.data.characterReferenceType=e.type}function he(e){let t=this.sliceSerialize(e),n=this.data.characterReferenceType,r;n?(r=gs(t,n===`characterReferenceMarkerNumeric`?10:16),this.data.characterReferenceType=void 0):r=ls(t);let i=this.stack[this.stack.length-1];i.value+=r}function ge(e){let t=this.stack.pop();t.position.end=$l(e.end)}function _e(e){T.call(this,e);let t=this.stack[this.stack.length-1];t.url=this.sliceSerialize(e)}function ve(e){T.call(this,e);let t=this.stack[this.stack.length-1];t.url=`mailto:`+this.sliceSerialize(e)}function ye(){return{type:`blockquote`,children:[]}}function be(){return{type:`code`,lang:null,meta:null,value:``}}function xe(){return{type:`inlineCode`,value:``}}function Se(){return{type:`definition`,identifier:``,label:null,title:null,url:``}}function Ce(){return{type:`emphasis`,children:[]}}function we(){return{type:`heading`,depth:0,children:[]}}function Te(){return{type:`break`}}function Ee(){return{type:`html`,value:``}}function De(){return{type:`image`,title:null,url:``,alt:null}}function Oe(){return{type:`link`,title:null,url:``,children:[]}}function ke(e){return{type:`list`,ordered:e.type===`listOrdered`,start:null,spread:e._spread,children:[]}}function Ae(e){return{type:`listItem`,spread:e._spread,checked:null,children:[]}}function je(){return{type:`paragraph`,children:[]}}function Me(){return{type:`strong`,children:[]}}function Ne(){return{type:`text`,value:``}}function Pe(){return{type:`thematicBreak`}}}function $l(e){return{line:e.line,column:e.column,offset:e.offset}}function eu(e,t){let n=-1;for(;++n<t.length;){let r=t[n];Array.isArray(r)?eu(e,r):tu(e,r)}}function tu(e,t){let n;for(n in t)if(Xl.call(t,n))switch(n){case`canContainEols`:{let r=t[n];r&&e[n].push(...r);break}case`transforms`:{let r=t[n];r&&e[n].push(...r);break}case`enter`:case`exit`:{let r=t[n];r&&Object.assign(e[n],r);break}}}function nu(e,t){throw Error(e?"Cannot close `"+e.type+"` ("+So({start:e.start,end:e.end})+"): a different token (`"+t.type+"`, "+So({start:t.start,end:t.end})+`) is open`:"Cannot close document, a token (`"+t.type+"`, "+So({start:t.start,end:t.end})+`) is still open`)}function ru(e){let t=this;t.parser=n;function n(n){return Zl(n,{...t.data(`settings`),...e,extensions:t.data(`micromarkExtensions`)||[],mdastExtensions:t.data(`fromMarkdownExtensions`)||[]})}}function iu(e,t){let n={type:`element`,tagName:`blockquote`,properties:{},children:e.wrap(e.all(t),!0)};return e.patch(t,n),e.applyData(t,n)}function au(e,t){let n={type:`element`,tagName:`br`,properties:{},children:[]};return e.patch(t,n),[e.applyData(t,n),{type:`text`,value:`
@@ -10117,4 +10117,4 @@ l0,-`+(t+144)+`c-2,-159.3,-10,-310.7,-24,-454c-53.3,-528,-210,-949.7,
 `,before:c,encode:[`$`],...a.current()})),t()}return c+=a.move(`
 `),i&&(c+=a.move(i+`
 `)),c+=a.move(o),s(),c}function r(e,n,r){let i=e.value||``,a=1;for(t||a++;RegExp(`(^|[^$])`+`\\$`.repeat(a)+`([^$]|$)`).test(i);)a++;let o=`$`.repeat(a);/[^ \r\n]/.test(i)&&(/^[ \r\n]/.test(i)&&/[ \r\n]$/.test(i)||/^\$|\$$/.test(i))&&(i=` `+i+` `);let s=-1;for(;++s<r.unsafe.length;){let e=r.unsafe[s];if(!e.atBreak)continue;let t=r.compilePattern(e),n;for(;n=t.exec(i);){let e=n.index;i.codePointAt(e)===10&&i.codePointAt(e-1)===13&&e--,i=i.slice(0,e)+` `+i.slice(n.index+1)}}return o+i+o}function i(){return`$`}}var iD={tokenize:oD,concrete:!0,name:`mathFlow`},aD={tokenize:sD,partial:!0};function oD(e,t,n){let r=this,i=r.events[r.events.length-1],a=i&&i[1].type===`linePrefix`?i[2].sliceSerialize(i[1],!0).length:0,o=0;return s;function s(t){return e.enter(`mathFlow`),e.enter(`mathFlowFence`),e.enter(`mathFlowFenceSequence`),c(t)}function c(t){return t===36?(e.consume(t),o++,c):o<2?n(t):(e.exit(`mathFlowFenceSequence`),js(e,l,`whitespace`)(t))}function l(t){return t===null||k(t)?d(t):(e.enter(`mathFlowFenceMeta`),e.enter(`chunkString`,{contentType:`string`}),u(t))}function u(t){return t===null||k(t)?(e.exit(`chunkString`),e.exit(`mathFlowFenceMeta`),d(t)):t===36?n(t):(e.consume(t),u)}function d(n){return e.exit(`mathFlowFence`),r.interrupt?t(n):e.attempt(aD,f,g)(n)}function f(t){return e.attempt({tokenize:_,partial:!0},g,p)(t)}function p(t){return(a?js(e,m,`linePrefix`,a+1):m)(t)}function m(t){return t===null?g(t):k(t)?e.attempt(aD,f,g)(t):(e.enter(`mathFlowValue`),h(t))}function h(t){return t===null||k(t)?(e.exit(`mathFlowValue`),m(t)):(e.consume(t),h)}function g(n){return e.exit(`mathFlow`),t(n)}function _(e,t,n){let i=0;return js(e,a,`linePrefix`,r.parser.constructs.disable.null.includes(`codeIndented`)?void 0:4);function a(t){return e.enter(`mathFlowFence`),e.enter(`mathFlowFenceSequence`),s(t)}function s(t){return t===36?(i++,e.consume(t),s):i<o?n(t):(e.exit(`mathFlowFenceSequence`),js(e,c,`whitespace`)(t))}function c(r){return r===null||k(r)?(e.exit(`mathFlowFence`),t(r)):n(r)}}}function sD(e,t,n){let r=this;return i;function i(n){return n===null?t(n):(e.enter(`lineEnding`),e.consume(n),e.exit(`lineEnding`),a)}function a(e){return r.parser.lazy[r.now().line]?n(e):t(e)}}function cD(e){let t=(e||{}).singleDollarTextMath;return t??=!0,{tokenize:n,resolve:lD,previous:uD,name:`mathText`};function n(e,n,r){let i=0,a,o;return s;function s(t){return e.enter(`mathText`),e.enter(`mathTextSequence`),c(t)}function c(n){return n===36?(e.consume(n),i++,c):i<2&&!t?r(n):(e.exit(`mathTextSequence`),l(n))}function l(t){return t===null?r(t):t===36?(o=e.enter(`mathTextSequence`),a=0,d(t)):t===32?(e.enter(`space`),e.consume(t),e.exit(`space`),l):k(t)?(e.enter(`lineEnding`),e.consume(t),e.exit(`lineEnding`),l):(e.enter(`mathTextData`),u(t))}function u(t){return t===null||t===32||t===36||k(t)?(e.exit(`mathTextData`),l(t)):(e.consume(t),u)}function d(t){return t===36?(e.consume(t),a++,d):a===i?(e.exit(`mathTextSequence`),e.exit(`mathText`),n(t)):(o.type=`mathTextData`,u(t))}}}function lD(e){let t=e.length-4,n=3,r,i;if((e[n][1].type===`lineEnding`||e[n][1].type===`space`)&&(e[t][1].type===`lineEnding`||e[t][1].type===`space`)){for(r=n;++r<t;)if(e[r][1].type===`mathTextData`){e[t][1].type=`mathTextPadding`,e[n][1].type=`mathTextPadding`,n+=2,t-=2;break}}for(r=n-1,t++;++r<=t;)i===void 0?r!==t&&e[r][1].type!==`lineEnding`&&(i=r):(r===t||e[r][1].type===`lineEnding`)&&(e[i][1].type=`mathTextData`,r!==i+2&&(e[i][1].end=e[r-1][1].end,e.splice(i+2,r-i-2),t-=r-i-2,r=i+2),i=void 0);return e}function uD(e){return e!==36||this.events[this.events.length-1][1].type===`characterEscape`}function dD(e){return{flow:{36:iD},text:{36:cD(e)}}}var fD={};function pD(e){let t=this,n=e||fD,r=t.data(),i=r.micromarkExtensions||=[],a=r.fromMarkdownExtensions||=[],o=r.toMarkdownExtensions||=[];i.push(dD(n)),a.push(nD()),o.push(rD(n))}var mD=4,hD=/^\s*([-*+]|\d+[.)])\s/;function gD(e){let t=e.split(/\r?\n/),n=!1,r=!1,i=[];for(let e of t){if(e.trimStart().startsWith("```")){n=!n,r=!1,i.push(e);continue}if(n){i.push(e);continue}let t=hD.test(e);r&&!t&&/^\S/.test(e)&&i.push(`<!---->`),t?r=!0:(!e.trim()||/^\S/.test(e))&&(r=!1),i.push(_D(e))}return i.join(`
-`)}function _D(e){if(!e.trim())return``;if(/^\t+([-*+]|\d+[.)])\s/.test(e))return e;let t=e.match(/^(> ?\s*)(\t+)(.*)$/);if(t){let e=`\xA0`.repeat(t[2].length*mD);return t[1]+e+t[3]}let n=e.match(/^(\t+)(.*)$/);return n?`\xA0`.repeat(n[1].length*mD)+n[2]:e}var vD=`/assets/file-20261002134939845-CZLhM795.png`,yD=`/assets/file-20261003013253101--icmq1oK.png`,bD=`/assets/file-20261003165108574-B5e4zamN.png`,xD=`/assets/file-20261003165533023-XDFLMf89.png`,SD=`/assets/file-20261005195440958-BNiAlkcO.png`,CD=`/assets/file-20261007134355940-gDTOJW72.png`,wD=`/assets/file-20261007135630329-DsCiX99i.png`,TD=`/assets/file-20261009134055922-D43pVrfV.png`,ED=`/assets/file-20261012135301717-BjVxJvtk.png`,DD=`/assets/file-20261012135517496-B8BkpZLU.png`,OD=`/assets/file-20261017004034225-BJ0DfjPC.png`,kD=`/assets/file-20261026141441678-DtzLLsoF.png`,AD=`/assets/file-20261028135050077-LZTwEjIP.png`,jD=`/assets/file-20261030140451861-DYnsJ5b4.png`,MD=`/assets/access-methods-B9QF5qpc.png`,ND=`/assets/b_delete1-B5F5hAWP.png`,PD=`/assets/b_delete2-COjGKfYs.png`,FD=`/assets/b_delete3-CB7IEFLu.png`,ID=`/assets/b_delete4-BRoCb4Ph.png`,LD=`/assets/b_delete5-B7sGRmiF.png`,RD=`/assets/b_insert-C0E5msDV.png`,zD=`/assets/b_leaf-BJ42ZMjv.png`,BD=`/assets/b_nodes-kbAEGTYa.png`,VD=`/assets/b_serach-CLsFsqGQ.png`,HD=`/assets/b_split-DnZEbjnu.png`,UD=`/assets/b_tree-BqFxeqYj.png`,WD=`/assets/buffer-manager-0Rr6IgS2.png`,GD=`/assets/dbms-architecture-BtvrPSMz.png`,KD=`/assets/fixed-length-record-CIi5reA_.png`,qD=`/assets/heap-file-1-BZqAUvhT.png`,JD=`/assets/heap-file-2-BVUdkyrb.png`,YD=`/assets/heap-file-3-D2slnoKE.png`,XD=`/assets/index-BE1j7b6M.png`,ZD=`/assets/page-format-CqAG0utU.png`,QD=`/assets/query-evaluation-steps-Bs2mD3Tn.png`,$D=`/assets/query-execution-DzA6uV8A.png`,eO=`/assets/slot-directory-CJKYfGtR.png`,tO=`/assets/sql-to-ra-Dt1YMBwK.png`,nO=`/assets/variable-length-record-NvdR4NUv.png`,rO=`/assets/bottomup-DqURT0kB.png`,iO=`/assets/bushy-jJCv5ExL.png`,aO=`/assets/dp-B3FvOhEb.png`,oO=`/assets/employeehistogram-CLIEey8r.png`,sO=`/assets/hashjoin1-CCueQrNV.png`,cO=`/assets/hashjoin2-D4KrzPf2.png`,lO=`/assets/leftdeep-Dgps-hiU.png`,uO=`/assets/linear-BOByY97S.png`,dO=`/assets/optimizationoverview-CZ31HSjt.png`,fO=`/assets/physicalplan1-BWUTIm8Z.png`,pO=`/assets/physicalplan2-BhnHdl3v.png`,mO=`/assets/physicalplan3-Bq2JOAA6.png`,hO=`/assets/queryoptimizationsummary-vTnxeyjW.png`,gO=`/assets/rightdeep-xmW4QpcL.png`,_O=`/assets/topdown-DS77ukCD.png`,vO=`/assets/2pldeadlocks-DcWEw7gW.png`,yO=`/assets/IsolationLevelDesignSpectrum%20-B-Q2n74X.png`,bO=`/assets/compatibilitymatrix-BG1TiXP1.png`,xO=`/assets/multiversion1-BqZA7M-P.png`,SO=`/assets/phantom-JNgKabiA.png`,CO=`/assets/readtoolate-CPqAPtUg.png`,wO=`/assets/recoverableschedule-LtN1wObE.png`,TO=`/assets/rtwuconflict-D7Dtc0TG.png`,EO=`/assets/Equijoin-B7u8tCvI.png`,DO=`/assets/block%20partitioning-Doww0JD-.png`,OO=`/assets/checkpoint-CTmltf62.png`,kO=`/assets/hash%20partioning-BVCjy6Z_.png`,AO=`/assets/policiesandlogs-DiaP4sfE.png`,jO=`/assets/range%20partitioning-DvOxFUR0.png`,MO=`/assets/shared%20disk%20architecture-OZkIeloh.png`,NO=`/assets/shared%20memory%20architecture-p46N1rcD.png`,PO=`/assets/shared%20nothing%20architecture-DOwziXtX.png`,FO=`/assets/undo-FoZ46yO4.png`,IO=`/assets/CoordinatorStateMachine-DoRjhPr4.png`,LO=`/assets/SubordinateStateMachine-CZyBSIEX.png`,RO=`/assets/asyncrep-CL31hZVf.png`,zO=`/assets/conflicttimestamp-MsAw6sho.png`,BO=`/assets/mapreduce-B-DECPqu.png`,VO=`/assets/parallelmapreduce-B3-DYbcY.png`,HO=`/assets/syncgrouprep-Cvk-XAwK.png`,UO=`/assets/synchronousreplication-CDatgT6i.png`,WO=`/assets/syncmasterrep-CVKTgsXI.png`,GO=`/assets/complexity-BrAmumT5.png`,KO=`/assets/ERD_intro-Bu1BfdKa.png`,qO=`/assets/arrows-C8mBwyZM.png`,JO=`/assets/relation-BQ9gXyUe.png`,YO=`/assets/relation1-Cb8TgUhc.png`,XO=`/assets/relationship-CiA-nZlw.png`,ZO=`/assets/relationship1-DEgrIkn-.png`,QO=`/assets/weakentity-BTbQ74RO.png`,$O=`/assets/dbdesignprocess-CBEu96q7.png`,ek=`/assets/fk-DmbSNlgC.png`,tk=`/assets/fk1-BVQ_45Dh.png`,nk=`/assets/n1relationshiptorelation-BsMRYB1p.png`,rk=`/assets/nnrelationshiptorelation-BPUNYyFs.png`,ik=`/assets/file-20261021104552477-02lyv-dI.png`,ak=`/assets/file-20261021104617526-CHbJW8Rk.png`,ok=`/assets/file-20261021104647531-ZZ7ID4bq.png`,sk=`/assets/file-20261021105014177-U-kY5B4S.png`,ck=`/assets/file-20261102111700596-By_ELXtu.png`,lk=`/assets/ipaccesslist-UfLSyKJt.png`,uk=`/assets/5-12demo-ugHZpz-0.png`,dk=`/assets/caching-DIjGBuRG.png`,fk=Object.assign({"../../../milynotes vault/CSE 333/img/file-20261002134939845.png":vD,"../../../milynotes vault/CSE 333/img/file-20261003013253101.png":yD,"../../../milynotes vault/CSE 333/img/file-20261003165108574.png":bD,"../../../milynotes vault/CSE 333/img/file-20261003165533023.png":xD,"../../../milynotes vault/CSE 333/img/file-20261005195440958.png":SD,"../../../milynotes vault/CSE 333/img/file-20261007134355940.png":CD,"../../../milynotes vault/CSE 333/img/file-20261007135630329.png":wD,"../../../milynotes vault/CSE 333/img/file-20261009134055922.png":TD,"../../../milynotes vault/CSE 333/img/file-20261012135301717.png":ED,"../../../milynotes vault/CSE 333/img/file-20261012135517496.png":DD,"../../../milynotes vault/CSE 333/img/file-20261017004034225.png":OD,"../../../milynotes vault/CSE 333/img/file-20261026141441678.png":kD,"../../../milynotes vault/CSE 333/img/file-20261028135050077.png":AD,"../../../milynotes vault/CSE 333/img/file-20261030140451861.png":jD,"../../../milynotes vault/CSE 444/week 1-2/img/access-methods.png":MD,"../../../milynotes vault/CSE 444/week 1-2/img/b+delete1.png":ND,"../../../milynotes vault/CSE 444/week 1-2/img/b+delete2.png":PD,"../../../milynotes vault/CSE 444/week 1-2/img/b+delete3.png":FD,"../../../milynotes vault/CSE 444/week 1-2/img/b+delete4.png":ID,"../../../milynotes vault/CSE 444/week 1-2/img/b+delete5.png":LD,"../../../milynotes vault/CSE 444/week 1-2/img/b+insert.png":RD,"../../../milynotes vault/CSE 444/week 1-2/img/b+leaf.png":zD,"../../../milynotes vault/CSE 444/week 1-2/img/b+nodes.png":BD,"../../../milynotes vault/CSE 444/week 1-2/img/b+serach.png":VD,"../../../milynotes vault/CSE 444/week 1-2/img/b+split.png":HD,"../../../milynotes vault/CSE 444/week 1-2/img/b+tree.png":UD,"../../../milynotes vault/CSE 444/week 1-2/img/buffer-manager.png":WD,"../../../milynotes vault/CSE 444/week 1-2/img/dbms-architecture.png":GD,"../../../milynotes vault/CSE 444/week 1-2/img/fixed-length-record.png":KD,"../../../milynotes vault/CSE 444/week 1-2/img/heap-file-1.png":qD,"../../../milynotes vault/CSE 444/week 1-2/img/heap-file-2.png":JD,"../../../milynotes vault/CSE 444/week 1-2/img/heap-file-3.png":YD,"../../../milynotes vault/CSE 444/week 1-2/img/index.png":XD,"../../../milynotes vault/CSE 444/week 1-2/img/page-format.png":ZD,"../../../milynotes vault/CSE 444/week 1-2/img/query-evaluation-steps.png":QD,"../../../milynotes vault/CSE 444/week 1-2/img/query-execution.png":$D,"../../../milynotes vault/CSE 444/week 1-2/img/slot-directory.png":eO,"../../../milynotes vault/CSE 444/week 1-2/img/sql-to-ra.png":tO,"../../../milynotes vault/CSE 444/week 1-2/img/variable-length-record.png":nO,"../../../milynotes vault/CSE 444/week 3-4/img/bottomup.png":rO,"../../../milynotes vault/CSE 444/week 3-4/img/bushy.png":iO,"../../../milynotes vault/CSE 444/week 3-4/img/dp.png":aO,"../../../milynotes vault/CSE 444/week 3-4/img/employeehistogram.png":oO,"../../../milynotes vault/CSE 444/week 3-4/img/hashjoin1.png":sO,"../../../milynotes vault/CSE 444/week 3-4/img/hashjoin2.png":cO,"../../../milynotes vault/CSE 444/week 3-4/img/leftdeep.png":lO,"../../../milynotes vault/CSE 444/week 3-4/img/linear.png":uO,"../../../milynotes vault/CSE 444/week 3-4/img/optimizationoverview.png":dO,"../../../milynotes vault/CSE 444/week 3-4/img/physicalplan1.png":fO,"../../../milynotes vault/CSE 444/week 3-4/img/physicalplan2.png":pO,"../../../milynotes vault/CSE 444/week 3-4/img/physicalplan3.png":mO,"../../../milynotes vault/CSE 444/week 3-4/img/queryoptimizationsummary.png":hO,"../../../milynotes vault/CSE 444/week 3-4/img/rightdeep.png":gO,"../../../milynotes vault/CSE 444/week 3-4/img/topdown.png":_O,"../../../milynotes vault/CSE 444/week 5-6/img/2pldeadlocks.png":vO,"../../../milynotes vault/CSE 444/week 5-6/img/IsolationLevelDesignSpectrum .png":yO,"../../../milynotes vault/CSE 444/week 5-6/img/compatibilitymatrix.png":bO,"../../../milynotes vault/CSE 444/week 5-6/img/multiversion1.png":xO,"../../../milynotes vault/CSE 444/week 5-6/img/phantom.png":SO,"../../../milynotes vault/CSE 444/week 5-6/img/readtoolate.png":CO,"../../../milynotes vault/CSE 444/week 5-6/img/recoverableschedule.png":wO,"../../../milynotes vault/CSE 444/week 5-6/img/rtwuconflict.png":TO,"../../../milynotes vault/CSE 444/week 7-8/img/Equijoin.png":EO,"../../../milynotes vault/CSE 444/week 7-8/img/block partitioning.png":DO,"../../../milynotes vault/CSE 444/week 7-8/img/checkpoint.png":OO,"../../../milynotes vault/CSE 444/week 7-8/img/hash partioning.png":kO,"../../../milynotes vault/CSE 444/week 7-8/img/policiesandlogs.png":AO,"../../../milynotes vault/CSE 444/week 7-8/img/range partitioning.png":jO,"../../../milynotes vault/CSE 444/week 7-8/img/shared disk architecture.png":MO,"../../../milynotes vault/CSE 444/week 7-8/img/shared memory architecture.png":NO,"../../../milynotes vault/CSE 444/week 7-8/img/shared nothing architecture.png":PO,"../../../milynotes vault/CSE 444/week 7-8/img/undo.png":FO,"../../../milynotes vault/CSE 444/week 9-10/img/CoordinatorStateMachine.png":IO,"../../../milynotes vault/CSE 444/week 9-10/img/SubordinateStateMachine.png":LO,"../../../milynotes vault/CSE 444/week 9-10/img/asyncrep.png":RO,"../../../milynotes vault/CSE 444/week 9-10/img/conflicttimestamp.png":zO,"../../../milynotes vault/CSE 444/week 9-10/img/mapreduce.png":BO,"../../../milynotes vault/CSE 444/week 9-10/img/parallelmapreduce.png":VO,"../../../milynotes vault/CSE 444/week 9-10/img/syncgrouprep.png":HO,"../../../milynotes vault/CSE 444/week 9-10/img/synchronousreplication.png":UO,"../../../milynotes vault/CSE 444/week 9-10/img/syncmasterrep.png":WO,"../../../milynotes vault/DSA/img/complexity.png":GO,"../../../milynotes vault/INFO 330/04_conceptual modeling/img/ERD_intro.png":KO,"../../../milynotes vault/INFO 330/04_conceptual modeling/img/arrows.png":qO,"../../../milynotes vault/INFO 330/04_conceptual modeling/img/relation.png":JO,"../../../milynotes vault/INFO 330/04_conceptual modeling/img/relation1.png":YO,"../../../milynotes vault/INFO 330/04_conceptual modeling/img/relationship.png":XO,"../../../milynotes vault/INFO 330/04_conceptual modeling/img/relationship1.png":ZO,"../../../milynotes vault/INFO 330/04_conceptual modeling/img/weakentity.png":QO,"../../../milynotes vault/INFO 330/05_relational schema/img/dbdesignprocess.png":$O,"../../../milynotes vault/INFO 330/05_relational schema/img/fk.png":ek,"../../../milynotes vault/INFO 330/05_relational schema/img/fk1.png":tk,"../../../milynotes vault/INFO 330/05_relational schema/img/n1relationshiptorelation.png":nk,"../../../milynotes vault/INFO 330/05_relational schema/img/nnrelationshiptorelation.png":rk,"../../../milynotes vault/INFO 330/img/file-20261021104552477.png":ik,"../../../milynotes vault/INFO 330/img/file-20261021104617526.png":ak,"../../../milynotes vault/INFO 330/img/file-20261021104647531.png":ok,"../../../milynotes vault/INFO 330/img/file-20261021105014177.png":sk,"../../../milynotes vault/INFO 330/img/file-20261102111700596.png":ck,"../../../milynotes vault/INFO 441/week 3-4/img/ipaccesslist.png":lk,"../../../milynotes vault/INFO 441/week 7-8/img/5-12demo.png":uk,"../../../milynotes vault/INFO 441/week 7-8/img/caching.png":dk}),pk=new Map;for(let[e,t]of Object.entries(fk)){let n=e.replace(/\\/g,`/`),r=n.lastIndexOf(`milynotes vault/`);if(r===-1)continue;let i=n.slice(r+16);pk.set(i,t)}function mk(e){let t=e.lastIndexOf(`/`);return t===-1?``:e.slice(0,t)}function hk(e){return e.replace(/&/g,`&amp;`).replace(/"/g,`&quot;`).replace(/</g,`&lt;`)}function gk(e,t,n){let r=n.trim();if(/^https?:\/\//i.test(r))return r;let i=mk(t),a=r.replace(/^\.\//,``).replace(/^\/+/,``),o=[];a.includes(`/`)&&o.push(`${e}/${a}`),i?(o.push(`${e}/${i}/img/${a}`),o.push(`${e}/${i}/attachments/${a}`),o.push(`${e}/${i}/${a}`)):(o.push(`${e}/img/${a}`),o.push(`${e}/attachments/${a}`),o.push(`${e}/${a}`));let s=a.split(`/`).pop()??a;i&&s!==a&&(o.push(`${e}/${i}/img/${s}`),o.push(`${e}/${i}/attachments/${s}`));let c=new Set;for(let e of o){if(c.has(e))continue;c.add(e);let t=pk.get(e);if(t)return t}let l=s;if(i){let t=`${e}/${i}/`;for(let[e,n]of pk)if(e.startsWith(t)&&e.endsWith(`/${l}`))return n}let u=`${e}/`,d=[];for(let[t,n]of pk)t.startsWith(u)&&(t===`${e}/${l}`||t.endsWith(`/${l}`))&&d.push(n);return d.length===1?d[0]:null}function _k(e,t,n){let r=e;return r=r.replace(/!\[\[([^\]]+)\]\]/g,(e,r)=>{let i=r.split(`|`),a=i[0].trim();if(!a)return e;let o=gk(t,n,a);if(!o)return e;let s=a.replace(/\.[^./\\]+$/,``).replace(/[/_-]+/g,` `),c=i[1]?.trim();return c&&/^\d+$/.test(c)?`<img src="${o}" alt="${hk(s)}" width="${c}" />`:`![${s}](${o})`}),r=r.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,(e,r,i)=>{let a=i.trim();if(/^https?:\/\//i.test(a))return e;let o=gk(t,n,a);return o?`![${r}](${o})`:e}),r}function vk(e){return`margin-top: calc(${e} * var(--note-line))`}function yk(e){return{type:`html`,value:`<div style="${vk(e)}"></div>`}}function bk(e){let t=e.children;if(t)for(let e=0;e<t.length;e++){let n=t[e];if(bk(n),e===0)continue;let r=t[e-1];if(!r.position||!n.position)continue;let i=n.position.start.line-r.position.end.line-1;if(i<=0)continue;if(n.type===`html`){n.value=`<div style="${vk(i)}"></div>\n${n.value??``}`;continue}if(n.type===`code`||n.type===`math`){t.splice(e,0,yk(i)),e++;continue}n.data=n.data??{};let a=n.data.hProperties=n.data.hProperties??{};a.style=vk(i)}}function xk(){return e=>bk(e)}function Sk(e){return e.trim().toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu,``).replace(/\s+/g,`-`)}function Ck(e){return e.replace(/\.md$/i,``)}function wk(e,t){let n=Ck(na(t.trim())).toLowerCase();if(!n)return null;let r=[...Xi.filter(t=>t.vaultFolder===e),...Xi.filter(t=>t.vaultFolder!==e)];for(let e of r)for(let t of la(e.vaultFolder)){let r=Ck(na(t.relativePath)).toLowerCase();if(r===n||r.endsWith(`/${n}`))return{categoryId:e.id,relativePath:na(t.relativePath)}}return null}function Tk(e){return e.replace(/([[\]\\])/g,`\\$1`)}function Ek(e,t){return e.replace(/(?<!!)\[\[([^\]\n]+)\]\]/g,(e,n)=>{let r=n.indexOf(`|`),i=r===-1?n:n.slice(0,r),a=r===-1?``:n.slice(r+1).trim(),o=i.indexOf(`#`),s=o===-1?i:i.slice(0,o),c=o===-1?``:i.slice(o+1).replace(/^\^/,``).trim(),l=a||(s.trim()?Ck(s.trim()):c),u=c?`#${Sk(c.split(`#`).pop()??c)}`:``;if(!s.trim())return u?`[${Tk(l)}](${u})`:e;let d=wk(t,s);return d?`[${Tk(l)}](<${ca(d.categoryId,d.relativePath)}${u}>)`:Tk(l)})}function Dk(e,t){return e.split(/(```[\s\S]*?```|`[^`\n]*`)/g).map(e=>e.startsWith("`")?e:Ek(e,t)).join(``)}function Ok(e){return v.Children.toArray(e).map(e=>typeof e==`string`||typeof e==`number`?String(e):(0,v.isValidElement)(e)?Ok(e.props.children):``).join(``)}function kk(e){return function({children:t,...n}){return delete n.node,(0,D.jsx)(e,{...n,id:Sk(Ok(t)),children:t})}}var Ak={a({href:e,children:t}){return e?.startsWith(`/`)?(0,D.jsx)(Pn,{to:e,className:`wikilink`,children:t}):(0,D.jsx)(`a`,{href:e,children:t})},h1:kk(`h1`),h2:kk(`h2`),h3:kk(`h3`),h4:kk(`h4`),h5:kk(`h5`),h6:kk(`h6`)};function jk(e){if(!e)return``;try{return decodeURIComponent(e)}catch{return e}}function Mk(){let{categoryId:e,notePath:t}=gt(),n=e?Zi(e):void 0,{hash:r}=lt();if((0,v.useEffect)(()=>{if(!r){window.scrollTo(0,0);return}document.getElementById(decodeURIComponent(r.slice(1)))?.scrollIntoView()},[r,t]),!e||!n)return(0,D.jsx)(Bt,{to:`/`,replace:!0});let i=jk(t),a=i.length>0?sa(n.vaultFolder,i):null;if(!a)return(0,D.jsx)(Bt,{to:`/category/${encodeURIComponent(e)}`,replace:!0});let o=ea(i),s=gD(Dk(_k(ta(a),n.vaultFolder,i),n.vaultFolder));return(0,D.jsxs)(`article`,{className:`note-view`,children:[(0,D.jsxs)(Pn,{to:`/category/${encodeURIComponent(e)}`,className:`note-view__back`,children:[`← `,n.name]}),(0,D.jsx)(`h1`,{className:`note-view__title`,children:o}),(0,D.jsx)(`div`,{className:`note-view__body`,children:(0,D.jsx)(sf,{remarkPlugins:[tD,pD,ow,xk],rehypePlugins:[[Qv,{strict:!1}],QC],components:Ak,children:s})})]})}function Nk(){if(typeof window<`u`&&window.location.hostname.endsWith(`github.io`)){let e=window.location.pathname.split(`/`).filter(Boolean)[0];if(e)return`/${e}`}}function Pk(){let{notePath:e}=gt();return e?(0,D.jsx)(Bt,{to:`/category/sql-notes/note/${encodeURIComponent(e)}`,replace:!0}):(0,D.jsx)(Bt,{to:`/category/sql-notes`,replace:!0})}function Fk(){return(0,D.jsx)(jn,{basename:Nk(),children:(0,D.jsx)(Wt,{children:(0,D.jsxs)(Ht,{element:(0,D.jsx)(_a,{}),children:[(0,D.jsx)(Ht,{path:`/`,element:(0,D.jsx)(ba,{})}),(0,D.jsx)(Ht,{path:`/category/sql-notes-for-ta`,element:(0,D.jsx)(Bt,{to:`/category/sql-notes`,replace:!0})}),(0,D.jsx)(Ht,{path:`/category/sql-notes-for-ta/note/:notePath`,element:(0,D.jsx)(Pk,{})}),(0,D.jsx)(Ht,{path:`/category/:categoryId/note/:notePath`,element:(0,D.jsx)(Mk,{})}),(0,D.jsx)(Ht,{path:`/category/:categoryId`,element:(0,D.jsx)(xa,{})}),(0,D.jsx)(Ht,{path:`*`,element:(0,D.jsx)(Bt,{to:`/`,replace:!0})})]})})})}(0,_.createRoot)(document.getElementById(`root`)).render((0,D.jsx)(v.StrictMode,{children:(0,D.jsx)(Fk,{})}));
+`)}function _D(e){if(!e.trim())return``;if(/^\t+([-*+]|\d+[.)])\s/.test(e))return e;let t=e.match(/^(> ?\s*)(\t+)(.*)$/);if(t){let e=`\xA0`.repeat(t[2].length*mD);return t[1]+e+t[3]}let n=e.match(/^(\t+)(.*)$/);return n?`\xA0`.repeat(n[1].length*mD)+n[2]:e}var vD=`/assets/file-20261002134939845-CZLhM795.png`,yD=`/assets/file-20261003013253101--icmq1oK.png`,bD=`/assets/file-20261003165108574-B5e4zamN.png`,xD=`/assets/file-20261003165533023-XDFLMf89.png`,SD=`/assets/file-20261005195440958-BNiAlkcO.png`,CD=`/assets/file-20261007134355940-gDTOJW72.png`,wD=`/assets/file-20261007135630329-DsCiX99i.png`,TD=`/assets/file-20261009134055922-D43pVrfV.png`,ED=`/assets/file-20261012135301717-BjVxJvtk.png`,DD=`/assets/file-20261012135517496-B8BkpZLU.png`,OD=`/assets/file-20261017004034225-BJ0DfjPC.png`,kD=`/assets/file-20261026141441678-DtzLLsoF.png`,AD=`/assets/file-20261028135050077-LZTwEjIP.png`,jD=`/assets/file-20261030140451861-DYnsJ5b4.png`,MD=`/assets/access-methods-B9QF5qpc.png`,ND=`/assets/b_delete1-B5F5hAWP.png`,PD=`/assets/b_delete2-COjGKfYs.png`,FD=`/assets/b_delete3-CB7IEFLu.png`,ID=`/assets/b_delete4-BRoCb4Ph.png`,LD=`/assets/b_delete5-B7sGRmiF.png`,RD=`/assets/b_insert-C0E5msDV.png`,zD=`/assets/b_leaf-BJ42ZMjv.png`,BD=`/assets/b_nodes-kbAEGTYa.png`,VD=`/assets/b_serach-CLsFsqGQ.png`,HD=`/assets/b_split-DnZEbjnu.png`,UD=`/assets/b_tree-BqFxeqYj.png`,WD=`/assets/buffer-manager-0Rr6IgS2.png`,GD=`/assets/dbms-architecture-BtvrPSMz.png`,KD=`/assets/fixed-length-record-CIi5reA_.png`,qD=`/assets/heap-file-1-BZqAUvhT.png`,JD=`/assets/heap-file-2-BVUdkyrb.png`,YD=`/assets/heap-file-3-D2slnoKE.png`,XD=`/assets/index-BE1j7b6M.png`,ZD=`/assets/page-format-CqAG0utU.png`,QD=`/assets/query-evaluation-steps-Bs2mD3Tn.png`,$D=`/assets/query-execution-DzA6uV8A.png`,eO=`/assets/slot-directory-CJKYfGtR.png`,tO=`/assets/sql-to-ra-Dt1YMBwK.png`,nO=`/assets/variable-length-record-NvdR4NUv.png`,rO=`/assets/bottomup-DqURT0kB.png`,iO=`/assets/bushy-jJCv5ExL.png`,aO=`/assets/dp-B3FvOhEb.png`,oO=`/assets/employeehistogram-CLIEey8r.png`,sO=`/assets/hashjoin1-CCueQrNV.png`,cO=`/assets/hashjoin2-D4KrzPf2.png`,lO=`/assets/leftdeep-Dgps-hiU.png`,uO=`/assets/linear-BOByY97S.png`,dO=`/assets/optimizationoverview-CZ31HSjt.png`,fO=`/assets/physicalplan1-BWUTIm8Z.png`,pO=`/assets/physicalplan2-BhnHdl3v.png`,mO=`/assets/physicalplan3-Bq2JOAA6.png`,hO=`/assets/queryoptimizationsummary-vTnxeyjW.png`,gO=`/assets/rightdeep-xmW4QpcL.png`,_O=`/assets/topdown-DS77ukCD.png`,vO=`/assets/2pldeadlocks-DcWEw7gW.png`,yO=`/assets/IsolationLevelDesignSpectrum%20-B-Q2n74X.png`,bO=`/assets/compatibilitymatrix-BG1TiXP1.png`,xO=`/assets/multiversion1-BqZA7M-P.png`,SO=`/assets/phantom-JNgKabiA.png`,CO=`/assets/readtoolate-CPqAPtUg.png`,wO=`/assets/recoverableschedule-LtN1wObE.png`,TO=`/assets/rtwuconflict-D7Dtc0TG.png`,EO=`/assets/Equijoin-B7u8tCvI.png`,DO=`/assets/block%20partitioning-Doww0JD-.png`,OO=`/assets/checkpoint-CTmltf62.png`,kO=`/assets/hash%20partioning-BVCjy6Z_.png`,AO=`/assets/policiesandlogs-DiaP4sfE.png`,jO=`/assets/range%20partitioning-DvOxFUR0.png`,MO=`/assets/shared%20disk%20architecture-OZkIeloh.png`,NO=`/assets/shared%20memory%20architecture-p46N1rcD.png`,PO=`/assets/shared%20nothing%20architecture-DOwziXtX.png`,FO=`/assets/undo-FoZ46yO4.png`,IO=`/assets/CoordinatorStateMachine-DoRjhPr4.png`,LO=`/assets/SubordinateStateMachine-CZyBSIEX.png`,RO=`/assets/asyncrep-CL31hZVf.png`,zO=`/assets/conflicttimestamp-MsAw6sho.png`,BO=`/assets/mapreduce-B-DECPqu.png`,VO=`/assets/parallelmapreduce-B3-DYbcY.png`,HO=`/assets/syncgrouprep-Cvk-XAwK.png`,UO=`/assets/synchronousreplication-CDatgT6i.png`,WO=`/assets/syncmasterrep-CVKTgsXI.png`,GO=`/assets/complexity-BrAmumT5.png`,KO=`/assets/ipaccesslist-UfLSyKJt.png`,qO=`/assets/5-12demo-ugHZpz-0.png`,JO=`/assets/caching-DIjGBuRG.png`,YO=`/assets/ERD_intro-Bu1BfdKa.png`,XO=`/assets/arrows-C8mBwyZM.png`,ZO=`/assets/dbdesignprocess-CBEu96q7.png`,QO=`/assets/file-20261021104552477-02lyv-dI.png`,$O=`/assets/file-20261021104617526-CHbJW8Rk.png`,ek=`/assets/file-20261021104647531-ZZ7ID4bq.png`,tk=`/assets/file-20261021105014177-U-kY5B4S.png`,nk=`/assets/file-20261102111700596-By_ELXtu.png`,rk=`/assets/fk-DmbSNlgC.png`,ik=`/assets/fk1-BVQ_45Dh.png`,ak=`/assets/n1relationshiptorelation-BsMRYB1p.png`,ok=`/assets/nnrelationshiptorelation-BPUNYyFs.png`,sk=`/assets/relation-BQ9gXyUe.png`,ck=`/assets/relation1-Cb8TgUhc.png`,lk=`/assets/relationship-CiA-nZlw.png`,uk=`/assets/relationship1-DEgrIkn-.png`,dk=`/assets/weakentity-BTbQ74RO.png`,fk=Object.assign({"../../../milynotes vault/CSE 333/img/file-20261002134939845.png":vD,"../../../milynotes vault/CSE 333/img/file-20261003013253101.png":yD,"../../../milynotes vault/CSE 333/img/file-20261003165108574.png":bD,"../../../milynotes vault/CSE 333/img/file-20261003165533023.png":xD,"../../../milynotes vault/CSE 333/img/file-20261005195440958.png":SD,"../../../milynotes vault/CSE 333/img/file-20261007134355940.png":CD,"../../../milynotes vault/CSE 333/img/file-20261007135630329.png":wD,"../../../milynotes vault/CSE 333/img/file-20261009134055922.png":TD,"../../../milynotes vault/CSE 333/img/file-20261012135301717.png":ED,"../../../milynotes vault/CSE 333/img/file-20261012135517496.png":DD,"../../../milynotes vault/CSE 333/img/file-20261017004034225.png":OD,"../../../milynotes vault/CSE 333/img/file-20261026141441678.png":kD,"../../../milynotes vault/CSE 333/img/file-20261028135050077.png":AD,"../../../milynotes vault/CSE 333/img/file-20261030140451861.png":jD,"../../../milynotes vault/CSE 444/week 1-2/img/access-methods.png":MD,"../../../milynotes vault/CSE 444/week 1-2/img/b+delete1.png":ND,"../../../milynotes vault/CSE 444/week 1-2/img/b+delete2.png":PD,"../../../milynotes vault/CSE 444/week 1-2/img/b+delete3.png":FD,"../../../milynotes vault/CSE 444/week 1-2/img/b+delete4.png":ID,"../../../milynotes vault/CSE 444/week 1-2/img/b+delete5.png":LD,"../../../milynotes vault/CSE 444/week 1-2/img/b+insert.png":RD,"../../../milynotes vault/CSE 444/week 1-2/img/b+leaf.png":zD,"../../../milynotes vault/CSE 444/week 1-2/img/b+nodes.png":BD,"../../../milynotes vault/CSE 444/week 1-2/img/b+serach.png":VD,"../../../milynotes vault/CSE 444/week 1-2/img/b+split.png":HD,"../../../milynotes vault/CSE 444/week 1-2/img/b+tree.png":UD,"../../../milynotes vault/CSE 444/week 1-2/img/buffer-manager.png":WD,"../../../milynotes vault/CSE 444/week 1-2/img/dbms-architecture.png":GD,"../../../milynotes vault/CSE 444/week 1-2/img/fixed-length-record.png":KD,"../../../milynotes vault/CSE 444/week 1-2/img/heap-file-1.png":qD,"../../../milynotes vault/CSE 444/week 1-2/img/heap-file-2.png":JD,"../../../milynotes vault/CSE 444/week 1-2/img/heap-file-3.png":YD,"../../../milynotes vault/CSE 444/week 1-2/img/index.png":XD,"../../../milynotes vault/CSE 444/week 1-2/img/page-format.png":ZD,"../../../milynotes vault/CSE 444/week 1-2/img/query-evaluation-steps.png":QD,"../../../milynotes vault/CSE 444/week 1-2/img/query-execution.png":$D,"../../../milynotes vault/CSE 444/week 1-2/img/slot-directory.png":eO,"../../../milynotes vault/CSE 444/week 1-2/img/sql-to-ra.png":tO,"../../../milynotes vault/CSE 444/week 1-2/img/variable-length-record.png":nO,"../../../milynotes vault/CSE 444/week 3-4/img/bottomup.png":rO,"../../../milynotes vault/CSE 444/week 3-4/img/bushy.png":iO,"../../../milynotes vault/CSE 444/week 3-4/img/dp.png":aO,"../../../milynotes vault/CSE 444/week 3-4/img/employeehistogram.png":oO,"../../../milynotes vault/CSE 444/week 3-4/img/hashjoin1.png":sO,"../../../milynotes vault/CSE 444/week 3-4/img/hashjoin2.png":cO,"../../../milynotes vault/CSE 444/week 3-4/img/leftdeep.png":lO,"../../../milynotes vault/CSE 444/week 3-4/img/linear.png":uO,"../../../milynotes vault/CSE 444/week 3-4/img/optimizationoverview.png":dO,"../../../milynotes vault/CSE 444/week 3-4/img/physicalplan1.png":fO,"../../../milynotes vault/CSE 444/week 3-4/img/physicalplan2.png":pO,"../../../milynotes vault/CSE 444/week 3-4/img/physicalplan3.png":mO,"../../../milynotes vault/CSE 444/week 3-4/img/queryoptimizationsummary.png":hO,"../../../milynotes vault/CSE 444/week 3-4/img/rightdeep.png":gO,"../../../milynotes vault/CSE 444/week 3-4/img/topdown.png":_O,"../../../milynotes vault/CSE 444/week 5-6/img/2pldeadlocks.png":vO,"../../../milynotes vault/CSE 444/week 5-6/img/IsolationLevelDesignSpectrum .png":yO,"../../../milynotes vault/CSE 444/week 5-6/img/compatibilitymatrix.png":bO,"../../../milynotes vault/CSE 444/week 5-6/img/multiversion1.png":xO,"../../../milynotes vault/CSE 444/week 5-6/img/phantom.png":SO,"../../../milynotes vault/CSE 444/week 5-6/img/readtoolate.png":CO,"../../../milynotes vault/CSE 444/week 5-6/img/recoverableschedule.png":wO,"../../../milynotes vault/CSE 444/week 5-6/img/rtwuconflict.png":TO,"../../../milynotes vault/CSE 444/week 7-8/img/Equijoin.png":EO,"../../../milynotes vault/CSE 444/week 7-8/img/block partitioning.png":DO,"../../../milynotes vault/CSE 444/week 7-8/img/checkpoint.png":OO,"../../../milynotes vault/CSE 444/week 7-8/img/hash partioning.png":kO,"../../../milynotes vault/CSE 444/week 7-8/img/policiesandlogs.png":AO,"../../../milynotes vault/CSE 444/week 7-8/img/range partitioning.png":jO,"../../../milynotes vault/CSE 444/week 7-8/img/shared disk architecture.png":MO,"../../../milynotes vault/CSE 444/week 7-8/img/shared memory architecture.png":NO,"../../../milynotes vault/CSE 444/week 7-8/img/shared nothing architecture.png":PO,"../../../milynotes vault/CSE 444/week 7-8/img/undo.png":FO,"../../../milynotes vault/CSE 444/week 9-10/img/CoordinatorStateMachine.png":IO,"../../../milynotes vault/CSE 444/week 9-10/img/SubordinateStateMachine.png":LO,"../../../milynotes vault/CSE 444/week 9-10/img/asyncrep.png":RO,"../../../milynotes vault/CSE 444/week 9-10/img/conflicttimestamp.png":zO,"../../../milynotes vault/CSE 444/week 9-10/img/mapreduce.png":BO,"../../../milynotes vault/CSE 444/week 9-10/img/parallelmapreduce.png":VO,"../../../milynotes vault/CSE 444/week 9-10/img/syncgrouprep.png":HO,"../../../milynotes vault/CSE 444/week 9-10/img/synchronousreplication.png":UO,"../../../milynotes vault/CSE 444/week 9-10/img/syncmasterrep.png":WO,"../../../milynotes vault/DSA/img/complexity.png":GO,"../../../milynotes vault/INFO 441/week 3-4/img/ipaccesslist.png":KO,"../../../milynotes vault/INFO 441/week 7-8/img/5-12demo.png":qO,"../../../milynotes vault/INFO 441/week 7-8/img/caching.png":JO,"../../../milynotes vault/Introduction to Database Systems/img/ERD_intro.png":YO,"../../../milynotes vault/Introduction to Database Systems/img/arrows.png":XO,"../../../milynotes vault/Introduction to Database Systems/img/dbdesignprocess.png":ZO,"../../../milynotes vault/Introduction to Database Systems/img/file-20261021104552477.png":QO,"../../../milynotes vault/Introduction to Database Systems/img/file-20261021104617526.png":$O,"../../../milynotes vault/Introduction to Database Systems/img/file-20261021104647531.png":ek,"../../../milynotes vault/Introduction to Database Systems/img/file-20261021105014177.png":tk,"../../../milynotes vault/Introduction to Database Systems/img/file-20261102111700596.png":nk,"../../../milynotes vault/Introduction to Database Systems/img/fk.png":rk,"../../../milynotes vault/Introduction to Database Systems/img/fk1.png":ik,"../../../milynotes vault/Introduction to Database Systems/img/n1relationshiptorelation.png":ak,"../../../milynotes vault/Introduction to Database Systems/img/nnrelationshiptorelation.png":ok,"../../../milynotes vault/Introduction to Database Systems/img/relation.png":sk,"../../../milynotes vault/Introduction to Database Systems/img/relation1.png":ck,"../../../milynotes vault/Introduction to Database Systems/img/relationship.png":lk,"../../../milynotes vault/Introduction to Database Systems/img/relationship1.png":uk,"../../../milynotes vault/Introduction to Database Systems/img/weakentity.png":dk}),pk=new Map;for(let[e,t]of Object.entries(fk)){let n=e.replace(/\\/g,`/`),r=n.lastIndexOf(`milynotes vault/`);if(r===-1)continue;let i=n.slice(r+16);pk.set(i,t)}function mk(e){let t=e.lastIndexOf(`/`);return t===-1?``:e.slice(0,t)}function hk(e){return e.replace(/&/g,`&amp;`).replace(/"/g,`&quot;`).replace(/</g,`&lt;`)}function gk(e,t,n){let r=n.trim();if(/^https?:\/\//i.test(r))return r;let i=mk(t),a=r.replace(/^\.\//,``).replace(/^\/+/,``),o=[];a.includes(`/`)&&o.push(`${e}/${a}`),i?(o.push(`${e}/${i}/img/${a}`),o.push(`${e}/${i}/attachments/${a}`),o.push(`${e}/${i}/${a}`)):(o.push(`${e}/img/${a}`),o.push(`${e}/attachments/${a}`),o.push(`${e}/${a}`));let s=a.split(`/`).pop()??a;i&&s!==a&&(o.push(`${e}/${i}/img/${s}`),o.push(`${e}/${i}/attachments/${s}`));let c=new Set;for(let e of o){if(c.has(e))continue;c.add(e);let t=pk.get(e);if(t)return t}let l=s;if(i){let t=`${e}/${i}/`;for(let[e,n]of pk)if(e.startsWith(t)&&e.endsWith(`/${l}`))return n}let u=`${e}/`,d=[];for(let[t,n]of pk)t.startsWith(u)&&(t===`${e}/${l}`||t.endsWith(`/${l}`))&&d.push(n);return d.length===1?d[0]:null}function _k(e,t,n){let r=e;return r=r.replace(/!\[\[([^\]]+)\]\]/g,(e,r)=>{let i=r.split(`|`),a=i[0].trim();if(!a)return e;let o=gk(t,n,a);if(!o)return e;let s=a.replace(/\.[^./\\]+$/,``).replace(/[/_-]+/g,` `),c=i[1]?.trim();return c&&/^\d+$/.test(c)?`<img src="${o}" alt="${hk(s)}" width="${c}" />`:`![${s}](${o})`}),r=r.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,(e,r,i)=>{let a=i.trim();if(/^https?:\/\//i.test(a))return e;let o=gk(t,n,a);return o?`![${r}](${o})`:e}),r}function vk(e){return`margin-top: calc(${e} * var(--note-line))`}function yk(e){return{type:`html`,value:`<div style="${vk(e)}"></div>`}}function bk(e){let t=e.children;if(t)for(let e=0;e<t.length;e++){let n=t[e];if(bk(n),e===0)continue;let r=t[e-1];if(!r.position||!n.position)continue;let i=n.position.start.line-r.position.end.line-1;if(i<=0)continue;if(n.type===`html`){n.value=`<div style="${vk(i)}"></div>\n${n.value??``}`;continue}if(n.type===`code`||n.type===`math`){t.splice(e,0,yk(i)),e++;continue}n.data=n.data??{};let a=n.data.hProperties=n.data.hProperties??{};a.style=vk(i)}}function xk(){return e=>bk(e)}function Sk(e){return e.trim().toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu,``).replace(/\s+/g,`-`)}function Ck(e){return e.replace(/\.md$/i,``)}function wk(e,t){let n=Ck(na(t.trim())).toLowerCase();if(!n)return null;let r=[...Xi.filter(t=>t.vaultFolder===e),...Xi.filter(t=>t.vaultFolder!==e)];for(let e of r)for(let t of la(e.vaultFolder)){let r=Ck(na(t.relativePath)).toLowerCase();if(r===n||r.endsWith(`/${n}`))return{categoryId:e.id,relativePath:na(t.relativePath)}}return null}function Tk(e){return e.replace(/([[\]\\])/g,`\\$1`)}function Ek(e,t){return e.replace(/(?<!!)\[\[([^\]\n]+)\]\]/g,(e,n)=>{let r=n.indexOf(`|`),i=r===-1?n:n.slice(0,r),a=r===-1?``:n.slice(r+1).trim(),o=i.indexOf(`#`),s=o===-1?i:i.slice(0,o),c=o===-1?``:i.slice(o+1).replace(/^\^/,``).trim(),l=a||(s.trim()?Ck(s.trim()):c),u=c?`#${Sk(c.split(`#`).pop()??c)}`:``;if(!s.trim())return u?`[${Tk(l)}](${u})`:e;let d=wk(t,s);return d?`[${Tk(l)}](<${ca(d.categoryId,d.relativePath)}${u}>)`:Tk(l)})}function Dk(e,t){return e.split(/(```[\s\S]*?```|`[^`\n]*`)/g).map(e=>e.startsWith("`")?e:Ek(e,t)).join(``)}function Ok(e){return v.Children.toArray(e).map(e=>typeof e==`string`||typeof e==`number`?String(e):(0,v.isValidElement)(e)?Ok(e.props.children):``).join(``)}function kk(e){return function({children:t,...n}){return delete n.node,(0,D.jsx)(e,{...n,id:Sk(Ok(t)),children:t})}}var Ak={a({href:e,children:t}){return e?.startsWith(`/`)?(0,D.jsx)(Pn,{to:e,className:`wikilink`,children:t}):(0,D.jsx)(`a`,{href:e,children:t})},h1:kk(`h1`),h2:kk(`h2`),h3:kk(`h3`),h4:kk(`h4`),h5:kk(`h5`),h6:kk(`h6`)};function jk(e){if(!e)return``;try{return decodeURIComponent(e)}catch{return e}}function Mk(){let{categoryId:e,notePath:t}=gt(),n=e?Zi(e):void 0,{hash:r}=lt();if((0,v.useEffect)(()=>{if(!r){window.scrollTo(0,0);return}document.getElementById(decodeURIComponent(r.slice(1)))?.scrollIntoView()},[r,t]),!e||!n)return(0,D.jsx)(Bt,{to:`/`,replace:!0});let i=jk(t),a=i.length>0?sa(n.vaultFolder,i):null;if(!a)return(0,D.jsx)(Bt,{to:`/category/${encodeURIComponent(e)}`,replace:!0});let o=ea(i),s=gD(Dk(_k(ta(a),n.vaultFolder,i),n.vaultFolder));return(0,D.jsxs)(`article`,{className:`note-view`,children:[(0,D.jsxs)(Pn,{to:`/category/${encodeURIComponent(e)}`,className:`note-view__back`,children:[`← `,n.name]}),(0,D.jsx)(`h1`,{className:`note-view__title`,children:o}),(0,D.jsx)(`div`,{className:`note-view__body`,children:(0,D.jsx)(sf,{remarkPlugins:[tD,pD,ow,xk],rehypePlugins:[[Qv,{strict:!1}],QC],components:Ak,children:s})})]})}function Nk(){if(typeof window<`u`&&window.location.hostname.endsWith(`github.io`)){let e=window.location.pathname.split(`/`).filter(Boolean)[0];if(e)return`/${e}`}}function Pk(){let{notePath:e}=gt();return e?(0,D.jsx)(Bt,{to:`/category/sql-notes/note/${encodeURIComponent(e)}`,replace:!0}):(0,D.jsx)(Bt,{to:`/category/sql-notes`,replace:!0})}function Fk(){return(0,D.jsx)(jn,{basename:Nk(),children:(0,D.jsx)(Wt,{children:(0,D.jsxs)(Ht,{element:(0,D.jsx)(_a,{}),children:[(0,D.jsx)(Ht,{path:`/`,element:(0,D.jsx)(ba,{})}),(0,D.jsx)(Ht,{path:`/category/sql-notes-for-ta`,element:(0,D.jsx)(Bt,{to:`/category/sql-notes`,replace:!0})}),(0,D.jsx)(Ht,{path:`/category/sql-notes-for-ta/note/:notePath`,element:(0,D.jsx)(Pk,{})}),(0,D.jsx)(Ht,{path:`/category/:categoryId/note/:notePath`,element:(0,D.jsx)(Mk,{})}),(0,D.jsx)(Ht,{path:`/category/:categoryId`,element:(0,D.jsx)(xa,{})}),(0,D.jsx)(Ht,{path:`*`,element:(0,D.jsx)(Bt,{to:`/`,replace:!0})})]})})})}(0,_.createRoot)(document.getElementById(`root`)).render((0,D.jsx)(v.StrictMode,{children:(0,D.jsx)(Fk,{})}));
