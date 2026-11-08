@@ -11,7 +11,7 @@ export const CATEGORIES: CategoryDef[] = [
     id: 'sql-notes',
     name: 'SQL notes',
     subtitle: 'About SQL and databases',
-    vaultFolder: 'INFO 330',
+    vaultFolder: 'Introduction to Database Systems',
   },
   {
     id: 'systems-programming',

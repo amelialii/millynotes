@@ -6,7 +6,7 @@ const imageModules = import.meta.glob('../../../milynotes vault/**/*.{png,jpg,jp
   import: 'default',
 }) as Record<string, string>
 
-/** Vault-relative path after `milynotes vault/`, e.g. `INFO 330/05_relational schema/img/fk.png` */
+/** Vault-relative path after `milynotes vault/`, e.g. `Introduction to Database Systems/img/fk.png` */
 const urlByVaultRelPath = new Map<string, string>()
 
 for (const [globKey, url] of Object.entries(imageModules)) {
