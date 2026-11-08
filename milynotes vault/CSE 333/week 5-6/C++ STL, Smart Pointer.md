@@ -8,7 +8,7 @@ order: 15
 
 a generic doubly-linked list
 - elements are not stored in contiguous memory locations
-	- no random access: `lst[5]` doesnt work. have to walk with iterator
+	- no random access: `lst[5]` doesnt work. have to walk with [[C++ Standard Template Library#STL iterator|iterator]]
 		```
 		auto it = lst.begin();
 		++it;      // move one node at a time
@@ -55,13 +55,13 @@ if (it != m.end()) it->second;  // check before using
 
 ## Smart Pointers
 
-A smart pointer is an object that stores a pointer to a heap-allocated object
+A [[C++ Smart Pointers|smart pointer]] is an object that stores a pointer to a heap-allocated object
 - looks and behaves like a regular C++ pointer
 	```
 	*sp;     // calls operator*, which returns *ptr_
 	sp->x;   // calls operator->, which returns ptr_
 	```
-- destructor deletes the object
+- [[C++ Classes, Constructors, and Copies#Destructors|destructor]] deletes the object
 	```
 	  {
 	    ToyPtr<Point> p(new Point);

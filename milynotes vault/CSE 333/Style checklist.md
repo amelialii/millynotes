@@ -70,7 +70,7 @@ order: 0
 - Error messages go to `stderr`
 - Error messages are correct for the error that happened
 - Every allocation is checked (use `Verify333` where the starter does)
-- No memory leaks or memory errors under valgrind `--leak-check=full`
+- No [[Structs, Heap#Memory Leaks|memory leaks]] or memory errors under valgrind `--leak-check=full`
 - System resources are cleaned up on every execution path
 - Library call errors are handled: retry on `EAGAIN` / `EINTR`, return an error status for non-recoverable errors
 - Code deals with hard-to-handle/edge cases and bogus user input gracefully
@@ -82,7 +82,7 @@ order: 0
 - Provided code you’re told not to change stays exactly as given
 - `cpplint.py --clint` has no complaints
 - Compiles without errors or warnings on CSE Linux
-- Compiles with the original, provided Makefile
+- Compiles with the original, provided [[Makefiles, C++ Preview#Makefile Basics|Makefile]]
 
 **Git**
 

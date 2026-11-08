@@ -8,8 +8,8 @@ order: 5
 
 each mode in a linear, singly-linked list contains:
 - Some element as its payload
-- A pointer to the next node in the linked list
-	- The last node’s pointer is NULL (or some other special value)
+- A [[Pointers|pointer]] to the next node in the linked list
+	- The last node’s pointer is [[Structs, Heap#NULL|NULL]] (or some other special value)
 
 ![[file-20261009134055922.png|536]]
 
@@ -35,7 +35,7 @@ typedef struct node_st {
 
 A module is a self-contained piece of an overall program
 - Has externally visible functions that customers can invoke
-- Has externally visible typedefs, and perhaps global variables, that customers can use
+- Has externally visible [[Structs, Heap#Typedef|typedefs]], and perhaps global variables, that customers can use
 - May have internal functions, typedefs, or global variables that customers should not look at
 
 The module’s interface is its set of public functions, typedefs, and global variables

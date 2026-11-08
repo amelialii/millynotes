@@ -14,7 +14,7 @@ Data model
 [[Relational Model Review|Relational data model]]
 - Data is stored in tables (aka relations)
 - Data is queried via relational queries
-- Queries are set-at-a-time relational algebra
+- Queries are set-at-a-time [[Relational Algebra|relational algebra]]
 
 
 

@@ -27,7 +27,7 @@ WHERE p.productID = marchfirst.productid
   AND CONVERT(date, marchthird.date) = '3/3/2025'
 ```
 
-same with CTE
+same with [[WITH|CTE]]
 ```
 WITH marchfirst AS (
     SELECT *

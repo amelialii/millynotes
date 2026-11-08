@@ -7,8 +7,8 @@ order: 12
 #### Rule of Three
 
 If you define any of the
-	(1) destructor
-	(2) copy constructor, or
+	(1) [[C++ Classes, Constructors, and Copies#Destructors|destructor]]
+	(2) [[C++ Classes, Constructors, and Copies#Copy Constructors|copy constructor]], or
 	(3) assignment (operator= ),
 then you should normally define all three
 
@@ -80,7 +80,7 @@ namespace nsp_name {
 
 #### nullptr
 
-- C and C++ have long used NULL as a pointer value that references nothing
+- C and C++ have long used [[Structs, Heap#NULL|NULL]] as a pointer value that references nothing
 - C++11 introduced a new literal for this: `nullptr`
 
 `NULL` is secretly the integer 0, which causes overload confusion. `nullptr` is a real pointer literal

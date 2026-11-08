@@ -25,7 +25,7 @@ Several different classes of container
 	- index by key
 	- set, map, multiset, multimap, bitset, etc.
 
-STL containers store by value, not by reference
+STL containers store by value, not by [[C++ References, Const, Classes#References|reference]]
 - When you insert an object, the container makes a copy
 - If the container needs to rearrange objects, it makes copies
 
@@ -68,4 +68,4 @@ The auto keyword can be used to infer types
 A set of functions to be used on ranges of elements
 - General form: `algorithm(begin, end, ...)`
 Algorithms operate directly on range elements rather than the containers they live in
-- Make use of elements’ copy ctor, = , == , != , <
+- Make use of elements’ [[C++ Classes, Constructors, and Copies#Copy Constructors|copy ctor]], = , == , != , <

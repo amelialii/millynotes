@@ -148,7 +148,7 @@ step 1: for each $\{R_i\}$ do:
 - $cost(\{R_i\})$ = cost of access method for $R_i$
 
 For each individual table by itself, there's no join to figure out. The "plan" is just: how do I read this table from disk?
-For table $R$, the answer might be "do a table scan" or "use an index." Pick the cheapest access method. That's the plan. Its cost is whatever that access method costs. Its size $T(R)$ is just the size of $R$.
+For table $R$, the answer might be "do a table scan" or "use an [[Indexing|index]]." Pick the cheapest access method. That's the plan. Its cost is whatever that access method costs. Its size $T(R)$ is just the size of $R$.
 
 
 step 2: for each $Q \subseteq \{R_1, \dots, R_n\}$ of size $k$ do:

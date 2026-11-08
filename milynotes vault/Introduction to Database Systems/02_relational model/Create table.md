@@ -85,7 +85,7 @@ CREATE TABLE Product (
 	UNIQUE (name, category))
 ```
 
-There is at most one **PRIMARY KEY**;  
+There is at most one **[[Keys#Primary Key|PRIMARY KEY]]**;  
 there can be many **UNIQUE**
 
 | Feature            | PRIMARY KEY                 | UNIQUE                                         |

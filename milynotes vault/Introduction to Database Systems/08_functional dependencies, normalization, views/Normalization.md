@@ -22,7 +22,7 @@ Normal forms are levels or stages of normalization.
 `StudentName` depends **only on StudentID**, not the full key → **partial dependency**
 
 #### 2NF (Second Normal Form)
-- Must be in **1NF**
+- Must be in **[[First normal form|1NF]]**
 - **No partial dependency**: No non-key attribute should depend on **part of a composite key**
 
 |EmployeeID|DeptID|DeptName|
@@ -48,7 +48,7 @@ Normal forms are levels or stages of normalization.
 
 #### BCNF (Boyce-Codd Normal Form)
 - Must be in **3NF**
-- For **every functional dependency** `X → Y`, `X` must be a **superkey**
+- For **every functional dependency** `X → Y`, `X` must be a **[[Keys#Super key|superkey]]**
 
 | Student | Language | Hobby  |
 | ------- | -------- | ------ |
@@ -65,7 +65,7 @@ Normal forms are levels or stages of normalization.
 
 
 One person may have multiple phones, but lives in only one city  
-Primary key is thus (SSN, PhoneNumber)
+[[Keys#Primary Key|Primary key]] is thus (SSN, PhoneNumber)
 What's wrong?
 
 | Name | SSN         | PhoneNumber  | City      |

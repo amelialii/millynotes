@@ -2,7 +2,7 @@
 order: 14
 ---
 
-OLTP: Transactions per second
+OLTP: [[Concurrency Control#Transaction|Transactions]] per second
 	“Online Transaction Processing
 
 
@@ -42,7 +42,7 @@ What to do if there is no response
 	- Coordinator: collecting state can timeout committing state is blocking
 
 
-A subordinate fails. During recovery:
+A subordinate fails. During [[Transactions Recovery|recovery]]:
 - If the last entry in the log is then the transaction is committed: [[Transactions Recovery#REDO|REDO]]
 - If the last entry in the log is then the transaction is aborted: [[Transactions Recovery#UNDO Logging|UNDO]]
 - If no COMMIT/ABORT/PREPARE is found, then presume ABORT

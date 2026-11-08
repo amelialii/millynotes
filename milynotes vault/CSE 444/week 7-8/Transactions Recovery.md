@@ -5,7 +5,7 @@ order: 10
 ## Transaction Management
 
 Two parts:
-- [[Concurrency Control|Concurrency control]]: ACID
+- [[Concurrency Control|Concurrency control]]: [[Concurrency Control#ACID Properties|ACID]]
 - Recovery from crashes: ACID
 
 
@@ -17,7 +17,7 @@ Two parts:
 | System failures: e.g. power | DATABASE RECOVERY              |
 
 
-Each transaction has internal state
+Each [[Concurrency Control#Transaction|transaction]] has internal state
 When system crashes, internal state is lost
 - Don’t know which parts executed and which didn’t
 - Need ability to undo and redo

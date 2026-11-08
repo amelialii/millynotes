@@ -15,7 +15,7 @@ Isolation Level Design Spectrum
 - [[Concurrency Control#Strict 2PL|Strict 2PL]]
 
 No READ Locks
-- Read-only transactions are never delayed
+- Read-only [[Concurrency Control#Transaction|transactions]] are never delayed
 
 Possible problems: [[Concurrency Control#Concurrent Execution Problems|dirty and inconsistent read]]
 
@@ -37,7 +37,7 @@ Unrepeatable reads: When reading same element twice, may get two different value
 "Long Duration" READ Locks
 - Strict 2PL
 
-not serializable yet
+not [[Concurrency Control#Serializability|serializable]] yet
 
 ### Serializable
 
@@ -56,7 +56,7 @@ Predicate locking
 
 [[Concurrency Control#Locking|Pessimistic CC (locking)]]
 - Prevents unserializable schedules
-- Never abort for serializability (but may abort for deadlocks) 
+- Never abort for serializability (but may abort for [[Concurrency Control#2PL Deadlocks|deadlocks]]) 
 - Best for workloads with high levels of contention
 
 Optimistic CC (timestamp, multi-version, validation)

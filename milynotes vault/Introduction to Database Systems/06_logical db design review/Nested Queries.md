@@ -54,7 +54,7 @@ ON C.cid = P.cid
 GROUP BY C.cid, C.cname
 ```
 
-> Without LEFT JOIN, companies with no products are excluded
+> Without [[JOINs#Outer JOIN|LEFT JOIN]], companies with no products are excluded
 
 
 ### Subqueries in FROM

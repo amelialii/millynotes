@@ -40,9 +40,9 @@ Query Evaluation Steps
 
 #### Key Constraints
 
-- Super Key: “set of attributes that [[Functional dependencies|functionally determines]] all attributes”
+- [[Keys#Super key|Super Key]]: “set of attributes that [[Functional dependencies|functionally determines]] all attributes”
 - Key: Minimal super-key; a.k.a. “candidate key”
-- Primary key: One minimal key can be selected as primary key
+- [[Keys#Primary Key|Primary key]]: One minimal key can be selected as primary key
 - [[Keys#Foreign key|Foreign key]]
 	- Field that refers to tuples in another relation
 	- This field refers to the primary key of other relation
@@ -56,7 +56,7 @@ Query Evaluation Steps
 - Relational operators
 	- Take one or two relation instances as argument
 	- Return one relation instance as result
-	- Easy to compose into relational algebra expressions
+	- Easy to compose into [[Relational Algebra|relational algebra]] expressions
 
 		only two relations may be input to a join operator
 		to join 3+ relations we need multiple join operators

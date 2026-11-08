@@ -8,7 +8,7 @@ order: 16
 
 Should automatically handle dynamically-allocated memory to decrease programming overhead of managing memory
 
-Should work similarly to using a normal/“raw” pointer
+Should work similarly to using a normal/“raw” [[Pointers|pointer]]
 
 
 #### Reference Counting
@@ -17,7 +17,7 @@ Should work similarly to using a normal/“raw” pointer
 - Counts the number of references to a piece of heap-allocated data and only deallocates it when the reference count reaches 0
 - Managed abstractly through sharing a resource counter
 	- Constructors will create the counter
-	- Copy constructor and operator= will increment the counter
+	- [[C++ Classes, Constructors, and Copies#Copy Constructors|Copy constructor]] and operator= will increment the counter
 
 ```
 shared_ptr<int> x(new int(5));  // 1
@@ -28,7 +28,7 @@ shared_ptr<int> y(x);           // 2
 
 #### `shared_ptr`s and STL Containers
 
-Use `shared_ptr`s inside STL Containers
+Use `shared_ptr`s inside [[C++ Standard Template Library|STL]] Containers
 - avoid extra object copies
 - safe to do since copy/assign maintain a shared reference count
 
@@ -73,9 +73,9 @@ unique_ptr<int> b = std::move(a); // a → nullptr, b owns it
 
 ## Smart Pointer Limitations
 
-- Can’t tell if pointer is to the heap or not 
+- Can’t tell if pointer is to the [[Structs, Heap#Heap-allocated Memory|heap]] or not 
 - Circumventing ownership rules
-- Still possible to leak memory
+- Still possible to [[Structs, Heap#Memory Leaks|leak memory]]
 
 
 #### non-heap pointers

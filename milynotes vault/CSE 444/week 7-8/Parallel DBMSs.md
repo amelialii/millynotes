@@ -138,7 +138,7 @@ ShuffleProducer and ShuffleConsumer
 
 Producer:
 - Pulls data from child operator and sends to n consumers
-- Producer acts as driver for operators below it in query plan
+- Producer acts as driver for operators below it in [[DBMS architecture#Physical Query Plan|query plan]]
 
 Consumer: 
 - Buffers input data from n producers and makes it available to operator through getNext() interface

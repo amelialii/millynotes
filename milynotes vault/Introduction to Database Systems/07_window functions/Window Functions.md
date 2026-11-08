@@ -28,7 +28,7 @@ AS '3 Day Average' FROM 'Running Average Example';
 ```
 
 
-Window functions also works on partitioned data. It first sorts the data then applies the aggregate function on these groups.
+Window functions also works on partitioned data. It first sorts the data then applies the [[Simple Aggregation|aggregate]] function on these groups.
 
 ```
 SELECT 'Day', 'Weekend', 'Daily Revenue',

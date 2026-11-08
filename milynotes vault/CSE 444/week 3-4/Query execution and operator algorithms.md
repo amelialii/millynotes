@@ -8,7 +8,7 @@ order: 5
 - Table scan
 - Index-based selection
 
-**2. Combining data (joins)**
+**2. Combining data ([[JOINs|joins]])**
 - Nested loop
 - Hash join
 - Merge join
@@ -24,7 +24,7 @@ order: 5
 
 each operator:
 	- Pre-allocates heap space for input/output tuples
-		- Option 1, BP-tuples: pointers to data in buffer pool
+		- Option 1, BP-tuples: pointers to data in [[Storage#Buffer Manager|buffer pool]]
 		- Option 2, M-tuples: new tuples on the heap
 	- Allocates memory for its internal state
 		- on heap
@@ -181,6 +181,6 @@ Given:
 Goal: find tuples where a = v
 
 
-clustered index cost: $\frac{B(R)}{V(R, a)}$
+[[Indexing#Primary/Clustered Index|clustered index]] cost: $\frac{B(R)}{V(R, a)}$
 unclustered index: $\frac{T(R)}{V(R, a)}$
 

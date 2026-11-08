@@ -16,7 +16,7 @@ order: 15
 ## Synchronous Replication
 
 also called eager replication
-all updates are applied to all replicas (or to a majority) as part of a single transaction (need [[Two-Phase Commit|2PC]]
+all updates are applied to all replicas (or to a majority) as part of a single [[Concurrency Control#Transaction|transaction]] (need [[Two-Phase Commit|2PC]]
 transactions must acquire global lock
 main goal: as if there was only one copy
 - maintain consistency
@@ -95,7 +95,7 @@ High runtime overhead
 - Two-phase commit
 - Runs at pace of slowest replica in quorum
 - So overall system is now slower
-- Higher deadlock rate (transactions take longer)
+- Higher [[Concurrency Control#2PL Deadlocks|deadlock]] rate (transactions take longer)
 
 
 

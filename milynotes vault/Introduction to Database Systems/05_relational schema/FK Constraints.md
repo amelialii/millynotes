@@ -11,7 +11,7 @@ order: 20
 
 
 
-What should the DB engine do if execution SQL statement collides with a FOREIGN KEY constraint?
+What should the DB engine do if execution SQL statement collides with a [[Keys#Foreign key|FOREIGN KEY]] constraint?
 	For example:  `DELETE FROM Company WHERE name = ‘lmao’;`
 		and the Products Table contains Foreign Key entries for  `cname = ‘Imao’`
 

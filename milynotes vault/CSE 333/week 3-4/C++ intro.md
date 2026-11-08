@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 - C++ distinguishes between objects and primitive types
 - “<<” is an operator defined by the C++ language
 - `ostream` has many different methods to handle <<
-- The `ostream` class’ member functions that handle << return a reference to themselves
+- The `ostream` class’ member functions that handle << return a [[C++ References, Const, Classes#References|reference]] to themselves
 - Next, another member function on `std::cout` is invoked to handle << with RHS `std::endl`
 
 

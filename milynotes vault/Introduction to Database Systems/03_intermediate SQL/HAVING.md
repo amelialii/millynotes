@@ -10,7 +10,7 @@ WHERE price > 1
 GROUP BY product  
 HAVING sum(quantity) > 30
 ```
-**HAVING clause contains conditions on aggregates**
+**HAVING clause contains conditions on [[Simple Aggregation|aggregates]]**
 Where clause before grouping, having clause after [[GROUP BY|grouping]]
 
 #### WHERE vs HAVING  

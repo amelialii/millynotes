@@ -12,7 +12,7 @@ Unrepeatable Read
 - happens when data is read prior to a change
 	-  Read-Write (RW) conflict
 
-Phantom Read
+[[Concurrency Control#Phantom Problem|Phantom Read]]
 - happens when data is read prior to an addition/deletion
 	• Read-Write (RW) conflict
 
@@ -33,7 +33,7 @@ lost update
 	- behaves as if it were the only transaction running
 	- The most important feature of ACID
 - Durable
-	- Crash recovery: committed changes survive crashes
+	- Crash [[Transactions Recovery|recovery]]: committed changes survive crashes
 		- What if the database fails in the middle of our atomic transaction?
 
 
@@ -49,7 +49,7 @@ Schedules are a sequence of interleaved actions from all transactions
 
 A **serial schedule** is a schedule where each transaction is executed in some order, one after the other
 
-A **serializable schedule** is a schedule where transactions are executed with possible interleaving, but it appears to the outside as if they were executed in serial order
+A **[[Concurrency Control#Serializability|serializable]] schedule** is a schedule where transactions are executed with possible interleaving, but it appears to the outside as if they were executed in serial order
 
 
 ## Conflict Serializability
@@ -58,7 +58,7 @@ We define operation “conflicts” and check for their interactions in a schedu
 
 Most application concurrency problems are describable by conflicts
 - Lost Update $\rightarrow$ Write-Write (WW) conflict
-- Dirty Read $\rightarrow$ Write-Read (WR) conflict
+- [[Optimistic Concurrency Control#Dirty Read|Dirty Read]] $\rightarrow$ Write-Read (WR) conflict
 - Unrepeatable Read $\rightarrow$ Read-Write (RW) conflict
 - Phantom Read
 
@@ -71,7 +71,7 @@ Types of Conflicts
 	- RW conflicts $\rightarrow$ $R_1(X)$, $W_2(X)$
 
 
-A schedule is **conflict serializable** if it can be transformed into a serial schedule by a series of swappings of adjacent non-conflicting actions
+A schedule is **[[Concurrency Control#Conflict Serializability|conflict serializable]]** if it can be transformed into a serial schedule by a series of swappings of adjacent non-conflicting actions
 
 ![[file-20261102111700596.png|598]]
 
@@ -110,7 +110,7 @@ binary locks
 rule: in every txn, all lock requests come before all unlock requests
 - growing phase (only lock) $\rightarrow$ shrinking phase (only unlock)
 
-2PL guarantees conflict serializability
+[[Concurrency Control#Two Phase Locking (2PL)|2PL]] guarantees conflict serializability
 each txn acts as if it ran all at once at the moment it starts unlocking
 
 #### Deadlocks
@@ -124,13 +124,13 @@ T3 (C,D): L(C) ... L(D) blocked   (T4 has D)
 T4 (D,A): L(D) ... L(A) blocked   (T1 has A)
 ```
 
-the DBMS builds a waits-for graph, and a cycle means deadlock
+the DBMS builds a waits-for graph, and a cycle means [[Concurrency Control#2PL Deadlocks|deadlock]]
 
 
 ## Strict 2PL & Recoverability
 
 
-- Every isolation level uses strict 2PL X locks for writes
+- Every [[Optimistic Concurrency Control#Isolation Levels|isolation level]] uses strict 2PL X locks for writes
 - The only thing that changes between levels is how long read locks are held
 - Less read locking → faster, but more anomalies possible
 - Set it with:

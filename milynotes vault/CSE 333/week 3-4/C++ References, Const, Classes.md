@@ -27,7 +27,7 @@ x, z: 11, y: 10
 
 #### Pass-By-Reference
 
-C++ allows you to use real pass-by-reference
+C++ allows you to use real [[Memory, Data, Parameters#Reference vs. Value|pass-by-reference]]
 - Client passes in an argument with normal syntax
 	- Function uses reference parameters with normal syntax
 	- Modifying a reference parameter modifies the caller’s argument
@@ -47,7 +47,7 @@ void BrokenPrintSquare ( const int & i ) {
 
 #### const and Pointers
 
-Pointers can change data in two different contexts:
+[[Pointers|Pointers]] can change data in two different contexts:
 1) You can change the value of the pointer (i.e., address stored)
 2) You can change the thing the pointer points to (via dereference)
 
@@ -73,7 +73,7 @@ Google C++ Style Guide suggests:
 - Input parameters:
 	- Values for primitive types like `int` or small structs/objects 
 	- `const` references for complex struct/object instances
-- Output parameters:
+- [[Pointers#Output Parameters|Output parameters]]:
 	- Use `const` pointers (unchangeable pointers referencing changeable data)
 
 

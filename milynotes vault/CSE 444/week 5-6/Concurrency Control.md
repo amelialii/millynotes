@@ -4,7 +4,7 @@ order: 8
 
 ## Transaction
 
-Definition: a transaction is a sequence of updates to the database with the property that either all complete, or none completes (all-or-nothing).
+Definition: a [[Transactions|transaction]] is a sequence of updates to the database with the property that either all complete, or none completes (all-or-nothing).
 
 
 ### ROLLBACK
@@ -27,7 +27,7 @@ Durability: If a transaction commits, its changes will survive failures
 
 ### Concurrent Execution Problems
 
-- Write-read conflict: dirty read, inconsistent read
+- Write-read conflict: [[Optimistic Concurrency Control#Dirty Read|dirty read]], inconsistent read
 	- A transaction reads a value written by another transaction that has not yet committed
 - Read-write conflict: unrepeatable read
 	- A transaction reads the value of the same object twice

@@ -28,7 +28,7 @@ To get command-line arguments in main, use:
 
 
 - argc contains the number of strings on the command line (the executable name counts as one, plus one for each argument)
-- argv is an array containing pointers to the arguments as strings, “null-terminated” with a NULL pointer (in modern C standards)
+- argv is an array containing [[Pointers|pointers]] to the arguments as strings, “null-terminated” with a [[Structs, Heap#NULL|NULL]] pointer (in modern C standards)
 
 
 

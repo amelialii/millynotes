@@ -134,7 +134,7 @@ clean:
 
 - **C++ = C plus extra features.** Everything you know from C still works.
 - **Classes and objects:** like Java’s. Private/public, methods, inheritance.
-- **Namespaces:** so two things can share a name without clashing, like `LL::Iterator` vs `HT::Iterator`.
-- **Templates:** like Java generics. `vector<int>` instead of messy `void*` tricks.
+- **[[C++ intro#Namespace|Namespaces]]:** so two things can share a name without clashing, like `LL::Iterator` vs `HT::Iterator`.
+- **[[C++ Templates|Templates]]:** like Java generics. `vector<int>` instead of messy `void*` tricks.
 - **A standard library:** ready-made `string`, `vector`, `map`, sort, and more. Less writing everything yourself.
-- **Still no garbage collector**, so can still [[Structs, Heap#Memory Leaks|leak memory]] and segfault. Smart pointers help.
+- **Still no garbage collector**, so can still [[Structs, Heap#Memory Leaks|leak memory]] and segfault. [[C++ Smart Pointers|Smart pointers]] help.

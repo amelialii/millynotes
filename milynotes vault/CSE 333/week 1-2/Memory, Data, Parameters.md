@@ -119,7 +119,7 @@ There are two fundamental parameter-passing schemes in programming languages
 	- C, Java, C++ (most things)
 - Call-by-reference
 	- Parameter is an alias for the supplied argument; manipulating the parameter manipulates the calling argument
-	- C++ references
+	- C++ [[C++ References, Const, Classes#References|references]]
 
 
 #### Arrays as Parameters
@@ -131,7 +131,7 @@ Arrays do not know their own size
 	int SumAll(int a[], int size)
 
 
-a `T[]` array parameter is “promoted” to a pointer of type `T*`, and the pointer is passed by value
+a `T[]` array parameter is “promoted” to a [[Pointers|pointer]] of type `T*`, and the pointer is passed by value
 - So it acts like a call-by-reference array – caller’s array can be changed if callee modifies the array parameter elements
 - But it’s really a call-by-value pointer – the callee’s pointer parameter can be changed without affecting the caller’s array
 

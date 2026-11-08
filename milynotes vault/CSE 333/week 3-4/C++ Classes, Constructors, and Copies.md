@@ -22,7 +22,7 @@ A constructor (ctor) initializes a newly-instantiated object
 - A constructor must be invoked when creating a new instance of an object
 
 C++ will automatically create a synthesized default constructor if you have no user-defined constructors
-- Synthesized default ctor will fail if you have non-initialized const or reference data members
+- Synthesized default ctor will fail if you have non-initialized [[C++ References, Const, Classes#const in C++|const]] or [[C++ References, Const, Classes#References|reference]] data members
 
 
 #### Synthesized Default Constructor Example

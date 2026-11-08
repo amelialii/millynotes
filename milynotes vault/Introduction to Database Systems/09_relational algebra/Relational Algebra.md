@@ -11,8 +11,8 @@ order: 28
 
 - $\pi / \Pi$: SELECT, projection
 - $\sigma$ (sigma): WHERE, selection
-- $\gamma$ (gamma): grouping & aggregation
-- $\bowtie$: JOIN
+- $\gamma$ (gamma): grouping & [[Simple Aggregation|aggregation]]
+- $\bowtie$: [[JOINs|JOIN]]
 - ⟕: LEFT OUTER JOIN
 - ⟖: RIGHT OUTER JOIN
 - ⟗: FULL OUTER JOIN

@@ -31,7 +31,7 @@ understands and plans your query
 	- Actually executes the physical plan
 		- scan table
 		- filter rows
-		- join tables
+		- [[JOINs|join]] tables
 		- output results
 
 

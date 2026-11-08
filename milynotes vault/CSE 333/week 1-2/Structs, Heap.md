@@ -15,7 +15,7 @@ A struct is a C datatype that contains a set of fields
 
 
 Use “.” to refer to a field in a struct
-Use “->” to refer to a field from a struct pointer
+Use “->” to refer to a field from a struct [[Pointers|pointer]]
 - Dereferences pointer first, then accesses field
 
 
@@ -41,7 +41,7 @@ Structs are [[Memory, Data, Parameters#Reference vs. Value|passed by value]], li
 
 Situations where static and automatic allocation aren’t sufficient:
 - We need memory that persists across multiple function calls but not for the whole lifetime of the program
-- We need more memory than can fit on the Stack
+- We need more memory than can fit on the [[Memory, Data, Parameters#Review: The Stack|Stack]]
 - We need memory whose size is not known in advance
 
 #### Dynamic Allocation
