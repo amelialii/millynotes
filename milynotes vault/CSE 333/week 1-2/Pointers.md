@@ -14,8 +14,8 @@ Generic definition: `type* name;` or `type *name;`
 Dereference a pointer using the unary `*` operator
 
 
-## Pointer Arithmetic
 
+## Pointer Arithmetic
 
 Pointers are typed
 Pointer arithmetic is scaled by `sizeof(*p)`
@@ -23,6 +23,7 @@ Valid pointer arithmetic:
 - Add/subtract an integer to/from a pointer
 - Subtract two pointers (within stack frame or [[Structs, Heap#malloc ()|malloc]] block)
 - Compare pointers (<, <=, == , !=, >, >=), including NULL
+
 
 #### Endianness
 
@@ -34,8 +35,8 @@ Determines what ordering that multi-byte data gets read and stored in memory
 ![[file-20261005195440958.png]]
 
 
-## Pointers as Parameters
 
+## Pointers as Parameters
 
 ```
 void Swap(int* a, int* b) {
@@ -63,8 +64,8 @@ Setup and usage:
 5) Caller accesses output via modified data (e.g., var)
 
 
-## Function Pointers
 
+## Function Pointers
 
 ```
 #define LEN 4

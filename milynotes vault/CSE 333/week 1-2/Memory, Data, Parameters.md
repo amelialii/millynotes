@@ -6,9 +6,11 @@ order: 2
 
 ![[file-20261003013253101.png|448]]
 
+
 #### Compiling Multi-file Programs
 
 The **[[Linking, File I／O|linker]]** combines multiple object files plus statically-linked libraries to produce an executable
+
 
 
 ## Memory Management
@@ -19,6 +21,7 @@ The OS gives each process the illusion of its own private memory
 - Called the process’ address space
 - Contains the process’ virtual memory, visible only to it (via translation)
 - $2^{64}$ bytes on a 64-bit machine
+
 
 #### Loading
 
@@ -31,7 +34,6 @@ When the OS loads a program it:
 
 
 ![[file-20261002134939845.png|614]]
-
 
 
 #### Review: The Stack
@@ -82,6 +84,7 @@ u  int  32  _t
 │   └─────────── integer
 └─────────────── "u" = unsigned (optional)
 ```
+
 
 #### Arrays
 

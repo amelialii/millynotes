@@ -11,7 +11,6 @@ order: 6
 
 ## Visibility of Symbols
 
-
 If we define a global variable named “counter” in one C file, is it visible in a different C file in the same program?
 - Yes, if you use external linkage
 	- The name “counter” refers to the same variable in bo
@@ -26,6 +25,7 @@ If we define a global variable named “counter” in one C file, is it visible 
 - extern makes a declaration of something externally-visible
 
 ![[file-20261012135301717.png|630]]
+
 
 #### Internal Linkage
 
@@ -44,7 +44,6 @@ C has a different use for “static”: create a persistent local variable
 
 ## File I/O
 
-
 C’s `stdio` defines the notion of a stream
 - A sequence of characters that flows to and from a device
 	- Can be either text or binary; Linux does not distinguish
@@ -62,7 +61,6 @@ C’s `stdio` defines the notion of a stream
 - `size_t fread(ptr, size, count, stream);`
 	- Reads an array of _count_ elements of _size_ bytes from _stream_ to _ptr_ 
 
-  
 
 #### C Stream Error Checking/Handling
 

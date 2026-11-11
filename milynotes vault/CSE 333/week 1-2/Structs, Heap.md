@@ -28,6 +28,7 @@ Generic format: `typedef type name;`
 Allows you to define new data type names/synonyms 
 - Both type and name are usable and refer to the same type 
 
+
 #### Structs as Arguments
 
 Structs are [[Memory, Data, Parameters#Reference vs. Value|passed by value]], like everything else in C
@@ -38,11 +39,11 @@ Structs are [[Memory, Data, Parameters#Reference vs. Value|passed by value]], li
 
 ## Heap-allocated Memory
 
-
 Situations where static and automatic allocation aren’t sufficient:
 - We need memory that persists across multiple function calls but not for the whole lifetime of the program
 - We need more memory than can fit on the [[Memory, Data, Parameters#Review: The Stack|Stack]]
 - We need memory whose size is not known in advance
+
 
 #### Dynamic Allocation
 

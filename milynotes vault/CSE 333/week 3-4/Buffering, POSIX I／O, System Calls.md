@@ -10,6 +10,7 @@ order: 7
 - A buffer is a chunk of memory used as a temporary holding spot for data.
 - `fwrite()` copies your data into a buffer inside **your program’s memory**. It does NOT send it to the file yet.
 
+
 #### When the buffer gets flushed
 
 - You call `fflush()` on the stream.
@@ -70,7 +71,6 @@ while (bytes_left > 0) {
 
 ## System Calls (High-Level View)
 
-
 #### What’s an OS?
 
 Software that:
@@ -93,7 +93,6 @@ The OS is the “layer below”
 ![[file-20261017004034225.png|625]]
 
 
-
 #### **Protection System**
 
 OS isolates process from each other
@@ -111,7 +110,6 @@ OS is allowed to access the hardware
 
 #### System Calls Simplified Overview
 
-  
 If a user process wants to access an OS feature, they must invoke a system call
 - A system call involves context switching into the OS/kernel, which has some overhead
 - The OS will handle hardware/special functionality directly (in privileged mode) while user processes wait and don’t touch anything themselves

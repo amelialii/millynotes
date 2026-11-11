@@ -33,6 +33,7 @@ C++ allows you to use real [[Memory, Data, Parameters#Reference vs. Value|pass-b
 	- Modifying a reference parameter modifies the caller’s argument
 
 
+
 ## const in C++
 
 const : this cannot be changed/mutated
@@ -44,6 +45,7 @@ void BrokenPrintSquare ( const int & i ) {
 	std :: cout << i << std :: endl ;
 }
 ```
+
 
 #### const and Pointers
 
@@ -57,6 +59,7 @@ const next to pointer name means you can’t change the value of the pointer
 - e.g., `int* const p;`
 const next to data type pointed to means you can’t use this pointer to change the thing being pointed to
 - e.g., `const int* p;`
+
 
 #### const Parameters
 
@@ -75,6 +78,7 @@ Google C++ Style Guide suggests:
 	- `const` references for complex struct/object instances
 - [[Pointers#Output Parameters|Output parameters]]:
 	- Use `const` pointers (unchangeable pointers referencing changeable data)
+
 
 
 ## C++ Classes Intro

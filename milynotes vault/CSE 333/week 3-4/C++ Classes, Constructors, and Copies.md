@@ -13,6 +13,7 @@ Common style convention
 - Use class for abstractions with data + functions
 
 
+
 ## Constructors
 
 A constructor (ctor) initializes a newly-instantiated object
@@ -69,6 +70,7 @@ void Foo () {
 ```
 
 
+
 ## Copy Constructors
 
 C++ has the notion of a copy constructor (cctor)
@@ -88,6 +90,7 @@ void Foo() {
                   // could also be written as "Point b = a;"
 }
 ```
+
 
 #### Synthesized Copy Constructor
 
@@ -129,10 +132,13 @@ The copy constructor is invoked if
 	}
 	```
 
+
+
 ## Assignment
 
 “ =” is the assignment operator
 - Assigns values to an existing, already constructed object
+
 
 #### Overloading the “=” Operator
 
@@ -151,6 +157,7 @@ a = (b = c);   // equiv. to above (= is right-associative)
 (a = b) = c;   // "works" because = returns a non-const
 ```
 
+
 #### Synthesized Assignment Operator
 
 If you don’t define the assignment operator, C++ will synthesize one for you
@@ -168,6 +175,7 @@ int main (int argc , char* argv []) {
 	return EXIT_SUCCESS ;
 }
 ```
+
 
 
 ## Destructors

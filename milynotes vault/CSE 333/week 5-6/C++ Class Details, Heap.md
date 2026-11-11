@@ -16,6 +16,7 @@ C++11 gives two shortcuts:
 - `= default` explicitly asks for the generated version.
 - `= delete` forbids it. The style guide likes deleting copy and assignment so you can’t accidentally trigger expensive or buggy copies.
 
+
 #### Access Control
 
 Access modifiers for members
@@ -26,10 +27,12 @@ Access modifiers for members
 
 `class` members default to `private`, and `struct` members default to `public`
 
+
 #### Nonmember Functions
 
 “Nonmember functions” are just normal functions that happen to use some class
 - Called like a regular function instead of as a member of a class object instance
+
 
 #### `friend` Nonmember Functions
 
@@ -50,6 +53,7 @@ std::istream& operator>>(std::istream& in, Complex& a) {
 }
 ```
 
+
 #### When to use Nonmember and friend
 
 Member functions:
@@ -60,6 +64,7 @@ Nonmember functions (only grant `friend` if you absolutely need to):
 - Commutative operators
 - Operations with class on the right-hand side
 - Returning a “new” object and not modifying an existing one
+
 
 #### Namespace
 
@@ -76,6 +81,7 @@ namespace nsp_name {
 - End with `} // namespace name` and no semicolon.
 
 
+
 ## Using the Heap
 
 #### nullptr
@@ -84,6 +90,7 @@ namespace nsp_name {
 - C++11 introduced a new literal for this: `nullptr`
 
 `NULL` is secretly the integer 0, which causes overload confusion. `nullptr` is a real pointer literal
+
 
 #### new/delete Behavior
 
@@ -110,6 +117,7 @@ int main() {
 }
 ```
 
+
 #### Dynamically Allocated Arrays
 
 To dynamically allocate an array:
@@ -117,6 +125,7 @@ To dynamically allocate an array:
 
 To dynamically deallocate an array:
 - Use `delete[] name;`
+
 
 #### malloc vs. new
 

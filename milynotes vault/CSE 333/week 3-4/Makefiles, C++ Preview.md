@@ -4,7 +4,6 @@ order: 8
 
 ## Make and Build Tools
 
-
 `make` was the first coordinated software **build system** – a program for controlling what gets (re)compiled and how
 
 `make` has tons of fancy features, but only two basic ideas:
@@ -27,7 +26,6 @@ bar.c  ──(compile)──→  bar.o  ─┼──(link)──→  bar   (the 
 
 
 ## Makefile Basics
-
 
 A makefile contains a bunch of triples:
 ```

@@ -29,6 +29,7 @@ STL containers store by value, not by [[C++ References, Const, Classes#Reference
 - When you insert an object, the container makes a copy
 - If the container needs to rearrange objects, it makes copies
 
+
 #### Tracer Class
 
 Wrapper class for an unsigned int value
