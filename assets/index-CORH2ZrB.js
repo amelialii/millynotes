@@ -1886,8 +1886,8 @@ order: 2
 User Query $\\rightarrow$ Query Processor $\\rightarrow$ Storage Manager $\\rightarrow$ Disk
 
 
-## Query Processor
 
+## Query Processor
 
 understands and plans your query
 
@@ -1916,7 +1916,7 @@ understands and plans your query
 		- output results
 
 
-### Physical Query Plan
+#### Physical Query Plan
 
 - Logical query plan with extra annotations
 - **Implementation choice** for each operator
@@ -1925,15 +1925,14 @@ understands and plans your query
 	- Use a file scan or use an [[Indexing|index]]
 
 
-### Query Executor
+#### Query Executor
 
 \`Tuple.java\` describes a row object in SimpleDB
 - rows are the objects passed through the database
 - in the same way we conceptualize RA and a series of transformations to rows, so does it work in database
 
 
-### Pull-Based Execution
-
+#### Pull-Based Execution
 
 Parent operator asks the child:
 "Give me the next row"
@@ -1956,13 +1955,13 @@ Project.next()
 
 ## Storage Manager
 
-
 handles:
 - disk storage
 - memory caching
 - reading data efficiently
 
-### Access Methods
+
+#### Access Methods
 
 - Operators: Process data
 - [[Indexing|Access methods]]: Organize data to support fast access to desired subsets of records
@@ -1998,7 +1997,7 @@ Disk read if needed
 	- They provide an API for operators to access data in these files
 
 
-### Disk Storage
+#### Disk Storage
 
 - Can only read 1 block per read operation
 	- Usually 512B to 4kB
@@ -2032,13 +2031,19 @@ data entry for key k can be:
 
 
 #### Primary/Clustered Index
+
 the data itself is stored in the same order as the index
 
+
 #### Dense Index
+
 there is an index entry for every record
 
+
 #### Sparse Index
+
 only some records have index entires
+
 
 
 ## Hash-based indexes
@@ -2072,7 +2077,6 @@ RID12 → Page 99 → actual row
 
 
 ## B+ Trees
-
 
 **Default index structure on most DBMSs**
 
@@ -2112,7 +2116,7 @@ each leaf has $d \\le m \\le 2d$ keys
 ![[b+leaf.png]]
 
 
-### Insertion in a B+ Tree
+#### Insertion in a B+ Tree
 
 1. fine the right leaf, insert the key there
 2. if the leaf now has $\\le 2d$ keys $\\rightarrow$ done
@@ -2128,7 +2132,7 @@ each leaf has $d \\le m \\le 2d$ keys
 ![[b+split.png|585]]
 
 
-### Deletion in a B+ Tree
+#### Deletion in a B+ Tree
 
 1. Find the leaf, delete the key
 2. If the leaf still has $\\ge d$ keys $\\rightarrow$ done
@@ -2154,7 +2158,7 @@ each leaf has $d \\le m \\le 2d$ keys
 ![[b+delete5.png|591]]
 
 
-### Searching a B+ Tree
+#### Searching a B+ Tree
 
 ![[b+serach.png|510]]
 
@@ -2174,7 +2178,9 @@ Query Evaluation Steps
 ![[query-evaluation-steps.png|459]]
 
 
-#### Database/Relation/Tuple
+
+## Database/Relation/Tuple
+
 - A Database is collection of relations
 - A [[Relations and datatypes|Relation]] R is subset of $S_1 \\times S_2 \\times \\dots \\times S_n$
 	- Where $S_i$ is the domain of attribute $i$
@@ -2188,7 +2194,9 @@ Query Evaluation Steps
 - Domain of each column is a primitive type
 
 
-#### Schema
+
+## Schema
+
 - Relation schema: describes column heads
 	- Relation name
 	- Name of each field (or column, or attribute)
@@ -2197,14 +2205,17 @@ Query Evaluation Steps
 - Database schema: set of all relation schemas
 
 
-#### Instance
+
+## Instance
+
 - Relation instance: concrete table content
 	- Set of tuples (also called records) matching the schema
 - Cardinality of relation instance: # tuples
 - Database instance: set of all relation instances
 
 
-#### Key Constraints
+
+## Key Constraints
 
 - [[Keys#Super key|Super Key]]: “set of attributes that [[Functional dependencies|functionally determines]] all attributes”
 - Key: Minimal super-key; a.k.a. “candidate key”
@@ -2214,7 +2225,8 @@ Query Evaluation Steps
 	- This field refers to the primary key of other relation
 
 
-### Relational Algebra
+
+## Relational Algebra
 
 - Queries specified in an operational manner
 	- A query gives a step-by-step procedure
@@ -2238,9 +2250,7 @@ Query Evaluation Steps
 - Cross-product/cartesian product ($\\times$), [[JOINs|Join]]: $R \\bowtie_\\theta S = \\sigma_\\theta (R \\times S)$
 
 
-
 #### English to SQL to RA Example
-
 
 ![[sql-to-ra.png|537]]
 `,yr=`---
@@ -2287,7 +2297,6 @@ Record ID = RID
 
 ### Page Format Approach
 
-
 #### Fixed-Length Slots
 
 packed representation
@@ -2332,8 +2341,8 @@ Records (stored from end)
 \`\`\`
 
 
-## Record formats
 
+## Record formats
 
 ### Fixed Length
 
@@ -2352,9 +2361,7 @@ Information about field lengths and types is in the catalog
 
 
 
-
 ## Heap Files
-
 
 unordered collection of pages storing tuples
 the simplest data storage
@@ -2390,7 +2397,6 @@ insert:
 
 
 ## Buffer Manager
-
 
 - brings pages in from memory and caches them
 - eviction policies
@@ -2431,7 +2437,6 @@ best query optimization algorithm
 
 ## Types of Join Trees
 
-
 Bushy
 ![[bushy.png|302]]
 
@@ -2460,7 +2465,6 @@ less rules $\\rightarrow$ faster optimization $\\rightarrow$ less good plan
 
 ## Algebraic Laws (Optimization Rules)
 
-
 ### laws involving selection
 
 $\\sigma_{C \\land C'}(R) = \\sigma_C(\\sigma_{C'}(R)) = \\sigma_C(R) \\cap \\sigma_{C'}(R)$
@@ -2471,10 +2475,12 @@ $\\sigma_C(R - S) = \\sigma_C(R) - S$
 $\\sigma_C(R \\cup S) = \\sigma_C(R) \\cup \\sigma_C(S)$
 $\\sigma_C(R \\bowtie S) = \\sigma_C(R) \\bowtie S$
 
+
 ### laws involving projections
 
 $\\Pi_M(R \\bowtie S) = \\Pi_M(\\Pi_P(R) \\bowtie \\Pi_Q(S))$
 $\\Pi_M(\\Pi_N(R)) = \\Pi_M(R)$ where $M \\subseteq N$
+
 
 ### laws for grouping and aggregation
 
@@ -2499,15 +2505,18 @@ cost-based optimizers
 - bottom-up plans
 - top-down plans
 
+
 ### complete plans
 
 enumerate every full plan and cost it. inefficient because there's no way to prune early
+
 
 ### bottom-up plans
 
 build up from base relations
 
 ![[bottomup.png|542]]
+
 
 ### top-down plans
 
@@ -2590,7 +2599,6 @@ Avoid Cartesian products
 
 
 
-
 ## Selinger Algorithm
 
 Selinger enumeration algorithm considers
@@ -2602,9 +2610,7 @@ Selinger enumeration algorithm considers
 		- Because they may enable cheaper [[Query execution and operator algorithms#Sort-merge join|sort-merge joins]] later
 
 
-
 ### Key Ideas
-
 
 **1. Left-Deep Plans Only**
 Rather than considering all tree shapes, Selinger restricts to _left-deep_ trees like \`(((A⋈B)⋈C)⋈D)\`. This is efficient because:
@@ -2668,6 +2674,7 @@ each operator:
 DBMS limits how much memory each operator, or each query can use
 
 
+
 ## Join operator algorithms
 
 cost = total number of I/Os
@@ -2699,7 +2706,6 @@ Output buffer holds results before writing them out
 ![[hashjoin2.png|522]]
 
 
-
 ### Nested loop join
 
 for each tuple $t_1$ in $R$ do
@@ -2708,7 +2714,8 @@ for each tuple $t_1$ in $R$ do
 
 $B(R) + T(R)B(S)$
 
-##### Page-at-a-time refinement
+
+#### Page-at-a-time refinement
 
 for each page of tuples $r$ in $R$ do
 	for each page of tuples $s$ in $S$ do
@@ -2717,7 +2724,8 @@ for each page of tuples $r$ in $R$ do
 
 $B(R) + B(R)B(S)$
 
-##### Block-Memory Refinement
+
+#### Block-Memory Refinement
 
 for each group of $M-1$ pagers $r$ in $R$ do
 	for each page of tuples $s$ in $S$ d
@@ -2870,7 +2878,6 @@ $T(V) = T(\\sigma(R) \\bowtie S)$
 
 ## Size Estimation Problem
 
-
 - each condition reduces the size of by some factor, called **selectivity factor**
 - assuming independence, multiply the selectivity factors
 
@@ -2892,7 +2899,8 @@ T(Q) = T(R₁) × T(R₂) × ... × T(Rₙ) × s₁ × s₂ × ... × sₖ
 		selectivity = $\\frac{1}{max(V(R,A), V(S, B))}$
 
 
-### assumptions
+#### assumptions
+
 - containment of values: if $V(R, A) \\le V(S, B)$, then all values $R.A$ occur in $S.B$
 - preservation of values: for any other attribute $C$, $V(R \\bowtie_{A = B} S, C) = V(R < C)$ (or $V(S, C)$)
 
@@ -2918,7 +2926,6 @@ plan 3
 
 
 ## Histograms
-
 
 ![[employeehistogram.png|499]]
 
@@ -3039,6 +3046,7 @@ two approaches:
 - pessimistic: locks
 - [[Optimistic Concurrency Control|optimistic]]: timestamps, multi-version, validation
 
+
 #### Pessimistic Scheduler
 
 - each element has a unique **lock**
@@ -3058,6 +3066,7 @@ The 2PL rule:
 - In every transaction, all lock requests must precede all unlock requests
 - This ensures conflict serializability
 
+
 #### Strict 2PL
 
 All locks held by a transaction are released when the transaction is completed; release happens at the time of COMMIT or ROLLBACK
@@ -3072,7 +3081,6 @@ Ensures:
 
 
 ## The Locking Scheduler
-
 
 Task 1: act on behalf of the transaction Add lock/unlock requests to transactions
 - Examine all READ(A) or WRITE(A) actions
@@ -3109,6 +3117,7 @@ Coarse grain locking (e.g., tables, predicate locks)
 - Less overhead in managing locks
 
 
+
 ## 2PL Deadlocks
 
 ![[2pldeadlocks.png|598]]
@@ -3123,7 +3132,6 @@ Solution:
 
 
 ## Phantom Problem
-
 
 A “phantom” is a tuple that is invisible during part of a transaction execution but not invisible during the entire execution
 
@@ -3143,9 +3151,10 @@ Isolation Level Design Spectrum
 ![[IsolationLevelDesignSpectrum .png|595]]
 
 
+
 ## Isolation Levels
 
-### Dirty Read
+#### Dirty Read
 
 "Long duration" write locks
 - [[Concurrency Control#Strict 2PL|Strict 2PL]]
@@ -3155,7 +3164,8 @@ No READ Locks
 
 Possible problems: [[Concurrency Control#Concurrent Execution Problems|dirty and inconsistent read]]
 
-### Read Committed
+
+#### Read Committed
 
 "Long duration" write locks
 - Strict 2PL
@@ -3165,7 +3175,8 @@ Possible problems: [[Concurrency Control#Concurrent Execution Problems|dirty and
 
 Unrepeatable reads: When reading same element twice, may get two different values
 
-### Repeatable Read
+
+#### Repeatable Read
 
 "Long duration" write locks
 - Strict 2PL
@@ -3175,7 +3186,8 @@ Unrepeatable reads: When reading same element twice, may get two different value
 
 not [[Concurrency Control#Serializability|serializable]] yet
 
-### Serializable
+
+#### Serializable
 
 "Long duration" write locks
 - Strict 2PL
@@ -3199,6 +3211,7 @@ Optimistic CC (timestamp, multi-version, validation)
 - Assume schedule will be serializable
 - Abort when conflicts detected
 - Best for workloads with low levels of contention
+
 
 
 ## Timestamp Ordering
@@ -3237,6 +3250,7 @@ for any $r_T(X)$ or $w_T(X)$ request, check for conflicts:
 when T requests $r_T(X)$, need to check $TS(U) \\leq TS(T)$
 
 ![[readtoolate.png|476]]
+
 
 
 ## Simplified TS-based Schedule
@@ -3356,10 +3370,10 @@ OLAP: Query response time
 	Online Analytical Processing
 
 
+
 ## Architecture
 
-### Shared-Memory Architecture
-
+#### Shared-Memory Architecture
 
 ![[shared memory architecture.png|357]]
 
@@ -3368,7 +3382,8 @@ OLAP: Query response time
 - Expensive to scale
 - Easiest to implement on
 
-### Shared-Disk Architecture
+
+#### Shared-Disk Architecture
 
 ![[shared disk architecture.png|366]]
 
@@ -3377,7 +3392,8 @@ OLAP: Query response time
 - No contention for memory and high availability
 - Typically 1-10 machines
 
-### Shared-Nothing Architecture
+
+#### Shared-Nothing Architecture
 
 ![[shared nothing architecture.png|368]]
 
@@ -3391,7 +3407,6 @@ OLAP: Query response time
 
 ## Shared-Nothing 
 
-
 Multiple DBMS instances (= processes) also called “nodes” execute on machines in a cluster
 - One node plays role of the coordinator
 - Other nodes play role of workers 
@@ -3404,14 +3419,14 @@ Workers execute queries
 
 ## Data partitioning
 
-### Option 1: Unpartitioned Table
+#### Option 1: Unpartitioned Table
 
 - Entire table on just one node in the system
 - Will bottleneck any query we need to run in parallel
 - We choose partitioning scheme to divide rows among machines
 
 
-### Option 2: Block Partitioning
+#### Option 2: Block Partitioning
 
 ![[block partitioning.png|490]]
 
@@ -3419,13 +3434,14 @@ Workers execute queries
 Tuples are horizontally (row) partitioned by raw size with no ordering considered
 
 
-### Option 3: Range Partitioning
+#### Option 3: Range Partitioning
 
 Node contains tuples in chosen attribute ranges
 
 ![[range partitioning.png|495]]
 
-### Option 4: Hash Partitioning
+
+#### Option 4: Hash Partitioning
 
 Node contains tuples with chosen attribute hashes
 
@@ -3434,7 +3450,6 @@ Node contains tuples with chosen attribute hashes
 
 
 ## Parallel selection
-
 
 For a query like:
 
@@ -3477,8 +3492,8 @@ Better plan:
 3. Aggregate again
 
 
-## Shuffle operator
 
+## Shuffle operator
 
 Serves to re-shuffle data between processes 
 - Handles data routing, buffering, and flow control
@@ -3507,7 +3522,6 @@ Consumer:
 
 ## Parallel Join
 
-
 Step 1
 - Every server holding any chunk of $R$ partitions its chunk using a hash function $h(t.A) \\mod P$
 - Every server holding any chunk of $S$ partitions its chunk using a hash function $h(t.B) \\mod P$
@@ -3516,7 +3530,7 @@ Step 2:
 - Each server computes the join of its local fragment of $R$ with its local fragment of $S$
 
 
-### Optimization for Small Relations
+#### Optimization for Small Relations
 
 if $|R| >> |S|$
 - Leave $R$ where it is
@@ -3628,6 +3642,7 @@ checkpoint the database periodically
 - flush log to disk
 - write a \`<CKPT>\` log record, flush
 - resume transactions
+
 
 ### Nonquiescent Checkpointing
 
@@ -3750,6 +3765,7 @@ rebuilds:
 
 At the end, ARIES computes \`firstLSN = min⁡(recLSN)\`
 
+
 #### Redo
 
 Repeat history
@@ -3764,6 +3780,7 @@ for each log entry record
 - read page from disk:
 	if pageLSN $\\ge$  LSN, then no update
 - otherwise perform update
+
 
 #### Undo
 
@@ -3808,7 +3825,7 @@ Input: a bag of (inputkey, value)pairs
 Output: a bag of (outputkey, value)pairs
 
 
-### Step 1 : the MAP phase
+#### Step 1 : the MAP phase
 
 User provides the MAP-function:
 - Input: (input key, value)
@@ -3816,7 +3833,7 @@ User provides the MAP-function:
 System applies map function in parallel to all (input key, value) pairs in the input file
 
 
-###  Step 2: the REDUCE Phase
+####  Step 2: the REDUCE Phase
 
 User provides the REDUCE function:
 - Input: (intermediate key, bag of values)
@@ -3840,8 +3857,7 @@ Often talk about “slots”
 ![[parallelmapreduce.png|561]]
 
 
-
-### MapReduce Implementation
+#### MapReduce Implementation
 
 - There is one master node
 - Input file gets partitioned further into M’ splits
@@ -3880,7 +3896,7 @@ main goal: as if there was only one copy
 ![[synchronousreplication.png|538]]
 
 
-### Synchronous Master Replication
+#### Synchronous Master Replication
 
 - One master for each object holds primary copy
 	- The “Master” is also called “Primary” 
@@ -3893,8 +3909,8 @@ main goal: as if there was only one copy
 ![[syncmasterrep.png|534]]
 
 
-## Crash Failures
 
+## Crash Failures
 
 What happens when a secondary crashes?
 - Nothing happens
@@ -3905,6 +3921,7 @@ What happens when the master/primary fails?
 - Must chose a new primary: run election
 
 
+
 ## Network Failures
 
 Secondaries think that primary failed
@@ -3913,7 +3930,7 @@ But primary can still be running
 Now have two primaries
 
 
-### Synchronous Group Replication
+#### Synchronous Group Replication
 
 Master-less
 - Any node can initiate a transaction
@@ -3977,7 +3994,7 @@ What happens when master/primary fails?
 - After electing a new primary, secondaries must agree who is most up-to-date
 
 
-### Asynchronous Group Replication
+#### Asynchronous Group Replication
 
 Also called multi-master
 Best scheme for availability
@@ -4000,6 +4017,8 @@ order: 13
 
 Goal: Better use distributed memory in a cluster
 
+
+
 ## RDDs
 
 Resilient Distributed Datasets
@@ -4021,6 +4040,7 @@ RDD details
 	- Example operations: map, filter, and join
 
 
+
 ## Materialization
 
 Users control persistence and partitioning
@@ -4030,16 +4050,14 @@ Users control persistence and partitioning
 	- Users can specify key for partitioning an RDD
 
 
-
-### Spark Programming Interface
+#### Spark Programming Interface
 
 - RDDs implemented in new Spark system
 - Spark exposes RDDs though a languageintegrated API similar to DryadLINQ but in Scala
 - Later Spark was extended with SQL
 
 
-
-### Transformations vs. actions
+#### Transformations vs. actions
 
 Programmer first defines RDDs through transformations on data in stable storage
 - map, filter, etc.
@@ -4090,6 +4108,7 @@ Subordinate State Machine
 - INIT and PREPARED involve waiting
 
 ![[SubordinateStateMachine.png|350]]
+
 
 
 ## Handling Site Failures
@@ -4165,6 +4184,7 @@ order: 1
 
 A way of analyzing time it takes for our algorithm to execute as the input size grows.
 worst-case runtime
+
 
 ### $O(1)$
 
@@ -4360,7 +4380,9 @@ order: 2
 
 DP: method for solving problems by breaking them down into smaller overlapping sub problems, solving each subproblem once, and storing the results to avoid redundant computation
 
+
 ### 1. Fibonacci Numbers
+
 - 1-dimensional size of n problem
 - only care about the last 2 computed values
 
@@ -4410,7 +4432,6 @@ def findTargetSumWays(self, nums: List[int], target: int) -> int:
 \`\`\`
 
 
-
 ### 3. Unbounded Knapsack
 
 still want to sum up to target value, but use each item as many times as you want
@@ -4428,7 +4449,6 @@ def coinChange(self, coins: List[int], amount: int) -> int:
         
     return dp[amount] if dp[amount] != amount+1 else -1
 \`\`\`
-
 
 
 ### 4. Longest Common Subsequence
@@ -4484,7 +4504,9 @@ order: 3
 ---
 
 ### HashMaps
+
 ### Recursion
+
 ### DFS & BFS
 
 i.e. [#39](https://leetcode.com/problems/combination-sum/description/)
@@ -4509,8 +4531,11 @@ def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
     return res
 \`\`\`
 
+
 ### Binary Search
+
 ### Sliding Window
+
 ### Heaps`,Lr=`---
 order: 4
 ---
@@ -4525,6 +4550,7 @@ then
 \`\`\`
 prefixSum(i-1) = prefixSum(j) - k
 \`\`\`
+
 
 ### Backtracking
 
@@ -4552,6 +4578,7 @@ def generateParenthesis(self, n: int) -> List[str]:
     backTrack(0, 0)
     return res
 \`\`\`
+
 
 ### Graphs`,Rr=`
 \`\`\`
@@ -4934,19 +4961,23 @@ order: 5
 
 - **userData.json**: JSON file used to store user information.
 
+
 ### 🖥 My Page Server
 
 - Acts as the intermediary between the user's browser and the JSON file.
+
 
 #### Server-Side File Operations
 
 - \`fs.readFile(...)\`: Reads user data from \`userData.json\`.
 - \`fs.writeFile(...)\`: Writes user data to \`userData.json\`.
 
+
 ### 🌐 My Site in a User's Browser
 
 - Interface where users interact with the application.
-    
+
+
 #### Browser-Server Communication
 
 - **GET Request**:
@@ -4971,12 +5002,17 @@ A way of organizing full stack web application code
 
 
 #### Model
+
 Database, [[MongoDB connection|database connection]] and data organizaitn definitions
 
+
 #### Controllers
+
 The route handlers, allowing the view to perform operations on the model
 
+
 #### View
+
 The client code in the "public directory" (html, css, js)
 
 
@@ -6931,6 +6967,7 @@ Uses:
 - Anonymity (VPNs, or hackers)
 - [[Caching]]
 
+
 ### Reverse Proxy
 
 A server that sits in front of web servers. It receives requests from clients and forwards them to the appropriate backend server. It hides the server from the client.
@@ -6938,6 +6975,7 @@ A server that sits in front of web servers. It receives requests from clients an
 Benefits:
 - Transparent to client
 - Scalable
+
 
 ### Microservices
 
@@ -6947,7 +6985,9 @@ What are they good at?
 	- Maybe the /login team loves C# and the /getAllVideosForUser team loves JavaScript… with microservices, you can let each group choose
 - Troubleshooting/rollouts/rollbacks are by endpoint
 
+
 #### set environment variables before running npm start (mac)
+
 \`\`\`
 export DEBUG="express:* express-starter:server"
 export DEBUG="http-proxy-middleware* node server.js"
@@ -6958,6 +6998,7 @@ export PORT=3000
 
 
 #### Load Balancing Proxy
+
 \`\`\`
 import request from 'request';
 
@@ -7119,11 +7160,14 @@ order: 17
 ---
 
 ### NON-automated testing
+
 - Click around and try things yourself!
 - Manual testing (team): usually has a list of things to click through
 - User (research) testing: give users your site and let them click around
 
+
 ### Automated Testing of Code
+
 - Definition: Automated tests are additional code that tests the code of a project
 	- This includes how things should go correctly AND incorrectly
 - Types of Tests
@@ -7288,11 +7332,9 @@ The “Dockerfile” is a definition for a docker container.
 It consists of a set of steps, starting “FROM” a specific docker container, and then running additional steps (e.g., copying files) to set up the container the way you want it.
 
 
-
 ### demos
 
 #### nginx/html
-
 
 \`\`\`
 demo/
@@ -7310,6 +7352,7 @@ COPY . /usr/share/nginx/html
 docker build -t amelial9/dockerdemo .
 docker run -d -p 80:80 amelial9/dockerdemo
 \`\`\`
+
 
 #### nodedemo
 
@@ -7345,6 +7388,7 @@ order: 0
 ---
 
 #### variable types
+
 \`\`\`
 bool
 Int, UInt: size inferred by platform
@@ -7352,18 +7396,25 @@ Float, Double
 Character, String
 \`\`\`
 
+
 #### opereators
+
 \`\`\`
 + - * / (but not %)
 += -= *= /= (but not %= ++ or --)
 \`\`\`
 
+
 #### variable declaration
+
 constants: let
 variables: var
 
+
 #### control flow
+
 ###### if
+
 \`\`\`
 var temperatureInFahrenheit = 30
 if temperatureInFahrenheit <= 32 {
@@ -7377,7 +7428,9 @@ else {
 }
 \`\`\`
 
+
 ###### switch
+
 \`\`\`
 let temp = 30
 switch temp {
@@ -7393,6 +7446,7 @@ switch temp {
 
 
 ###### while & repeat while
+
 \`\`\`
 var index : Int = 0
 while index < 5 {
@@ -7407,8 +7461,11 @@ repeat {
 } while anotherIndex < 5
 \`\`\`
 
+
 #### composite types
+
 ###### arrays
+
 \`\`\`
 var shoppingList : [String] =
   ["catfish", "water", "tulips", "blue paint"]
@@ -7423,7 +7480,9 @@ for name in names {
 }
 \`\`\`
 
+
 ###### dictionaries
+
 \`\`\`
 var occupations = [
     "Malcolm": "Captain",
@@ -7443,7 +7502,9 @@ for (key, value) in occupations {
 }
 \`\`\`
 
+
 ###### enums
+
 \`\`\`
 enum CompassPoint {
     case North
@@ -7466,6 +7527,7 @@ switch direction {
 
 
 ###### tuples
+
 unnamed grouping of values
 \`\`\`
 var city = ("Seattle", "Washington", 5000000)
@@ -7477,7 +7539,9 @@ print(ssi)
 print(ssi.0)
 \`\`\`
 
+
 #### functions
+
 \`\`\`
 func sayHello(personName : String) -> String {
     return "Hello, \\(personName)"
@@ -7485,7 +7549,9 @@ func sayHello(personName : String) -> String {
 print(sayHello(personName: "Fred"))
 \`\`\`
 
+
 ###### nested functions
+
 \`\`\`
 func chooseStepFunction(backwards: Bool) -> (Int) -> Int {
     func stepForward(input: Int) -> Int { return input + 1 }
@@ -7508,7 +7574,9 @@ order: 1
 
 _macros_: the ability to write a source-level construct
 
+
 #### Two kinds of macros
+
 _syntactic_\xA0macros (C, C++ [[Modules, C Preprocessor#C Preprocessor Intro|preprocessor]])
 	simple text drop-in replacement
 	little to no compiler support
@@ -7518,7 +7586,9 @@ _semantic_\xA0macros (Lisp, Scheme, etc)
 	verified correct
 	this is Swift's implementation
 
+
 #### Swift macro types
+
 _freestanding_\xA0macros
 	\`#\`-prefixed
 	appear anywhere in code
@@ -7627,6 +7697,7 @@ print(o.stringRep())
 
 
 ###### Failable initializers
+
 Use "init?"
 	Return nil if constuction should fail
 	Makes the receiving reference an optional
@@ -7675,6 +7746,7 @@ order: 5
 ---
 
 #### Definitions
+
 a "key" is a string that identifies a specific property
 "key path" is dot-separated keys used to specify a sequence of object properties to traverse
 keys or key paths can be runtime strings or compile-time constants
@@ -7704,8 +7776,7 @@ if let value = p.value(forKey: "firstName") {
 \`\`\`
 
 
-`,pi=`
-### Error handling
+`,pi=`### Error handling
 
 An example class:
 \`\`\`
@@ -7836,14 +7907,18 @@ selectors can be used to invoke methods
 	permitting a degree of flexibility in setup/invocation
 used extensively in Cocoa and iOS to match-by-capabilities
 
+
 #### restrictions
+
 class must inherit from NSObject
 	necessary for the Obj-C plumbing "underneath"
 members must be annotated with @objc
 	optional name describes the Obj-C name
 usable on methods and property methods
 
+
 #### Syntax
+
 \`#selector\`\xA0obtains method at compile-time
 parameter is method with names separated by colons
 use\xA0\`getter:\`\xA0or\xA0\`setter:\`\xA0to obtain property getter/setter methods
@@ -7888,7 +7963,9 @@ order: 7
 
 "An automated piece of code that invokes a unit of work in the system and then checks a single assumption about the behavior of that unit of work."
 
+
 #### "AAA" pattern of tests
+
 Arrange
 	establish a baseline
 	this may require several steps
@@ -7943,7 +8020,6 @@ ON manufacturer = cname
 
 
 #### A simple JOIN example
-
 
 \`Product\` 
 
@@ -8173,7 +8249,6 @@ CREATE TABLE Product (
 \`\`\`
 
 
-
 ### Keys with multiple attributes
 
 Product(<u>name</u>, <u>category</u>, price)
@@ -8249,12 +8324,14 @@ All relations must be flat: we say that the relation is in *first normal form*
 - Table is two-dimensional – just rows and columns  
 - No nested structures (arrays, objects, sub-tables)
 
+
 ### ❌ Not in 1NF:
 
 | StudentID | Name  | Courses           |
 |-----------|-------|-------------------|
 | 1         | Alice | Math, Physics     |
 | 2         | Bob   | English, History  |
+
 
 ### ✅ 1NF (Flat Table):
 
@@ -8332,8 +8409,6 @@ CREATE TABLE students (
 \`\`\`
 
 
-
-
 ### Multi-attribute keys
 
 | fName | lName    | Income | Department |
@@ -8342,7 +8417,6 @@ CREATE TABLE students (
 | Alice | Thompson | 50000  | Testing    |
 | Bob   | Thompson | 30000  | SW         |
 | Carol | Smith    | 50000  | Testing    |
-
 
 
 ### Surrogate keys
@@ -8370,7 +8444,6 @@ SELECT * FROM employees;
 \`\`\`
 
 
-
 ### Super key
 
 key might be an entire tuple
@@ -8385,6 +8458,7 @@ all attributes together *always* form a key
 
 
 ### Multiple keys
+
 a relation can have more than 1 key
 the DB designer will designate one as the primary key
 
@@ -8394,7 +8468,6 @@ the DB designer will designate one as the primary key
 | 222-33-4444 | Alice | Thompson | 50000  | Testing    |
 | 333-44-5555 | Bob   | Thompson | 30000  | SW         |
 | 444-55-6666 | Carol | Smith    | 50000  | Testing    |
-
 
 
 ### Foreign key
@@ -8439,6 +8512,7 @@ order: 4
 **Physical data independence**
 The logical definition of the data remains unchanged, even when we make changes to the actual implementation
 
+
 ##### Imagine a database like a filing cabinet:
 
 - **You** (the user) just ask, “Hey, give me Alice’s file.”
@@ -8460,6 +8534,7 @@ Now imagine the database admin:
 - Moves that table to a faster disk
 - Adds an [[Indexing|index]] on \`ID\` to make the query faster
 - Stores some rows in a different file for performance
+
 
 #### Query **still works the same**:
 
@@ -8525,7 +8600,6 @@ FROM Purchase
 \`\`\`
 
 
-
 ### GROUP BY + WHERE
 
 | Product | Price | Quantity |
@@ -8588,7 +8662,9 @@ HAVING sum(quantity) > 30
 **HAVING clause contains conditions on [[Simple Aggregation|aggregates]]**
 Where clause before grouping, having clause after [[GROUP BY|grouping]]
 
+
 #### WHERE vs HAVING  
+
 WHERE is applied to individual rows  
 - The rows may or may not contribute to the aggregate  
 - No aggregates allowed here
@@ -8936,8 +9012,8 @@ If A and B are sets, then a [[Relations and datatypes|relation]] R is a subset o
 
 <br>
 
-### Multi-way Relationships
 
+### Multi-way Relationships
 
 ![[relation.png|579]]
 
@@ -9095,6 +9171,7 @@ CREATE TABLE Company (
 
 
 #### Weak Entity Set -> Foreign Key + Cascade Delete  
+
 \`\`\`
 CREATE TABLE Team (  
 	univname CHAR(30) REFERENCES University(name)  
@@ -9310,6 +9387,7 @@ FROM table_name;
 2. **RANK()**: The\xA0\`RANK()\`\xA0function handles tied values by assigning the same rank to them. However, it may skip subsequent ranks, leaving gaps in the sequence.
 3. **DENSE_RANK()**: Similar to\xA0\`RANK()\`,\xA0\`DENSE_RANK()\`\xA0also handles tied values by assigning the same rank. However, it does not skip ranks, resulting in no gaps in the sequence.
 
+
 #### Window Function Ranking with ORDER BY
 
 Write a query to display the list of artists sorted in descending order of their concert revenue.
@@ -9335,6 +9413,7 @@ FROM concerts;
 |Red Hot Chili Peppers|660000|8|8|7|
 |U2|650000|9|9|8|
 |Ed Sheeran|650000|10|9|8|
+
 
 #### Window Function Ranking with PARTITION BY and ORDER BY
 
@@ -9405,6 +9484,7 @@ FROM 'Partitioned Total Example';
 ### Organizing with Window Functions
 
 #### Rows
+
 \`\`\`
 SELECT '(The data you want to select)',
 [aggregate function]'(The column to perform the aggregate function on)'
@@ -9458,6 +9538,7 @@ order: 26
 ---
 
 (recall [[Normalization#BCNF (Boyce-Codd Normal Form)|BCNF]]: For **every [[Functional dependencies|functional dependency]]** \`X → Y\`, \`X\` must be a **[[Keys#Super key|superkey]]**)
+
 
 ### Step 1
 
@@ -9559,6 +9640,7 @@ Means knowing the StudentID uniquely determines the Name and Major.
 
 If we can be sure that *every instance* of R (relational schema) will be one in which a given FD is true, then we say that R satisfies the FD
 
+
 ### Additional Rules
 
 If X → Y and X → Z, then X → YZ
@@ -9577,7 +9659,9 @@ order: 25
 
 Normal forms are levels or stages of normalization.
 
+
 #### 1NF (First Normal Form)
+
 - All values in each column must be **atomic** (i.e., indivisible).
 - No repeating groups or arrays.
 
@@ -9589,7 +9673,9 @@ Normal forms are levels or stages of normalization.
 
 \`StudentName\` depends **only on StudentID**, not the full key → **partial dependency**
 
+
 #### 2NF (Second Normal Form)
+
 - Must be in **[[First normal form|1NF]]**
 - **No partial dependency**: No non-key attribute should depend on **part of a composite key**
 
@@ -9601,7 +9687,9 @@ Normal forms are levels or stages of normalization.
 
 \`DeptID → DeptName\` (transitive: \`EmployeeID → DeptID → DeptName\`)
 
+
 #### 3NF (Third Normal Form)
+
 - Must be in **2NF**
 - No **transitive dependency**: Non-key attributes shouldn’t depend on **other non-key attributes**
 	- transitive dependency: A non-key attribute depends on another non-key attribute, which in turn depends on the key.
@@ -9614,7 +9702,9 @@ Normal forms are levels or stages of normalization.
 
 **Instructor** is not a key, but it's determining \`Room\` → violates BCNF
 
+
 #### BCNF (Boyce-Codd Normal Form)
+
 - Must be in **3NF**
 - For **every functional dependency** \`X → Y\`, \`X\` must be a **[[Keys#Super key|superkey]]**
 
@@ -9624,6 +9714,7 @@ Normal forms are levels or stages of normalization.
 | Alice   | French   | Sports |
 | Alice   | Spanish  | Music  |
 | Alice   | Spanish  | Sports |
+
 
 #### Relational Schema Design  (or Logical Design)  
 
@@ -9657,6 +9748,7 @@ SSN<sup>+</sup> = SSN, Name, City and is neither SSN nor All Attributes
 > \`SSN⁺\` : the **closure** of the attribute \`SSN\`, meaning the set of attributes functionally determined by SSN.
 > \`SSN⁺ = {SSN, Name, City}\`
 
+
 #### Example BCNF Decomposition
 
 | Name | SSN         | City      |
@@ -9688,6 +9780,7 @@ CREATE VIEW oldCats as
 - Auto-update if base table data changes.
 - Can be queried like regular tables.
 
+
 ### Temp tables
 
 \`\`\`
@@ -9713,6 +9806,7 @@ order: 28
 - RDMS translates SQL to RA then optimizes for performance
 
 
+
 ## RA Operators
 
 - $\\pi / \\Pi$: SELECT, projection
@@ -9729,6 +9823,7 @@ order: 28
  - $\\tau$ (tau): sort
 - $\\delta$ (delta): duplicate elimination; SELECT DISTINCT
 - $\\rho$ (rho): rename
+
 
 #### Unary operator
 
@@ -9747,6 +9842,7 @@ Selection filters tuples from the input
 Joins inputs relations on the specified condition
 
 ![[file-20261021104647531.png|577]]
+
 
 
 ## English to SQL to RA Example
@@ -9776,6 +9872,7 @@ lost update
 	- A Write-write (WW) conflict
 
 
+
 ## Transactions & ACID
 
 #### ACID
@@ -9792,6 +9889,7 @@ lost update
 		- What if the database fails in the middle of our atomic transaction?
 
 
+
 ## Schedules & Serializability
 
 Transactions are sequence of element reads and/or writes
@@ -9800,11 +9898,13 @@ Transactions are sequence of element reads and/or writes
 
 Schedules are a sequence of interleaved actions from all transactions
 
+
 #### Serial Schedules
 
 A **serial schedule** is a schedule where each transaction is executed in some order, one after the other
 
 A **[[Concurrency Control#Serializability|serializable]] schedule** is a schedule where transactions are executed with possible interleaving, but it appears to the outside as if they were executed in serial order
+
 
 
 ## Conflict Serializability
@@ -9843,6 +9943,7 @@ Faster way:
 instead of comparing every pair, list each element's actions in order. Then look for cross-transaction pairs where at least one is a write
 
 
+
 ## Locks &  2PL
 
 scheduler
@@ -9860,6 +9961,7 @@ binary locks
     - SQLite $\\rightarrow$ whole database only
     - MySQL, SQL Server, Oracle $\\rightarrow$ row or table
 
+
 #### 2-Phase Locking
 
 rule: in every txn, all lock requests come before all unlock requests
@@ -9867,6 +9969,7 @@ rule: in every txn, all lock requests come before all unlock requests
 
 [[Concurrency Control#Two Phase Locking (2PL)|2PL]] guarantees conflict serializability
 each txn acts as if it ran all at once at the moment it starts unlocking
+
 
 #### Deadlocks
 
@@ -9882,8 +9985,8 @@ T4 (D,A): L(D) ... L(A) blocked   (T1 has A)
 the DBMS builds a waits-for graph, and a cycle means [[Concurrency Control#2PL Deadlocks|deadlock]]
 
 
-## Strict 2PL & Recoverability
 
+## Strict 2PL & Recoverability
 
 - Every [[Optimistic Concurrency Control#Isolation Levels|isolation level]] uses strict 2PL X locks for writes
 - The only thing that changes between levels is how long read locks are held
@@ -9894,13 +9997,16 @@ SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 \`\`\`
 - Default level depends on the DBMS
 
+
 #### Summary (fast → correct)
+
 | Level            | Read locks                                | Dirty read | Unrepeatable read | Phantom   |
 | ---------------- | ----------------------------------------- | ---------- | ----------------- | --------- |
 | READ UNCOMMITTED | none                                      | possible   | possible          | possible  |
 | READ COMMITTED   | short: lock → read → unlock right away    | prevented  | possible          | possible  |
 | REPEATABLE READ  | held until commit (strict 2PL)            | prevented  | prevented         | possible  |
 | SERIALIZABLE     | held until commit + table/predicate locks | prevented  | prevented         | prevented |
+
 
 #### READ UNCOMMITTED
 
@@ -9909,12 +10015,14 @@ SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 - Fastest level
 - Use case: static data, or reads where accuracy isn't critical
 
+
 #### READ COMMITTED
 
 - Reads: short S locks (acquire, read, release immediately)
 - Fixes dirty reads: S must wait for X, and X is held until commit, so you only see committed data
 - Problem: unrepeatable reads, since S is released before the txn ends
 - Use case: e-commerce ("only 2 left in stock" was true when you read it, but may change)
+
 
 #### REPEATABLE READ
 
