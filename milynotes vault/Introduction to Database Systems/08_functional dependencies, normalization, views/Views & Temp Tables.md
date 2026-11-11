@@ -16,6 +16,7 @@ CREATE VIEW oldCats as
 - Auto-update if base table data changes.
 - Can be queried like regular tables.
 
+
 ### Temp tables
 
 ```

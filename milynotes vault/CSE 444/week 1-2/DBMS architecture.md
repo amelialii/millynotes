@@ -5,8 +5,8 @@ order: 2
 User Query $\rightarrow$ Query Processor $\rightarrow$ Storage Manager $\rightarrow$ Disk
 
 
-## Query Processor
 
+## Query Processor
 
 understands and plans your query
 
@@ -35,7 +35,7 @@ understands and plans your query
 		- output results
 
 
-### Physical Query Plan
+#### Physical Query Plan
 
 - Logical query plan with extra annotations
 - **Implementation choice** for each operator
@@ -44,15 +44,14 @@ understands and plans your query
 	- Use a file scan or use an [[Indexing|index]]
 
 
-### Query Executor
+#### Query Executor
 
 `Tuple.java` describes a row object in SimpleDB
 - rows are the objects passed through the database
 - in the same way we conceptualize RA and a series of transformations to rows, so does it work in database
 
 
-### Pull-Based Execution
-
+#### Pull-Based Execution
 
 Parent operator asks the child:
 "Give me the next row"
@@ -75,13 +74,13 @@ Project.next()
 
 ## Storage Manager
 
-
 handles:
 - disk storage
 - memory caching
 - reading data efficiently
 
-### Access Methods
+
+#### Access Methods
 
 - Operators: Process data
 - [[Indexing|Access methods]]: Organize data to support fast access to desired subsets of records
@@ -117,7 +116,7 @@ Disk read if needed
 	- They provide an API for operators to access data in these files
 
 
-### Disk Storage
+#### Disk Storage
 
 - Can only read 1 block per read operation
 	- Usually 512B to 4kB

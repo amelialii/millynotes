@@ -22,7 +22,6 @@ Record ID = RID
 
 ### Page Format Approach
 
-
 #### Fixed-Length Slots
 
 packed representation
@@ -67,8 +66,8 @@ Records (stored from end)
 ```
 
 
-## Record formats
 
+## Record formats
 
 ### Fixed Length
 
@@ -87,9 +86,7 @@ Information about field lengths and types is in the catalog
 
 
 
-
 ## Heap Files
-
 
 unordered collection of pages storing tuples
 the simplest data storage
@@ -125,7 +122,6 @@ insert:
 
 
 ## Buffer Manager
-
 
 - brings pages in from memory and caches them
 - eviction policies

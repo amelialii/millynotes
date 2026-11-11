@@ -13,6 +13,7 @@ then
 prefixSum(i-1) = prefixSum(j) - k
 ```
 
+
 ### Backtracking
 
 i.e. [#22](https://leetcode.com/problems/generate-parentheses/?envType=problem-list-v2&envId=plakya4j)
@@ -39,5 +40,6 @@ def generateParenthesis(self, n: int) -> List[str]:
     backTrack(0, 0)
     return res
 ```
+
 
 ### Graphs

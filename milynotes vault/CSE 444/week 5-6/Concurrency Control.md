@@ -111,6 +111,7 @@ two approaches:
 - pessimistic: locks
 - [[Optimistic Concurrency Control|optimistic]]: timestamps, multi-version, validation
 
+
 #### Pessimistic Scheduler
 
 - each element has a unique **lock**
@@ -130,6 +131,7 @@ The 2PL rule:
 - In every transaction, all lock requests must precede all unlock requests
 - This ensures conflict serializability
 
+
 #### Strict 2PL
 
 All locks held by a transaction are released when the transaction is completed; release happens at the time of COMMIT or ROLLBACK
@@ -144,7 +146,6 @@ Ensures:
 
 
 ## The Locking Scheduler
-
 
 Task 1: act on behalf of the transaction Add lock/unlock requests to transactions
 - Examine all READ(A) or WRITE(A) actions
@@ -181,6 +182,7 @@ Coarse grain locking (e.g., tables, predicate locks)
 - Less overhead in managing locks
 
 
+
 ## 2PL Deadlocks
 
 ![[2pldeadlocks.png|598]]
@@ -195,7 +197,6 @@ Solution:
 
 
 ## Phantom Problem
-
 
 A “phantom” is a tuple that is invisible during part of a transaction execution but not invisible during the entire execution
 

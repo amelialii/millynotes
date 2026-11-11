@@ -11,6 +11,7 @@ Uses:
 - Anonymity (VPNs, or hackers)
 - [[Caching]]
 
+
 ### Reverse Proxy
 
 A server that sits in front of web servers. It receives requests from clients and forwards them to the appropriate backend server. It hides the server from the client.
@@ -18,6 +19,7 @@ A server that sits in front of web servers. It receives requests from clients an
 Benefits:
 - Transparent to client
 - Scalable
+
 
 ### Microservices
 
@@ -27,7 +29,9 @@ What are they good at?
 	- Maybe the /login team loves C# and the /getAllVideosForUser team loves JavaScript… with microservices, you can let each group choose
 - Troubleshooting/rollouts/rollbacks are by endpoint
 
+
 #### set environment variables before running npm start (mac)
+
 ```
 export DEBUG="express:* express-starter:server"
 export DEBUG="http-proxy-middleware* node server.js"
@@ -38,6 +42,7 @@ export PORT=3000
 
 
 #### Load Balancing Proxy
+
 ```
 import request from 'request';
 

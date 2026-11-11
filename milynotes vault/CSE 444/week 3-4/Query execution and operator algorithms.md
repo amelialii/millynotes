@@ -32,6 +32,7 @@ each operator:
 DBMS limits how much memory each operator, or each query can use
 
 
+
 ## Join operator algorithms
 
 cost = total number of I/Os
@@ -63,7 +64,6 @@ Output buffer holds results before writing them out
 ![[hashjoin2.png|522]]
 
 
-
 ### Nested loop join
 
 for each tuple $t_1$ in $R$ do
@@ -72,7 +72,8 @@ for each tuple $t_1$ in $R$ do
 
 $B(R) + T(R)B(S)$
 
-##### Page-at-a-time refinement
+
+#### Page-at-a-time refinement
 
 for each page of tuples $r$ in $R$ do
 	for each page of tuples $s$ in $S$ do
@@ -81,7 +82,8 @@ for each page of tuples $r$ in $R$ do
 
 $B(R) + B(R)B(S)$
 
-##### Block-Memory Refinement
+
+#### Block-Memory Refinement
 
 for each group of $M-1$ pagers $r$ in $R$ do
 	for each page of tuples $s$ in $S$ d

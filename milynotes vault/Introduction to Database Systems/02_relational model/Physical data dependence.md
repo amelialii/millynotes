@@ -5,6 +5,7 @@ order: 4
 **Physical data independence**
 The logical definition of the data remains unchanged, even when we make changes to the actual implementation
 
+
 ##### Imagine a database like a filing cabinet:
 
 - **You** (the user) just ask, “Hey, give me Alice’s file.”
@@ -26,6 +27,7 @@ Now imagine the database admin:
 - Moves that table to a faster disk
 - Adds an [[Indexing|index]] on `ID` to make the query faster
 - Stores some rows in a different file for performance
+
 
 #### Query **still works the same**:
 

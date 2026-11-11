@@ -14,12 +14,17 @@ A way of organizing full stack web application code
 
 
 #### Model
+
 Database, [[MongoDB connection|database connection]] and data organizaitn definitions
 
+
 #### Controllers
+
 The route handlers, allowing the view to perform operations on the model
 
+
 #### View
+
 The client code in the "public directory" (html, css, js)
 
 

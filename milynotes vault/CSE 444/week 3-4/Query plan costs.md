@@ -48,7 +48,6 @@ $T(V) = T(\sigma(R) \bowtie S)$
 
 ## Size Estimation Problem
 
-
 - each condition reduces the size of by some factor, called **selectivity factor**
 - assuming independence, multiply the selectivity factors
 
@@ -70,7 +69,8 @@ T(Q) = T(R₁) × T(R₂) × ... × T(Rₙ) × s₁ × s₂ × ... × sₖ
 		selectivity = $\frac{1}{max(V(R,A), V(S, B))}$
 
 
-### assumptions
+#### assumptions
+
 - containment of values: if $V(R, A) \le V(S, B)$, then all values $R.A$ occur in $S.B$
 - preservation of values: for any other attribute $C$, $V(R \bowtie_{A = B} S, C) = V(R < C)$ (or $V(S, C)$)
 
@@ -96,7 +96,6 @@ plan 3
 
 
 ## Histograms
-
 
 ![[employeehistogram.png|499]]
 

@@ -4,6 +4,7 @@ order: 26
 
 (recall [[Normalization#BCNF (Boyce-Codd Normal Form)|BCNF]]: For **every [[Functional dependencies|functional dependency]]** `X → Y`, `X` must be a **[[Keys#Super key|superkey]]**)
 
+
 ### Step 1
 
 Check which functional dependencies of R are not in BCNF, if they're all in BCNF we do not need to decompose R.

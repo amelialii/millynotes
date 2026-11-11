@@ -4,7 +4,9 @@ order: 1
 
 _macros_: the ability to write a source-level construct
 
+
 #### Two kinds of macros
+
 _syntactic_ macros (C, C++ [[Modules, C Preprocessor#C Preprocessor Intro|preprocessor]])
 	simple text drop-in replacement
 	little to no compiler support
@@ -14,7 +16,9 @@ _semantic_ macros (Lisp, Scheme, etc)
 	verified correct
 	this is Swift's implementation
 
+
 #### Swift macro types
+
 _freestanding_ macros
 	`#`-prefixed
 	appear anywhere in code

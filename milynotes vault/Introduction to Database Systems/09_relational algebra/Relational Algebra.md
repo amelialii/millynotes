@@ -7,6 +7,7 @@ order: 28
 - RDMS translates SQL to RA then optimizes for performance
 
 
+
 ## RA Operators
 
 - $\pi / \Pi$: SELECT, projection
@@ -23,6 +24,7 @@ order: 28
  - $\tau$ (tau): sort
 - $\delta$ (delta): duplicate elimination; SELECT DISTINCT
 - $\rho$ (rho): rename
+
 
 #### Unary operator
 
@@ -41,6 +43,7 @@ Selection filters tuples from the input
 Joins inputs relations on the specified condition
 
 ![[file-20261021104647531.png|577]]
+
 
 
 ## English to SQL to RA Example

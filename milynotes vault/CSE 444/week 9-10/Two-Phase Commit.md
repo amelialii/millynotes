@@ -32,6 +32,7 @@ Subordinate State Machine
 ![[SubordinateStateMachine.png|350]]
 
 
+
 ## Handling Site Failures
 
 What to do if there is no response

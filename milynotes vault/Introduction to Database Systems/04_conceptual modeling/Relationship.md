@@ -32,8 +32,8 @@ If A and B are sets, then a [[Relations and datatypes|relation]] R is a subset o
 
 <br>
 
-### Multi-way Relationships
 
+### Multi-way Relationships
 
 ![[relation.png|579]]
 

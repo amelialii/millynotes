@@ -34,8 +34,6 @@ CREATE TABLE students (
 ```
 
 
-
-
 ### Multi-attribute keys
 
 | fName | lName    | Income | Department |
@@ -44,7 +42,6 @@ CREATE TABLE students (
 | Alice | Thompson | 50000  | Testing    |
 | Bob   | Thompson | 30000  | SW         |
 | Carol | Smith    | 50000  | Testing    |
-
 
 
 ### Surrogate keys
@@ -72,7 +69,6 @@ SELECT * FROM employees;
 ```
 
 
-
 ### Super key
 
 key might be an entire tuple
@@ -87,6 +83,7 @@ all attributes together *always* form a key
 
 
 ### Multiple keys
+
 a relation can have more than 1 key
 the DB designer will designate one as the primary key
 
@@ -96,7 +93,6 @@ the DB designer will designate one as the primary key
 | 222-33-4444 | Alice | Thompson | 50000  | Testing    |
 | 333-44-5555 | Bob   | Thompson | 30000  | SW         |
 | 444-55-6666 | Carol | Smith    | 50000  | Testing    |
-
 
 
 ### Foreign key

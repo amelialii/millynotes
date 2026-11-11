@@ -4,6 +4,8 @@ order: 13
 
 Goal: Better use distributed memory in a cluster
 
+
+
 ## RDDs
 
 Resilient Distributed Datasets
@@ -25,6 +27,7 @@ RDD details
 	- Example operations: map, filter, and join
 
 
+
 ## Materialization
 
 Users control persistence and partitioning
@@ -34,16 +37,14 @@ Users control persistence and partitioning
 	- Users can specify key for partitioning an RDD
 
 
-
-### Spark Programming Interface
+#### Spark Programming Interface
 
 - RDDs implemented in new Spark system
 - Spark exposes RDDs though a languageintegrated API similar to DryadLINQ but in Scala
 - Later Spark was extended with SQL
 
 
-
-### Transformations vs. actions
+#### Transformations vs. actions
 
 Programmer first defines RDDs through transformations on data in stable storage
 - map, filter, etc.

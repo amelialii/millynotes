@@ -40,6 +40,7 @@ FROM 'Partitioned Total Example';
 ### Organizing with Window Functions
 
 #### Rows
+
 ```
 SELECT '(The data you want to select)',
 [aggregate function]'(The column to perform the aggregate function on)'

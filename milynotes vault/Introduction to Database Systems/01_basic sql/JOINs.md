@@ -20,7 +20,6 @@ ON manufacturer = cname
 
 #### A simple JOIN example
 
-
 `Product` 
 
 | pname     | category | manufacturer |

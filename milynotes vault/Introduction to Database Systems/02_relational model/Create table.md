@@ -51,7 +51,6 @@ CREATE TABLE Product (
 ```
 
 
-
 ### Keys with multiple attributes
 
 Product(<u>name</u>, <u>category</u>, price)

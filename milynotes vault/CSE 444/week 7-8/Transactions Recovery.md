@@ -103,6 +103,7 @@ checkpoint the database periodically
 - write a `<CKPT>` log record, flush
 - resume transactions
 
+
 ### Nonquiescent Checkpointing
 
 - Write a `<START CKPT(T1,…,Tk)>` where T1,…,Tk are all active transactions. Flush log to disk
@@ -224,6 +225,7 @@ rebuilds:
 
 At the end, ARIES computes `firstLSN = min⁡(recLSN)`
 
+
 #### Redo
 
 Repeat history
@@ -238,6 +240,7 @@ for each log entry record
 - read page from disk:
 	if pageLSN $\ge$  LSN, then no update
 - otherwise perform update
+
 
 #### Undo
 

@@ -19,6 +19,7 @@ FROM table_name;
 2. **RANK()**: The `RANK()` function handles tied values by assigning the same rank to them. However, it may skip subsequent ranks, leaving gaps in the sequence.
 3. **DENSE_RANK()**: Similar to `RANK()`, `DENSE_RANK()` also handles tied values by assigning the same rank. However, it does not skip ranks, resulting in no gaps in the sequence.
 
+
 #### Window Function Ranking with ORDER BY
 
 Write a query to display the list of artists sorted in descending order of their concert revenue.
@@ -44,6 +45,7 @@ FROM concerts;
 |Red Hot Chili Peppers|660000|8|8|7|
 |U2|650000|9|9|8|
 |Ed Sheeran|650000|10|9|8|
+
 
 #### Window Function Ranking with PARTITION BY and ORDER BY
 

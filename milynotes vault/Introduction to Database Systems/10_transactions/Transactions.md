@@ -21,6 +21,7 @@ lost update
 	- A Write-write (WW) conflict
 
 
+
 ## Transactions & ACID
 
 #### ACID
@@ -37,6 +38,7 @@ lost update
 		- What if the database fails in the middle of our atomic transaction?
 
 
+
 ## Schedules & Serializability
 
 Transactions are sequence of element reads and/or writes
@@ -45,11 +47,13 @@ Transactions are sequence of element reads and/or writes
 
 Schedules are a sequence of interleaved actions from all transactions
 
+
 #### Serial Schedules
 
 A **serial schedule** is a schedule where each transaction is executed in some order, one after the other
 
 A **[[Concurrency Control#Serializability|serializable]] schedule** is a schedule where transactions are executed with possible interleaving, but it appears to the outside as if they were executed in serial order
+
 
 
 ## Conflict Serializability
@@ -88,6 +92,7 @@ Faster way:
 instead of comparing every pair, list each element's actions in order. Then look for cross-transaction pairs where at least one is a write
 
 
+
 ## Locks &  2PL
 
 scheduler
@@ -105,6 +110,7 @@ binary locks
     - SQLite $\rightarrow$ whole database only
     - MySQL, SQL Server, Oracle $\rightarrow$ row or table
 
+
 #### 2-Phase Locking
 
 rule: in every txn, all lock requests come before all unlock requests
@@ -112,6 +118,7 @@ rule: in every txn, all lock requests come before all unlock requests
 
 [[Concurrency Control#Two Phase Locking (2PL)|2PL]] guarantees conflict serializability
 each txn acts as if it ran all at once at the moment it starts unlocking
+
 
 #### Deadlocks
 
@@ -127,8 +134,8 @@ T4 (D,A): L(D) ... L(A) blocked   (T1 has A)
 the DBMS builds a waits-for graph, and a cycle means [[Concurrency Control#2PL Deadlocks|deadlock]]
 
 
-## Strict 2PL & Recoverability
 
+## Strict 2PL & Recoverability
 
 - Every [[Optimistic Concurrency Control#Isolation Levels|isolation level]] uses strict 2PL X locks for writes
 - The only thing that changes between levels is how long read locks are held
@@ -139,13 +146,16 @@ SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 ```
 - Default level depends on the DBMS
 
+
 #### Summary (fast → correct)
+
 | Level            | Read locks                                | Dirty read | Unrepeatable read | Phantom   |
 | ---------------- | ----------------------------------------- | ---------- | ----------------- | --------- |
 | READ UNCOMMITTED | none                                      | possible   | possible          | possible  |
 | READ COMMITTED   | short: lock → read → unlock right away    | prevented  | possible          | possible  |
 | REPEATABLE READ  | held until commit (strict 2PL)            | prevented  | prevented         | possible  |
 | SERIALIZABLE     | held until commit + table/predicate locks | prevented  | prevented         | prevented |
+
 
 #### READ UNCOMMITTED
 
@@ -154,12 +164,14 @@ SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 - Fastest level
 - Use case: static data, or reads where accuracy isn't critical
 
+
 #### READ COMMITTED
 
 - Reads: short S locks (acquire, read, release immediately)
 - Fixes dirty reads: S must wait for X, and X is held until commit, so you only see committed data
 - Problem: unrepeatable reads, since S is released before the txn ends
 - Use case: e-commerce ("only 2 left in stock" was true when you read it, but may change)
+
 
 #### REPEATABLE READ
 

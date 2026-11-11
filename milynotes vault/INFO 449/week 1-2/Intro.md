@@ -3,6 +3,7 @@ order: 0
 ---
 
 #### variable types
+
 ```
 bool
 Int, UInt: size inferred by platform
@@ -10,18 +11,25 @@ Float, Double
 Character, String
 ```
 
+
 #### opereators
+
 ```
 + - * / (but not %)
 += -= *= /= (but not %= ++ or --)
 ```
 
+
 #### variable declaration
+
 constants: let
 variables: var
 
+
 #### control flow
+
 ###### if
+
 ```
 var temperatureInFahrenheit = 30
 if temperatureInFahrenheit <= 32 {
@@ -35,7 +43,9 @@ else {
 }
 ```
 
+
 ###### switch
+
 ```
 let temp = 30
 switch temp {
@@ -51,6 +61,7 @@ switch temp {
 
 
 ###### while & repeat while
+
 ```
 var index : Int = 0
 while index < 5 {
@@ -65,8 +76,11 @@ repeat {
 } while anotherIndex < 5
 ```
 
+
 #### composite types
+
 ###### arrays
+
 ```
 var shoppingList : [String] =
   ["catfish", "water", "tulips", "blue paint"]
@@ -81,7 +95,9 @@ for name in names {
 }
 ```
 
+
 ###### dictionaries
+
 ```
 var occupations = [
     "Malcolm": "Captain",
@@ -101,7 +117,9 @@ for (key, value) in occupations {
 }
 ```
 
+
 ###### enums
+
 ```
 enum CompassPoint {
     case North
@@ -124,6 +142,7 @@ switch direction {
 
 
 ###### tuples
+
 unnamed grouping of values
 ```
 var city = ("Seattle", "Washington", 5000000)
@@ -135,7 +154,9 @@ print(ssi)
 print(ssi.0)
 ```
 
+
 #### functions
+
 ```
 func sayHello(personName : String) -> String {
     return "Hello, \(personName)"
@@ -143,7 +164,9 @@ func sayHello(personName : String) -> String {
 print(sayHello(personName: "Fred"))
 ```
 
+
 ###### nested functions
+
 ```
 func chooseStepFunction(backwards: Bool) -> (Int) -> Int {
     func stepForward(input: Int) -> Int { return input + 1 }

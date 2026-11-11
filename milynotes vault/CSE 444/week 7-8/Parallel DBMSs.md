@@ -6,10 +6,10 @@ OLAP: Query response time
 	Online Analytical Processing
 
 
+
 ## Architecture
 
-### Shared-Memory Architecture
-
+#### Shared-Memory Architecture
 
 ![[shared memory architecture.png|357]]
 
@@ -18,7 +18,8 @@ OLAP: Query response time
 - Expensive to scale
 - Easiest to implement on
 
-### Shared-Disk Architecture
+
+#### Shared-Disk Architecture
 
 ![[shared disk architecture.png|366]]
 
@@ -27,7 +28,8 @@ OLAP: Query response time
 - No contention for memory and high availability
 - Typically 1-10 machines
 
-### Shared-Nothing Architecture
+
+#### Shared-Nothing Architecture
 
 ![[shared nothing architecture.png|368]]
 
@@ -41,7 +43,6 @@ OLAP: Query response time
 
 ## Shared-Nothing 
 
-
 Multiple DBMS instances (= processes) also called “nodes” execute on machines in a cluster
 - One node plays role of the coordinator
 - Other nodes play role of workers 
@@ -54,14 +55,14 @@ Workers execute queries
 
 ## Data partitioning
 
-### Option 1: Unpartitioned Table
+#### Option 1: Unpartitioned Table
 
 - Entire table on just one node in the system
 - Will bottleneck any query we need to run in parallel
 - We choose partitioning scheme to divide rows among machines
 
 
-### Option 2: Block Partitioning
+#### Option 2: Block Partitioning
 
 ![[block partitioning.png|490]]
 
@@ -69,13 +70,14 @@ Workers execute queries
 Tuples are horizontally (row) partitioned by raw size with no ordering considered
 
 
-### Option 3: Range Partitioning
+#### Option 3: Range Partitioning
 
 Node contains tuples in chosen attribute ranges
 
 ![[range partitioning.png|495]]
 
-### Option 4: Hash Partitioning
+
+#### Option 4: Hash Partitioning
 
 Node contains tuples with chosen attribute hashes
 
@@ -84,7 +86,6 @@ Node contains tuples with chosen attribute hashes
 
 
 ## Parallel selection
-
 
 For a query like:
 
@@ -127,8 +128,8 @@ Better plan:
 3. Aggregate again
 
 
-## Shuffle operator
 
+## Shuffle operator
 
 Serves to re-shuffle data between processes 
 - Handles data routing, buffering, and flow control
@@ -157,7 +158,6 @@ Consumer:
 
 ## Parallel Join
 
-
 Step 1
 - Every server holding any chunk of $R$ partitions its chunk using a hash function $h(t.A) \mod P$
 - Every server holding any chunk of $S$ partitions its chunk using a hash function $h(t.B) \mod P$
@@ -166,7 +166,7 @@ Step 2:
 - Each server computes the join of its local fragment of $R$ with its local fragment of $S$
 
 
-### Optimization for Small Relations
+#### Optimization for Small Relations
 
 if $|R| >> |S|$
 - Leave $R$ where it is

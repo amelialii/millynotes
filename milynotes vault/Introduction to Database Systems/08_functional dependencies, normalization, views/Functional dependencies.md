@@ -20,6 +20,7 @@ Means knowing the StudentID uniquely determines the Name and Major.
 
 If we can be sure that *every instance* of R (relational schema) will be one in which a given FD is true, then we say that R satisfies the FD
 
+
 ### Additional Rules
 
 If X → Y and X → Z, then X → YZ

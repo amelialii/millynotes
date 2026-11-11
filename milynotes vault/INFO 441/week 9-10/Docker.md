@@ -45,11 +45,9 @@ The “Dockerfile” is a definition for a docker container.
 It consists of a set of steps, starting “FROM” a specific docker container, and then running additional steps (e.g., copying files) to set up the container the way you want it.
 
 
-
 ### demos
 
 #### nginx/html
-
 
 ```
 demo/
@@ -67,6 +65,7 @@ COPY . /usr/share/nginx/html
 docker build -t amelial9/dockerdemo .
 docker run -d -p 80:80 amelial9/dockerdemo
 ```
+
 
 #### nodedemo
 

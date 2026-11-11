@@ -8,7 +8,9 @@ Query Evaluation Steps
 ![[query-evaluation-steps.png|459]]
 
 
-#### Database/Relation/Tuple
+
+## Database/Relation/Tuple
+
 - A Database is collection of relations
 - A [[Relations and datatypes|Relation]] R is subset of $S_1 \times S_2 \times \dots \times S_n$
 	- Where $S_i$ is the domain of attribute $i$
@@ -22,7 +24,9 @@ Query Evaluation Steps
 - Domain of each column is a primitive type
 
 
-#### Schema
+
+## Schema
+
 - Relation schema: describes column heads
 	- Relation name
 	- Name of each field (or column, or attribute)
@@ -31,14 +35,17 @@ Query Evaluation Steps
 - Database schema: set of all relation schemas
 
 
-#### Instance
+
+## Instance
+
 - Relation instance: concrete table content
 	- Set of tuples (also called records) matching the schema
 - Cardinality of relation instance: # tuples
 - Database instance: set of all relation instances
 
 
-#### Key Constraints
+
+## Key Constraints
 
 - [[Keys#Super key|Super Key]]: “set of attributes that [[Functional dependencies|functionally determines]] all attributes”
 - Key: Minimal super-key; a.k.a. “candidate key”
@@ -48,7 +55,8 @@ Query Evaluation Steps
 	- This field refers to the primary key of other relation
 
 
-### Relational Algebra
+
+## Relational Algebra
 
 - Queries specified in an operational manner
 	- A query gives a step-by-step procedure
@@ -72,8 +80,6 @@ Query Evaluation Steps
 - Cross-product/cartesian product ($\times$), [[JOINs|Join]]: $R \bowtie_\theta S = \sigma_\theta (R \times S)$
 
 
-
 #### English to SQL to RA Example
-
 
 ![[sql-to-ra.png|537]]

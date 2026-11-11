@@ -20,7 +20,7 @@ Input: a bag of (inputkey, value)pairs
 Output: a bag of (outputkey, value)pairs
 
 
-### Step 1 : the MAP phase
+#### Step 1 : the MAP phase
 
 User provides the MAP-function:
 - Input: (input key, value)
@@ -28,7 +28,7 @@ User provides the MAP-function:
 System applies map function in parallel to all (input key, value) pairs in the input file
 
 
-###  Step 2: the REDUCE Phase
+####  Step 2: the REDUCE Phase
 
 User provides the REDUCE function:
 - Input: (intermediate key, bag of values)
@@ -52,8 +52,7 @@ Often talk about “slots”
 ![[parallelmapreduce.png|561]]
 
 
-
-### MapReduce Implementation
+#### MapReduce Implementation
 
 - There is one master node
 - Input file gets partitioned further into M’ splits

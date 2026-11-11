@@ -38,6 +38,7 @@ CREATE TABLE Company (
 
 
 #### Weak Entity Set -> Foreign Key + Cascade Delete  
+
 ```
 CREATE TABLE Team (  
 	univname CHAR(30) REFERENCES University(name)  

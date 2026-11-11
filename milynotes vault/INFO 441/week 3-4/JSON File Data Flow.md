@@ -6,19 +6,23 @@ order: 5
 
 - **userData.json**: JSON file used to store user information.
 
+
 ### 🖥 My Page Server
 
 - Acts as the intermediary between the user's browser and the JSON file.
+
 
 #### Server-Side File Operations
 
 - `fs.readFile(...)`: Reads user data from `userData.json`.
 - `fs.writeFile(...)`: Writes user data to `userData.json`.
 
+
 ### 🌐 My Site in a User's Browser
 
 - Interface where users interact with the application.
-    
+
+
 #### Browser-Server Communication
 
 - **GET Request**:

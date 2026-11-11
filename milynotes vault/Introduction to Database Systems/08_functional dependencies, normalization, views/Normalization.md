@@ -9,7 +9,9 @@ order: 25
 
 Normal forms are levels or stages of normalization.
 
+
 #### 1NF (First Normal Form)
+
 - All values in each column must be **atomic** (i.e., indivisible).
 - No repeating groups or arrays.
 
@@ -21,7 +23,9 @@ Normal forms are levels or stages of normalization.
 
 `StudentName` depends **only on StudentID**, not the full key → **partial dependency**
 
+
 #### 2NF (Second Normal Form)
+
 - Must be in **[[First normal form|1NF]]**
 - **No partial dependency**: No non-key attribute should depend on **part of a composite key**
 
@@ -33,7 +37,9 @@ Normal forms are levels or stages of normalization.
 
 `DeptID → DeptName` (transitive: `EmployeeID → DeptID → DeptName`)
 
+
 #### 3NF (Third Normal Form)
+
 - Must be in **2NF**
 - No **transitive dependency**: Non-key attributes shouldn’t depend on **other non-key attributes**
 	- transitive dependency: A non-key attribute depends on another non-key attribute, which in turn depends on the key.
@@ -46,7 +52,9 @@ Normal forms are levels or stages of normalization.
 
 **Instructor** is not a key, but it's determining `Room` → violates BCNF
 
+
 #### BCNF (Boyce-Codd Normal Form)
+
 - Must be in **3NF**
 - For **every functional dependency** `X → Y`, `X` must be a **[[Keys#Super key|superkey]]**
 
@@ -56,6 +64,7 @@ Normal forms are levels or stages of normalization.
 | Alice   | French   | Sports |
 | Alice   | Spanish  | Music  |
 | Alice   | Spanish  | Sports |
+
 
 #### Relational Schema Design  (or Logical Design)  
 
@@ -88,6 +97,7 @@ SSN<sup>+</sup> = SSN, Name, City and is neither SSN nor All Attributes
 
 > `SSN⁺` : the **closure** of the attribute `SSN`, meaning the set of attributes functionally determined by SSN.
 > `SSN⁺ = {SSN, Name, City}`
+
 
 #### Example BCNF Decomposition
 

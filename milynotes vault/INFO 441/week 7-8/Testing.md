@@ -3,11 +3,14 @@ order: 17
 ---
 
 ### NON-automated testing
+
 - Click around and try things yourself!
 - Manual testing (team): usually has a list of things to click through
 - User (research) testing: give users your site and let them click around
 
+
 ### Automated Testing of Code
+
 - Definition: Automated tests are additional code that tests the code of a project
 	- This includes how things should go correctly AND incorrectly
 - Types of Tests

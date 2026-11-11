@@ -25,7 +25,7 @@ main goal: as if there was only one copy
 ![[synchronousreplication.png|538]]
 
 
-### Synchronous Master Replication
+#### Synchronous Master Replication
 
 - One master for each object holds primary copy
 	- The “Master” is also called “Primary” 
@@ -38,8 +38,8 @@ main goal: as if there was only one copy
 ![[syncmasterrep.png|534]]
 
 
-## Crash Failures
 
+## Crash Failures
 
 What happens when a secondary crashes?
 - Nothing happens
@@ -50,6 +50,7 @@ What happens when the master/primary fails?
 - Must chose a new primary: run election
 
 
+
 ## Network Failures
 
 Secondaries think that primary failed
@@ -58,7 +59,7 @@ But primary can still be running
 Now have two primaries
 
 
-### Synchronous Group Replication
+#### Synchronous Group Replication
 
 Master-less
 - Any node can initiate a transaction
@@ -122,7 +123,7 @@ What happens when master/primary fails?
 - After electing a new primary, secondaries must agree who is most up-to-date
 
 
-### Asynchronous Group Replication
+#### Asynchronous Group Replication
 
 Also called multi-master
 Best scheme for availability

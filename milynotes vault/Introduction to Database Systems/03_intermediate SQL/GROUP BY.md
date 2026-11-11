@@ -58,7 +58,6 @@ FROM Purchase
 ```
 
 
-
 ### GROUP BY + WHERE
 
 | Product | Price | Quantity |

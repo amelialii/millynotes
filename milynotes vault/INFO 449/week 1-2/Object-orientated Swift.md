@@ -74,6 +74,7 @@ print(o.stringRep())
 
 
 ###### Failable initializers
+
 Use "init?"
 	Return nil if constuction should fail
 	Makes the receiving reference an optional

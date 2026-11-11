@@ -1,4 +1,3 @@
-
 ### Error handling
 
 An example class:

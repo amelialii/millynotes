@@ -24,13 +24,19 @@ data entry for key k can be:
 
 
 #### Primary/Clustered Index
+
 the data itself is stored in the same order as the index
 
+
 #### Dense Index
+
 there is an index entry for every record
 
+
 #### Sparse Index
+
 only some records have index entires
+
 
 
 ## Hash-based indexes
@@ -64,7 +70,6 @@ RID12 → Page 99 → actual row
 
 
 ## B+ Trees
-
 
 **Default index structure on most DBMSs**
 
@@ -104,7 +109,7 @@ each leaf has $d \le m \le 2d$ keys
 ![[b+leaf.png]]
 
 
-### Insertion in a B+ Tree
+#### Insertion in a B+ Tree
 
 1. fine the right leaf, insert the key there
 2. if the leaf now has $\le 2d$ keys $\rightarrow$ done
@@ -120,7 +125,7 @@ each leaf has $d \le m \le 2d$ keys
 ![[b+split.png|585]]
 
 
-### Deletion in a B+ Tree
+#### Deletion in a B+ Tree
 
 1. Find the leaf, delete the key
 2. If the leaf still has $\ge d$ keys $\rightarrow$ done
@@ -146,7 +151,7 @@ each leaf has $d \le m \le 2d$ keys
 ![[b+delete5.png|591]]
 
 
-### Searching a B+ Tree
+#### Searching a B+ Tree
 
 ![[b+serach.png|510]]
 

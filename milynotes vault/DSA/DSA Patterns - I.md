@@ -3,7 +3,9 @@ order: 3
 ---
 
 ### HashMaps
+
 ### Recursion
+
 ### DFS & BFS
 
 i.e. [#39](https://leetcode.com/problems/combination-sum/description/)
@@ -28,6 +30,9 @@ def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
     return res
 ```
 
+
 ### Binary Search
+
 ### Sliding Window
+
 ### Heaps

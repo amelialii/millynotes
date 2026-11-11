@@ -6,7 +6,9 @@ order: 2
 
 DP: method for solving problems by breaking them down into smaller overlapping sub problems, solving each subproblem once, and storing the results to avoid redundant computation
 
+
 ### 1. Fibonacci Numbers
+
 - 1-dimensional size of n problem
 - only care about the last 2 computed values
 
@@ -56,7 +58,6 @@ def findTargetSumWays(self, nums: List[int], target: int) -> int:
 ```
 
 
-
 ### 3. Unbounded Knapsack
 
 still want to sum up to target value, but use each item as many times as you want
@@ -74,7 +75,6 @@ def coinChange(self, coins: List[int], amount: int) -> int:
         
     return dp[amount] if dp[amount] != amount+1 else -1
 ```
-
 
 
 ### 4. Longest Common Subsequence

@@ -5,6 +5,7 @@ order: 1
 A way of analyzing time it takes for our algorithm to execute as the input size grows.
 worst-case runtime
 
+
 ### $O(1)$
 
 No matter how much our input size grows, the time complexity of O(1) algorithms is always the same.

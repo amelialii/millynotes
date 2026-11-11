@@ -27,7 +27,6 @@ best query optimization algorithm
 
 ## Types of Join Trees
 
-
 Bushy
 ![[bushy.png|302]]
 
@@ -56,7 +55,6 @@ less rules $\rightarrow$ faster optimization $\rightarrow$ less good plan
 
 ## Algebraic Laws (Optimization Rules)
 
-
 ### laws involving selection
 
 $\sigma_{C \land C'}(R) = \sigma_C(\sigma_{C'}(R)) = \sigma_C(R) \cap \sigma_{C'}(R)$
@@ -67,10 +65,12 @@ $\sigma_C(R - S) = \sigma_C(R) - S$
 $\sigma_C(R \cup S) = \sigma_C(R) \cup \sigma_C(S)$
 $\sigma_C(R \bowtie S) = \sigma_C(R) \bowtie S$
 
+
 ### laws involving projections
 
 $\Pi_M(R \bowtie S) = \Pi_M(\Pi_P(R) \bowtie \Pi_Q(S))$
 $\Pi_M(\Pi_N(R)) = \Pi_M(R)$ where $M \subseteq N$
+
 
 ### laws for grouping and aggregation
 
@@ -95,15 +95,18 @@ cost-based optimizers
 - bottom-up plans
 - top-down plans
 
+
 ### complete plans
 
 enumerate every full plan and cost it. inefficient because there's no way to prune early
+
 
 ### bottom-up plans
 
 build up from base relations
 
 ![[bottomup.png|542]]
+
 
 ### top-down plans
 
@@ -186,7 +189,6 @@ Avoid Cartesian products
 
 
 
-
 ## Selinger Algorithm
 
 Selinger enumeration algorithm considers
@@ -198,9 +200,7 @@ Selinger enumeration algorithm considers
 		- Because they may enable cheaper [[Query execution and operator algorithms#Sort-merge join|sort-merge joins]] later
 
 
-
 ### Key Ideas
-
 
 **1. Left-Deep Plans Only**
 Rather than considering all tree shapes, Selinger restricts to _left-deep_ trees like `(((A⋈B)⋈C)⋈D)`. This is efficient because:

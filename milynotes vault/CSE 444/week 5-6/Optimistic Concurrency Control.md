@@ -7,9 +7,10 @@ Isolation Level Design Spectrum
 ![[IsolationLevelDesignSpectrum .png|595]]
 
 
+
 ## Isolation Levels
 
-### Dirty Read
+#### Dirty Read
 
 "Long duration" write locks
 - [[Concurrency Control#Strict 2PL|Strict 2PL]]
@@ -19,7 +20,8 @@ No READ Locks
 
 Possible problems: [[Concurrency Control#Concurrent Execution Problems|dirty and inconsistent read]]
 
-### Read Committed
+
+#### Read Committed
 
 "Long duration" write locks
 - Strict 2PL
@@ -29,7 +31,8 @@ Possible problems: [[Concurrency Control#Concurrent Execution Problems|dirty and
 
 Unrepeatable reads: When reading same element twice, may get two different values
 
-### Repeatable Read
+
+#### Repeatable Read
 
 "Long duration" write locks
 - Strict 2PL
@@ -39,7 +42,8 @@ Unrepeatable reads: When reading same element twice, may get two different value
 
 not [[Concurrency Control#Serializability|serializable]] yet
 
-### Serializable
+
+#### Serializable
 
 "Long duration" write locks
 - Strict 2PL
@@ -63,6 +67,7 @@ Optimistic CC (timestamp, multi-version, validation)
 - Assume schedule will be serializable
 - Abort when conflicts detected
 - Best for workloads with low levels of contention
+
 
 
 ## Timestamp Ordering
@@ -101,6 +106,7 @@ for any $r_T(X)$ or $w_T(X)$ request, check for conflicts:
 when T requests $r_T(X)$, need to check $TS(U) \leq TS(T)$
 
 ![[readtoolate.png|476]]
+
 
 
 ## Simplified TS-based Schedule

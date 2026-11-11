@@ -13,7 +13,9 @@ HAVING sum(quantity) > 30
 **HAVING clause contains conditions on [[Simple Aggregation|aggregates]]**
 Where clause before grouping, having clause after [[GROUP BY|grouping]]
 
+
 #### WHERE vs HAVING  
+
 WHERE is applied to individual rows  
 - The rows may or may not contribute to the aggregate  
 - No aggregates allowed here
