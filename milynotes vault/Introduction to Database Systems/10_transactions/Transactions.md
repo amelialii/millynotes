@@ -189,6 +189,13 @@ SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 | REPEATABLE READ  | held until commit (strict 2PL)            | prevented  | prevented         | possible  |
 | SERIALIZABLE     | held until commit + table/predicate locks | prevented  | prevented         | prevented |
 
+| Level            | When S is released          | How long others can't write what you read     |
+| ---------------- | --------------------------- | --------------------------------------------- |
+| READ UNCOMMITTED | never takes S               | never protected                               |
+| READ COMMITTED   | right after the read        | only during that one read                     |
+| REPEATABLE READ  | at commit                   | until txn is done                             |
+| SERIALIZABLE     | at commit (+ predicate lock) | until txn is done + no new matching rows      |
+
 
 #### READ UNCOMMITTED
 
