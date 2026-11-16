@@ -210,7 +210,6 @@ SELECT * FROM Safeway S, QFC Q WHERE S.name = Q.name
 
 #### Cardinality for Optimization
 
-- Now we know how to estimate RA cardinality
 - Optimization: find the equivalent RA Plan that minimizes operator cardinality
     - often we only care about the operator with largest cardinality (most "expensive")
     - "MinMax"
