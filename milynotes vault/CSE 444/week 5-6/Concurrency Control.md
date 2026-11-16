@@ -4,7 +4,7 @@ order: 8
 
 ## Transaction
 
-Definition: a [[Transactions|transaction]] is a sequence of updates to the database with the property that either all complete, or none completes (all-or-nothing).
+Definition: a [[Transactions & ACID|transaction]] is a sequence of updates to the database with the property that either all complete, or none completes (all-or-nothing).
 
 
 ### ROLLBACK
