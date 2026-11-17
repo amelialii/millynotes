@@ -8,7 +8,7 @@ order: 7
 three components:
 - [[Query plan costs|cost/cardinality estimation]]
 - search space
-	- algebraic laws
+	- [[Logical Plans|algebraic laws]]
 	- restricting the query plans
 - search algorithm
 

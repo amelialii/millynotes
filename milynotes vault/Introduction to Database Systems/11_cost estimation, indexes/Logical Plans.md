@@ -4,7 +4,7 @@ order: 33
 
 ## RA to RA
 
-Rewrite rules for turning one RA plan into an equivalent one
+Rewrite rules for turning one [[Relational Algebra|RA]] plan into an equivalent one
 
 #### WHERE & SELECT
 

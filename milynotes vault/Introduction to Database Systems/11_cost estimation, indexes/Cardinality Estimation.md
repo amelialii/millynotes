@@ -12,7 +12,7 @@ order: 34
     - T(R) = # of tuples in relation R
     - V(attr, R) = # of distinct values of attr in R
 - In this class, we focus on computing T(Q), where Q is the output of some query
-- Estimate the number of tuples in the output of each RA operator (without actually computing the output)
+- Estimate the number of tuples in the output of each [[Relational Algebra#RA Operators|RA operator]] (without actually computing the output)
 
 Example:
 - Safeway(id, name, category, price)
@@ -122,7 +122,7 @@ SELECT * FROM Safeway WHERE price < 20
 #### 2) Independence Assumption
 
 - Assume: values in R.a and R.b are independent
-    - ie, there's no FD between R.a and R.b
+    - ie, there's no [[Functional dependencies|FD]] between R.a and R.b
 - Thus:
     - $\Theta$ of conjunction $\sigma_{a = x \land b = y}$ is $\Theta_{a = x} \cdot \Theta_{b = y}$
     - and if we assume uniformity, then $\Theta_{a = x} \cdot \Theta_{b = y} = \frac{1}{V(R, a)} \cdot \frac{1}{V(R, b)}$
@@ -156,7 +156,7 @@ SELECT * FROM Safeway S, QFC Q
 #### 3) Containment Assumption
 
 - Assume: when V(R, a) ≤ V(S, b), then the set of a values in R is included in the set of b values in S
-- This assumption most commonly applies when b is S's PK, and a is a FK in R
+- This assumption most commonly applies when b is S's [[Keys#Primary Key|PK]], and a is a [[Keys#Foreign key|FK]] in R
 
 Special case: we have a PK/FK relationship
 - Consider the FK join $R \bowtie_{R.fk = S.pk} S$ where pk is S's PK, and fk is the FK in R
