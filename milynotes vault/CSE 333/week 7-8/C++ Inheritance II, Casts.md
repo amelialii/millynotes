@@ -79,7 +79,7 @@ Used to:
 - Forcibly convert a primitive type to another
 
 C++ provides an alternative casting style:
-- static_cast<to_type> (expression)
+- [[C++ Casts, Networks Introduction|static_cast]]<to_type> (expression)
 - dynamic_cast<to_type> (expression)
 - const_cast<to_type> (expression)
 - reinterpret_cast<to_type> (expression)

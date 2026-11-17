@@ -6,7 +6,7 @@ order: 6
 
 three components:
 - cost estimation
-	- cardinality estimation $T(R)$ each immediate result
+	- [[Cardinality Estimation|cardinality estimation]] $T(R)$ each immediate result
 	- cost = CPU + I/O + Network, all dependent on $T(R)$
 - search space
 	- which plans do we consider?
@@ -48,7 +48,7 @@ $T(V) = T(\sigma(R) \bowtie S)$
 
 ## Size Estimation Problem
 
-- each condition reduces the size of by some factor, called **selectivity factor**
+- each condition reduces the size of by some factor, called **[[Cardinality Estimation#Selectivity Factor|selectivity factor]]**
 - assuming independence, multiply the selectivity factors
 
 

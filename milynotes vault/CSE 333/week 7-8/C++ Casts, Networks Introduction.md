@@ -57,7 +57,7 @@ void Foo () {
 
 #### Sneaky Implicit Conversion
 
-if a class has a constructor with a single parameter, the compiler will exploit it to perform implicit conversions
+if a class has a [[C++ Classes, Constructors, and Copies#Constructors|constructor]] with a single parameter, the compiler will exploit it to perform implicit conversions
 
 
 
