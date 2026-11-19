@@ -11,7 +11,6 @@ order: 34
     - B(R) = # of blocks in relation R
     - T(R) = # of tuples in relation R
     - V(attr, R) = # of distinct values of attr in R
-- In this class, we focus on computing T(Q), where Q is the output of some query
 - Estimate the number of tuples in the output of each RA operator (without actually computing the output)
 
 Example:
@@ -180,7 +179,7 @@ SELECT * FROM A, B WHERE A.z = B.z
 4. How many distinct $z_0$s exist in the join?
     - ≥ 0 [if no overlap]
     - ≤ min{V(A, z), V(B, z)} [if full overlap]
-    - for this class, ASSUME full overlap
+    - ASSUME full overlap
     - as if one is a subset of the other (containment assumption)
 5. Multiply by estimate # of distinct $z_0$s
 

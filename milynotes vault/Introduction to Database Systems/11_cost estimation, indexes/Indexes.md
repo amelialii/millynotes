@@ -119,7 +119,7 @@ Example: index file on age, data file is a sequential file sorted on sid
 
 #### Indexing
 
-- Indexes (for this class) can be assumed to be already loaded into memory
+- Indexes can be assumed to be already loaded into memory
 - An index does not have to contain all tuple data
     - only key values are stored in the index
     - if an index contains all tuple data it is called a "covering index"

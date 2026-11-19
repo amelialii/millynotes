@@ -113,7 +113,7 @@ CREATE CLUSTERED INDEX U_score_age ON Users(score, age)
 - `CREATE INDEX`: unclustered by default
 - `U_age_score ON Users(age, score)`: order specifies precedence in sorting
 - `CREATE CLUSTERED INDEX`: reorders data on disk! (fails if another clustered index exists)
-- Fine to create indexes on non-numeric data (just not discussed in this class)
+- Fine to create indexes on non-numeric data
 
 
 #### Leveraging Indexes
