@@ -25,7 +25,7 @@ connect(fd, addr, addrlen);
 
 Stream sockets
 - for connection-oriented, point-to-point, reliable byte streams
-	- using TCP, SCTP, or other stream transports
+	- using [[C++ Casts, Networks Introduction#TCP vs UDP|TCP]], SCTP, or other stream transports
 
 datagram sockets
 - for connection-less, one-to-many, unreliable packets
@@ -88,7 +88,7 @@ An IPv6 address is a **16-byte** tuple
 #### Linux Socket Addresses
 
 - Structs, constants, and functions via `#include <arpa/inet.h>`
-- Addresses stored in network byte order (big endian)
+- Addresses stored in network byte order ([[Pointers#Endianness|big endian]])
 - Converting between host and network byte orders for portability
     ```cpp
     uint16_t p = htons(80);    // host → network, short (16-bit, for ports)

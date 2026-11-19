@@ -108,7 +108,7 @@ Each layer wraps the one above it as its payload:
 | Model    | Byte stream                                                | Datagrams                 |
 
 - **Port** = like an apartment number at the IP's street address. It's 16 bits, so up to 65,535 ports per host.
-- **Sockets API** (OS system calls):
+- **[[Sockets, DNS#Sockets API|Sockets API]]** (OS system calls):
     - client: `connect()`
     - server: `listen()` + `accept()`
     - both: `read()` / `write()`
