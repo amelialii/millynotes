@@ -258,3 +258,54 @@ Same query as Example #1, but with the filters **pushed down** below the join
 - But estimates can still be used to compare trees
     - Example #2's intermediate results are tiny (5, 4, 4) vs Example #1's join of 10000
     - so the pushdown plan is probably more efficient
+
+
+## Cardinality for Optimization
+
+- Optimization: find the equivalent RA plan that minimizes operator cardinality
+    - often we only care about the operator with largest cardinality (most "expensive")
+    - "MinMax"
+- Real RDBMS uses sophisticated cost models
+    - I/O estimate in reads/writes
+    - compute estimate in FLOPS
+    - memory estimate in bytes
+
+
+#### Nested Loop Join
+
+- Tuple-based nested loop $R \bowtie S$
+- R is the outer relation, S is the inner relation
+
+```
+for each tuple t1 in R do
+    for each tuple t2 in S do
+        if t1 and t2 join then output (t1, t2)
+```
+
+- Cost: B(R) + T(R) B(S)
+- Multiple-pass since S is read many times
+
+
+#### Hash Join
+
+- Hash join: $R \bowtie S$
+    - scan R, build buckets in main memory
+    - then scan S and join
+- Cost: B(R) + B(S)
+- One-pass algorithm when B(R) ≤ M
+- Note: the inner relation is the relation on which we build the hash table
+    - usually this is the right relation of $R \bowtie S$, i.e. S
+
+Example: Patient $\bowtie$ Insurance
+
+Patient(pid, name, address)
+Insurance(pid, provider, policy_nb)
+
+- Memory M = 21 pages, hash h: pid % 5
+- Step 1: scan Patient and build hash table in memory
+    - can be done in method open()
+- Step 2: scan Insurance and probe into hash table
+    - done during calls to next()
+    - matching tuples go to the output buffer, then written to disk or passed to next operator
+    - keep going until read all of Insurance
+- Cost: B(R) + B(S)

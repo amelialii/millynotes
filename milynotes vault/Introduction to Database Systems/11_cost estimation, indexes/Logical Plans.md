@@ -25,7 +25,7 @@ SELECT-WHERE: ***Conditional*** Commutativity
 - $\pi_A(\sigma_c(R)) = \sigma_c(\pi_A(R))$
 - \* if c only references attributes in A
 
-WHERE-HAVING: **Conditional*** Commutativity
+WHERE-HAVING: ***Conditional*** Commutativity
 - $\sigma_c(\gamma_{G,a}(A)) = \gamma_{G,a}(\sigma_c(A))$
 - \* if c only references attributes in G
 
