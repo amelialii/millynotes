@@ -10475,7 +10475,6 @@ order: 34
     - B(R) = # of blocks in relation R
     - T(R) = # of tuples in relation R
     - V(attr, R) = # of distinct values of attr in R
-- In this class, we focus on computing T(Q), where Q is the output of some query
 - Estimate the number of tuples in the output of each RA operator (without actually computing the output)
 
 Example:
@@ -10644,7 +10643,7 @@ SELECT * FROM A, B WHERE A.z = B.z
 4. How many distinct $z_0$s exist in the join?
     - ≥ 0 [if no overlap]
     - ≤ min{V(A, z), V(B, z)} [if full overlap]
-    - for this class, ASSUME full overlap
+    - ASSUME full overlap
     - as if one is a subset of the other (containment assumption)
 5. Multiply by estimate # of distinct $z_0$s
 
@@ -10888,7 +10887,7 @@ CREATE CLUSTERED INDEX U_score_age ON Users(score, age)
 - \`CREATE INDEX\`: unclustered by default
 - \`U_age_score ON Users(age, score)\`: order specifies precedence in sorting
 - \`CREATE CLUSTERED INDEX\`: reorders data on disk! (fails if another clustered index exists)
-- Fine to create indexes on non-numeric data (just not discussed in this class)
+- Fine to create indexes on non-numeric data
 
 
 #### Leveraging Indexes
@@ -11063,7 +11062,7 @@ Example: index file on age, data file is a sequential file sorted on sid
 
 #### Indexing
 
-- Indexes (for this class) can be assumed to be already loaded into memory
+- Indexes can be assumed to be already loaded into memory
 - An index does not have to contain all tuple data
     - only key values are stored in the index
     - if an index contains all tuple data it is called a "covering index"
