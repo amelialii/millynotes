@@ -10721,14 +10721,386 @@ Same query as Example #1, but with the filters **pushed down** below the join
     - same query, different estimates: cardinality estimation produces ESTIMATES, not exact answers
 - But estimates can still be used to compare trees
     - Example #2's intermediate results are tiny (5, 4, 4) vs Example #1's join of 10000
-    - so the pushdown plan is probably more efficient`,na=`---
+    - so the pushdown plan is probably more efficient
+
+
+## Cardinality for Optimization
+
+- Optimization: find the equivalent RA plan that minimizes operator cardinality
+    - often we only care about the operator with largest cardinality (most "expensive")
+    - "MinMax"
+- Real RDBMS uses sophisticated cost models
+    - I/O estimate in reads/writes
+    - compute estimate in FLOPS
+    - memory estimate in bytes
+
+
+#### Nested Loop Join
+
+- Tuple-based nested loop $R \\bowtie S$
+- R is the outer relation, S is the inner relation
+
+\`\`\`
+for each tuple t1 in R do
+    for each tuple t2 in S do
+        if t1 and t2 join then output (t1, t2)
+\`\`\`
+
+- Cost: B(R) + T(R) B(S)
+- Multiple-pass since S is read many times
+
+
+#### Hash Join
+
+- Hash join: $R \\bowtie S$
+    - scan R, build buckets in main memory
+    - then scan S and join
+- Cost: B(R) + B(S)
+- One-pass algorithm when B(R) ≤ M
+- Note: the inner relation is the relation on which we build the hash table
+    - usually this is the right relation of $R \\bowtie S$, i.e. S
+
+Example: Patient $\\bowtie$ Insurance
+
+Patient(pid, name, address)
+Insurance(pid, provider, policy_nb)
+
+- Memory M = 21 pages, hash h: pid % 5
+- Step 1: scan Patient and build hash table in memory
+    - can be done in method open()
+- Step 2: scan Insurance and probe into hash table
+    - done during calls to next()
+    - matching tuples go to the output buffer, then written to disk or passed to next operator
+    - keep going until read all of Insurance
+- Cost: B(R) + B(S)
+`,na=`---
 order: 36
 ---
 
+## Index Cost Estimation
+
+#### Database Design Question
+
+- Choosing how to configure a database system is an interesting (i.e. hard) problem
+- A database that is used by many people will often need one or more dedicated personnel to manage it (Database Administrator)
+    - logical design (multi-team coordination)
+    - physical design (hardware and system considerations)
+    - permission management (visibility and security)
+    - integration (company acquisitions and mergers)
+    - ...
+
+
+#### Estimating Amount of Data Read
+
+- Selectivity Factor (X) → proportion of total data needed
+- Assuming uniform distribution of data values on numeric attribute a in table R, if the condition is:
+    - a = c → $X \\cong \\frac{1}{V(R, a)}$
+    - a < c → $X \\cong \\frac{c - min(R, a)}{max(R, a) - min(R, a)}$
+    - c1 < a < c2 → $X \\cong \\frac{c_2 - c_1}{max(R, a) - min(R, a)}$
+    - cond1 AND cond2 → $X \\cong X_1 \\cdot X_2$
+- Disclaimer: more thorough selectivity estimation will use a histogram
+
+Example: a = 4
+- [1, 1, 2, 2, 3, 3, 4, 4, 5, 5] (10 entries, 5 unique values)
+- X = 1/5
+- 10 * 1/5 = 2
+
+
+#### Index-Based Selection
+
+\`\`\`sql
+SELECT * FROM R WHERE R.a = c
+\`\`\`
+
+- What is cost of above?
+- For reference, a full sequential scan of data costs B(R) IOs (block reads)
+- Provided some condition to read data:
+    - **full sequential scan** → B(R)
+    - **scan on clustered index** → X * B(R)
+        - able to read a contiguous chunk of the file
+    - **scan on unclustered index** → X * T(R)
+        - worst case would read a different block every time
+
+
+#### Sequential Scan
+
+- Assume a block holds 4 tuples. I want tuples associated with values 40-85
+- Without an index, finding a value must be done the "old fashioned way"
+    - read every block d1, d2, d3, ...
+- Total cost is B(R)
+
+
+#### Clustered Index Scan
+
+- Assume a block holds 4 tuples. I want tuples associated with values 40-85
+- With a clustered index, I start scanning blocks in the range they are at
+- Estimated cost is X * B(R)
+
+
+#### Unclustered Index Scan
+
+- Assume a block holds 4 tuples. I want tuples associated with values 40-85
+- With an unclustered index, I start scanning tuples wherever they occur
+- Important: we have no caching guarantees, may have to scan same block multiple times
+- Estimated cost is X * T(R)
+
+
+#### Index Expectations
+
+- Using an index in the wrong scenario can lead to a slowdown!
+- Common example: full sequential scan vs unclustered index scan with high X value and/or small tuple size (large T(R):B(R) ratio)
+
+Example:
+- Known: B(R) = 100, T(R) = 10000
+- Consider a query with X = 1/10
+- Sequential scan = B(R) = 100
+- Unclustered index scan = X * T(R) = 1/10 * 10000 = 1000
+- Having indexes doesn't mean you will see a speedup!
+
+Sequential vs random reads:
+- Sequential disk reads are faster than random ones
+    - cost ~1-2% random scan = full sequential scan
+    - equivalent to selectivity ~.01-.02
+- sequential scan: B(R)
+- clustered index: X * B(R)
+- unclustered index: X * T(R)
+    - cheaper than a sequential scan only when proportion of data needed is below ~1-2%
+
+
+
+## Database Tuning
+
+#### Create Indexes in SQL
+
+\`\`\`sql
+CREATE TABLE Users (
+    id INT,
+    age INT,
+    score INT);
+
+CREATE INDEX U_age ON Users(age)
+
+CREATE INDEX U_age_score ON Users(age, score)
+
+CREATE CLUSTERED INDEX U_score_age ON Users(score, age)
+\`\`\`
+
+- \`CREATE INDEX\`: unclustered by default
+- \`U_age_score ON Users(age, score)\`: order specifies precedence in sorting
+- \`CREATE CLUSTERED INDEX\`: reorders data on disk! (fails if another clustered index exists)
+- Fine to create indexes on non-numeric data (just not discussed in this class)
+
+
+#### Leveraging Indexes
+
+- Often for applications, workloads can be well described
+    - flights application
+        - search method → query on city name values
+    - data visualization software (e.g. Tableau)
+        - 2D plot → query on graph axis bounds
+- Create indexes to match expected query workload
+
+Example: what indexes could we make on Users?
+
+\`\`\`sql
+CREATE TABLE Users (
+    id INT PRIMARY KEY,
+    age INT,
+    score INT, ...);
+\`\`\`
+
+Expecting 1000 exec/day
+
+\`\`\`sql
+SELECT *
+FROM Users, Assets
+WHERE Users.id = Assets.uid
+\`\`\`
+
+- IDs are unique so an unclustered index would do fine
+
+Expecting 1000 exec/day
+
+\`\`\`sql
+SELECT *
+FROM Users
+WHERE Users.score > 95
+\`\`\`
+
+- This range query would benefit from a clustered index on score
+
+Expecting 10 exec/day
+
+\`\`\`sql
+SELECT *
+FROM Users
+WHERE Users.age > 21
+\`\`\`
+
+- This range query would benefit from a clustered index on age
+- Only one can exist!
+- Things to consider:
+    - what is the expected result size for each query?
+    - do either of these queries need to be returned ASAP?
 `,ra=`---
 order: 35
 ---
 
+## Assumptions
+
+414 assumptions:
+- Disk-based storage
+    - HDD not SSD
+- Row-based storage
+    - tuples are stored contiguously
+- IO cost only
+    - one disk access is ~100000x more expensive than one main memory access
+- Cold cache
+    - no data preloaded into main memory
+
+
+#### Disk Storage
+
+- Can only read 1 block per read operation
+    - usually 512B to 4kB
+- Sequential disk reads are faster than random ones
+    - cost ~1-2% random scan = full sequential scan
+
+
+
+## Files
+
+#### Example Lookup
+
+- Scan all records in the file that match a predicate of the form *attribute op value*
+    - e.g. find all students with age > 22
+- Critical to support such requests efficiently
+    - why read all data from disk when we only need a small fraction of that data?
+
+
+#### Heap File
+
+- File is not sorted on any attribute
+
+Student(sid: int, age: int, ...)
+
+| sid | age |
+| --- | --- |
+| 30  | 18  |
+| 70  | 21  |
+| 20  | 20  |
+| 40  | 19  |
+| 80  | 19  |
+| 60  | 18  |
+| 10  | 21  |
+| 50  | 22  |
+
+Example:
+- 10,000 students
+- 10 student records per page
+- Total number of pages: 1,000 pages
+- Find student whose sid is 80
+    - must read on average 500 pages
+- Find all students older than 20
+    - must read all 1,000 pages
+- Can we do better?
+
+
+#### Sequential File
+
+- File sorted on an attribute, usually on primary key
+
+Student(sid: int, age: int, ...)
+
+| sid | age |
+| --- | --- |
+| 10  | 21  |
+| 20  | 20  |
+| 30  | 18  |
+| 40  | 19  |
+| 50  | 22  |
+| 60  | 18  |
+| 70  | 21  |
+| 80  | 19  |
+
+Example:
+- Total number of pages: 1,000 pages
+- Find student whose sid is 80
+    - could do binary search, read $\\log_2(1000)$ ≈ 10 pages
+- Find all students older than 20
+    - must still read all 1,000 pages
+- Can we do even better?
+- Note: sorted files are inefficient for inserts/deletes
+
+
+#### Different Types of Files
+
+- For the data inside base relations:
+    - **heap file** (tuples stored without any order)
+    - **sequential file** (tuples sorted on some attribute(s))
+    - **indexed file** (tuples organized following an index)
+- Then we can have additional index files that store (key, pointer) pairs
+- Index can also be a "covering index"
+    - index contains (search key + other attributes, pointer to table)
+    - index suffices to answer some queries
+
+
+
+## Indexes
+
+- **Index**: data structure that organizes data records on disk to optimize selections on the search key fields for the index
+- An index contains a collection of data entries, and supports efficient retrieval of all data entries with a given search key value k
+- Indexes are also access methods!
+    - so they provide the same API as we have seen for heap files
+    - and efficiently support scans over tuples matching predicate on search key
+
+Example: index file on age, data file is a sequential file sorted on sid
+
+- Index File (search key: age): 18, 18, 19, 19, 20, 21, 21, 22
+    - each entry points to the matching tuple in the data file
+- Data File (sid, age): (10, 21), (20, 20), (30, 18), (40, 19), (50, 22), (60, 18), (70, 21), (80, 19)
+
+
+#### Indexing
+
+- Indexes (for this class) can be assumed to be already loaded into memory
+- An index does not have to contain all tuple data
+    - only key values are stored in the index
+    - if an index contains all tuple data it is called a "covering index"
+- Indexes are access points for tables
+
+
+#### Index Structures
+
+- B+ Tree Index (most common)
+- Hash Index
+- R Tree
+- Radix Tree
+- Bloom Filter
+- Hilbert Curves
+- ...
+- Type of index is usually determined by administrator. You don't need to choose as a user.
+
+
+
+## Clustered vs. Unclustered Index
+
+- An index is either clustered or unclustered, depending on how the actual data is sorted on disk
+- **Clustered** = records close in index are close in data
+
+
+#### Clustered Index
+
+- A clustered index is one that has the same key ordering as what is on disk
+- One per table
+- Data file: sequential file
+
+
+#### Unclustered Index
+
+- An unclustered index may exist without any ordering on disk
+- Any number per table
+- Data file: sequential file with a different key or heap file
 `,ia=`---
 order: 33
 ---
@@ -10756,7 +11128,7 @@ SELECT-WHERE: ***Conditional*** Commutativity
 - $\\pi_A(\\sigma_c(R)) = \\sigma_c(\\pi_A(R))$
 - \\* if c only references attributes in A
 
-WHERE-HAVING: **Conditional*** Commutativity
+WHERE-HAVING: ***Conditional*** Commutativity
 - $\\sigma_c(\\gamma_{G,a}(A)) = \\gamma_{G,a}(\\sigma_c(A))$
 - \\* if c only references attributes in G
 
