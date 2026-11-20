@@ -10797,12 +10797,7 @@ order: 36
     - a < c → $X \\cong \\frac{c - min(R, a)}{max(R, a) - min(R, a)}$
     - c1 < a < c2 → $X \\cong \\frac{c_2 - c_1}{max(R, a) - min(R, a)}$
     - cond1 AND cond2 → $X \\cong X_1 \\cdot X_2$
-- Disclaimer: more thorough selectivity estimation will use a histogram
-
-Example: a = 4
-- [1, 1, 2, 2, 3, 3, 4, 4, 5, 5] (10 entries, 5 unique values)
-- X = 1/5
-- 10 * 1/5 = 2
+- More thorough selectivity estimation will use a histogram
 
 
 #### Index-Based Selection
@@ -10811,10 +10806,9 @@ Example: a = 4
 SELECT * FROM R WHERE R.a = c
 \`\`\`
 
-- What is cost of above?
-- For reference, a full sequential scan of data costs B(R) IOs (block reads)
-- Provided some condition to read data:
+- Cost in IOs (block reads), given some condition to read data:
     - **full sequential scan** → B(R)
+        - reads every block
     - **scan on clustered index** → X * B(R)
         - able to read a contiguous chunk of the file
     - **scan on unclustered index** → X * T(R)
@@ -10846,7 +10840,7 @@ SELECT * FROM R WHERE R.a = c
 
 #### Index Expectations
 
-- Using an index in the wrong scenario can lead to a slowdown!
+- Using an index in the wrong scenario can lead to a slowdown
 - Common example: full sequential scan vs unclustered index scan with high X value and/or small tuple size (large T(R):B(R) ratio)
 
 Example:
