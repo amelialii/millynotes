@@ -739,6 +739,82 @@
   font-size: inherit;
 }
 
+/* Syntax highlighting — Obsidian default light theme palette */
+.note-view__body pre code.code-highlight {
+  display: block;
+  color: #222;
+}
+
+.note-view__body .code-line {
+  display: block;
+}
+
+.note-view__body .token.comment,
+.note-view__body .token.prolog,
+.note-view__body .token.doctype,
+.note-view__body .token.cdata {
+  color: #ababab;
+}
+
+.note-view__body .token.punctuation {
+  color: #5c5c5c;
+}
+
+.note-view__body .token.keyword,
+.note-view__body .token.atrule,
+.note-view__body .token.rule {
+  color: #d53984;
+}
+
+.note-view__body .token.function,
+.note-view__body .token.class-name,
+.note-view__body .token.macro {
+  color: #e0ac00;
+}
+
+.note-view__body .token.string,
+.note-view__body .token.char,
+.note-view__body .token.attr-value,
+.note-view__body .token.regex,
+.note-view__body .token.inserted {
+  color: #08b94e;
+}
+
+.note-view__body .token.number,
+.note-view__body .token.boolean,
+.note-view__body .token.constant,
+.note-view__body .token.symbol {
+  color: #7852ee;
+}
+
+.note-view__body .token.operator,
+.note-view__body .token.tag,
+.note-view__body .token.deleted,
+.note-view__body .token.selector {
+  color: #e93147;
+}
+
+.note-view__body .token.property,
+.note-view__body .token.attr-name,
+.note-view__body .token.builtin,
+.note-view__body .token.variable,
+.note-view__body .token.directive {
+  color: #00bfbc;
+}
+
+.note-view__body .token.important {
+  color: #ec7500;
+}
+
+.note-view__body .token.important,
+.note-view__body .token.bold {
+  font-weight: bold;
+}
+
+.note-view__body .token.italic {
+  font-style: italic;
+}
+
 .note-view__body table {
   width: max-content;
   max-width: 100%;

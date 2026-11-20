@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown'
 import rehypeKatex from 'rehype-katex'
+import rehypePrism from 'rehype-prism-plus'
 import rehypeRaw from 'rehype-raw'
 import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
@@ -121,7 +122,11 @@ export default function NotePage() {
       <div className="note-view__body">
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkMath, remarkBreaks, remarkBlankLineGaps]}
-          rehypePlugins={[[rehypeKatex, { strict: false }], rehypeRaw]}
+          rehypePlugins={[
+            [rehypeKatex, { strict: false }],
+            rehypeRaw,
+            [rehypePrism, { ignoreMissing: true }],
+          ]}
           components={markdownComponents}
         >
           {body}
