@@ -16,7 +16,7 @@ five steps:
 
 `int socket (int domain, int type, int protocol);`
 - Creating a socket doesn’t bind it to a local address or port yet
-- Returns file descriptor or -1 on error
+- Returns [[Sockets, DNS#File Descriptor Table|file descriptor]] or -1 on error
 
 ```cpp
 #include <arpa/inet.h>
@@ -133,6 +133,6 @@ Clients can start connecting to the socket as soon as `listen()` returns
 - Returns an active, ready-to-use socket file descriptor connected to a client (or -1 on error)
 	- `sockfd` must have been created, bound, and listening
 	- Pulls a queued connection or waits for an incoming one
-- `addr` and `addrlen` are output parameters
+- `addr` and `addrlen` are [[Pointers#Output Parameters|output parameters]]
 	- `*addrlen` should initially be set to `sizeof(*addr)`, gets overwritten with the size of the client address
 	- Address information of client is written into `*addr`
