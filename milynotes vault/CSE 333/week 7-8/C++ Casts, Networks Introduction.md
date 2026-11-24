@@ -117,7 +117,7 @@ Each layer wraps the one above it as its payload:
 #### Application protocols
 
 - **DNS** turns a domain name into an IP address (`www.google.com` → `74.125.197.106`), using a hierarchy of DNS servers.
-- **HTTP** is how browsers and web servers talk. It runs on top of TCP.
+- **[[HTTP|HTTP]]** is how browsers and web servers talk. It runs on top of TCP.
 - **SMTP / IMAP / POP**: email.
 - **SSH**: secure remote login.
 - **BitTorrent**: peer-to-peer file sharing.
