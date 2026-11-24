@@ -4,7 +4,7 @@ order: 22
 
 #### HTTP Basics
 
-A client establishes one or more TCP connections to a server
+A client establishes one or more [[C++ Casts, Networks Introduction#TCP vs UDP|TCP]] connections to a server
 - The client sends a request for a web object over a connection and the server replies with the object’s contents
 
 We formalize the way our web browser asks a web server for data via an application layer protocol
@@ -43,7 +43,7 @@ A protocol is a set of rules governing the format and exchange of messages in a 
 The client can provide one or more request “headers”
 - These provide information to the server or modify how the server should process the request
 
-- Host: The DNS name of the server
+- Host: The [[Sockets, DNS#DNS Lookup|DNS]] name of the server
 - User - Agent: An identifying string naming the browser
 - Accept: The content types the client prefers or can accept
 - Cookie: An HTTP cookie previously set by the server
